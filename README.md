@@ -318,4 +318,6 @@ About the $app property. Here is what it contains that you can use within all th
 
 So pretty much everything that is really useful :)
 
+Also the `tools` and `bin` directories should be deleted before moving to production.
+
 **API Documentation and More detailled documentation coming soon.**

@@ -1,0 +1,11 @@
+environments:
+    development: [localhost]
+    staging:     [stage.caspian.ca]
+    production:  [caspian.ca]
+
+# Set the environment for the command line interpreter
+cli: development
+
+# Set available permissions for the API
+api:
+  scopes: []

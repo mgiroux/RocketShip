@@ -1,0 +1,10 @@
+patterns:
+    userid: (:param)         # (:param) = anything, (:any) = anything including '/', (:num) = numeric
+
+default:
+    uri:
+        fr: /
+        en: /en
+    action: index@default    # method@controller
+    secure: no               # use https?
+    enforce: no              # enforce locale rule

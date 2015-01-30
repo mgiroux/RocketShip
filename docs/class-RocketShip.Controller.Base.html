@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class RocketShip\Controller\Base | RocketShip 2</title>
+
+	<link rel="stylesheet" href="resources/style.css?331665766">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-PHP.html">
+						PHP					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-RocketShip.html">
+						RocketShip<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-RocketShip.Api.html">
+						Api					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Cache.html">
+						Cache					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-RocketShip.Controller.html">
+						Controller					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Database.html">
+						Database					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Helpers.html">
+						Helpers					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Security.html">
+						Security					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Session.html">
+						Session<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-RocketShip.Session.Drivers.html">
+						Drivers					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-RocketShip.Upload.html">
+						Upload					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Utils.html">
+						Utils					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-RocketShip.Controller.Application.html">Application</a></li>
+				<li class="active"><a href="class-RocketShip.Controller.Base.html">Base</a></li>
+				<li><a href="class-RocketShip.Controller.Bundle.html">Bundle</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-RocketShip.Controller.html" title="Summary of RocketShip\Controller"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Base</h1>
+
+
+	<div class="description">
+	
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-RocketShip.Base.html"><span>RocketShip\Base</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>RocketShip\Controller\Base</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+	<div>
+		<h4>Direct known subclasses</h4>
+			<a href="class-RocketShip.Controller.Application.html">RocketShip\Controller\Application</a>, 
+			<a href="class-RocketShip.Controller.Bundle.html">RocketShip\Controller\Bundle</a>
+	</div>
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> RocketShip\Controller<br>
+		
+
+		<b>Located at</b> <a href="source-class-RocketShip.Controller.Base.html#9-146" title="Go to source code">Controller/Base.php</a><br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="call" id="_call">
+
+		<td class="attributes"><code>
+			final protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_call">#</a>
+		<code><a href="source-class-RocketShip.Controller.Base.html#35-85" title="Go to source code">call</a>( <span>string <var>$controller</var></span>, <span>string <var>$method</var></span>, <span>mixed <var>$data</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$render</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Call an other controller and perform an action
+Controller must reside in the same path as original controller
+For other directories, use dispatch</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$controller</var></dt>
+					<dd>controller to load
+</dd>
+					<dt><var>$method</var></dt>
+					<dd>method to run
+</dd>
+					<dt><var>$data</var></dt>
+					<dd>data to pass to that method
+</dd>
+					<dt><var>$render</var></dt>
+					<dd>the view for that controller
+</dd>
+				</dl></div>
+
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><a href="class-RuntimeException.html">RuntimeException</a></code>
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="dispatch" id="_dispatch">
+
+		<td class="attributes"><code>
+			final protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_dispatch">#</a>
+		<code><a href="source-class-RocketShip.Controller.Base.html#87-127" title="Go to source code">dispatch</a>( <span>string <var>$bundle</var></span>, <span>string <var>$controller</var></span>, <span>string <var>$method</var></span>, <span>mixed <var>$data</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>dispatch</p>
+
+<p>Dispatch to a bundle's controller the given method and render that method</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$bundle</var></dt>
+					<dd>name
+</dd>
+					<dt><var>$controller</var></dt>
+					<dd>name
+</dd>
+					<dt><var>$method</var></dt>
+					<dd>name
+</dd>
+					<dt><var>$data</var></dt>
+					<dd>data to pass along
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="dump" id="_dump">
+
+		<td class="attributes"><code>
+			final protected 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_dump">#</a>
+		<code><a href="source-class-RocketShip.Controller.Base.html#129-145" title="Go to source code">dump</a>( <span>string <var>$data</var></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>dump</p>
+
+<p>Dump a variable to the error_log file (hiding the debug from the site/user)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$data</var></dt>
+					<dd>variable to dump
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-RocketShip.Base.html#methods">RocketShip\Base</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-RocketShip.Base.html#___construct">__construct()</a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="view" id="$view">
+		<td class="attributes"><code>
+			public  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-RocketShip.Controller.Base.html#11-17" title="Go to source code"><var>$view</var></a>
+
+			<div class="description short">
+				
+
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Controller's view</p>
+
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$view" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="type" id="$type">
+		<td class="attributes"><code>
+			protected  
+			String
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-RocketShip.Controller.Base.html#19-25" title="Go to source code"><var>$type</var></a>
+
+			<div class="description short">
+				
+
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Controller type</p>
+
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$type" class="anchor">#</a>
+				<code><span class="php-quote">&quot;&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="path" id="$path">
+		<td class="attributes"><code>
+			protected  
+			String
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-RocketShip.Controller.Base.html#27-33" title="Go to source code"><var>$path</var></a>
+
+			<div class="description short">
+				
+
+			</div>
+
+			<div class="description detailed hidden">
+				<p>Controller path</p>
+
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$path" class="anchor">#</a>
+				<code><span class="php-quote">&quot;&quot;</span></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-RocketShip.Base.html#properties">RocketShip\Base</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-RocketShip.Base.html#$app"><var>$app</var></a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		RocketShip 2 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js?721046668"></script>
+<script src="elementlist.js?2185342485"></script>
+</body>
+</html>

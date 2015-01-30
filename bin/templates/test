@@ -1,0 +1,14 @@
+<?php
+
+require_once dirname(dirname(dirname(__FILE__))) . '/RocketShip/Application.php';
+$app = new RocketShip\Application;
+
+use RocketShip\Utils\Test;
+
+class [NAME]Test extends Test
+{
+    public function __construct()
+    {
+        parent::__construct();
+    }
+}

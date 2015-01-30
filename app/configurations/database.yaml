@@ -1,0 +1,23 @@
+## Database configurations
+
+database:
+    development:
+        host: localhost
+        port: 27017
+        user: ""
+        password: ""
+        database: caspian
+
+    staging:
+        host: localhost
+        port: 27017
+        user: ""
+        password: ""
+        database: caspian
+
+    production:
+        host: localhost
+        port: 27017
+        user: ""
+        password: ""
+        database: caspian

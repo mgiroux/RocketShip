@@ -1,0 +1,10 @@
+# This file defines the locale to use for different domains
+#
+# For example:
+#
+# my-site.com  : should always be english
+# mon-site.com : should always be in french
+#
+# You define those rules here
+#
+# Leave empty if enforcing is off

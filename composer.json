@@ -1,0 +1,40 @@
+{
+    "require": {
+        "phpmailer/phpmailer": "5.*",
+        "symfony/yaml": "v2.2.1",
+        "guzzle/guzzle": "v3.4.1",
+        "aws/aws-sdk-php": "2.*",
+        "rackspace/php-opencloud": "V1.5.10",
+        "phpunit/phpunit": "3.7.*",
+        "phpseclib/phpseclib": "0.3.5",
+        "mobiledetect/mobiledetectlib": "2.7.1",
+        "mgiroux/php-cli-tools": "dev-master",
+        "filp/whoops": "1.*",
+        "sybio/image-workshop": "2.*",
+        "nesbot/carbon": "dev-master",
+        "bshaffer/oauth2-server-php": "v1.3"
+    },
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "mgiroux/php-cli-tools",
+                "version": "dev-master",
+                "source": {
+                    "url": "https://github.com/4c4-mgiroux/php-cli-tools.git",
+                    "type": "git",
+                    "reference": "master"
+                },
+                "autoload": {
+                    "psr-0" : {
+                        "cli" : "lib"
+                    },
+                    "files": [
+                        "lib/cli/cli.php"
+                    ]
+                }
+            }
+        }
+    ],
+    "minimum-stability": "dev"
+}

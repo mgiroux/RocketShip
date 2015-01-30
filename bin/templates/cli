@@ -1,0 +1,8 @@
+<?php
+
+require_once dirname(dirname(__DIR__)) . '/RocketShip/Application.php';
+
+$app     = new RocketShip\Application;
+$console = new RocketShip\Console;
+
+// Your code

@@ -1,0 +1,11 @@
+<?php
+
+use RocketShip\Controller\[type];
+
+class [name]Controller extends [type]
+{
+    public function index()
+    {
+        // Your code
+    }
+}

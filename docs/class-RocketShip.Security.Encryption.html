@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class RocketShip\Security\Encryption | RocketShip 2</title>
+
+	<link rel="stylesheet" href="resources/style.css?331665766">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-PHP.html">
+						PHP					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-RocketShip.html">
+						RocketShip<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-RocketShip.Api.html">
+						Api					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Cache.html">
+						Cache					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Controller.html">
+						Controller					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Database.html">
+						Database					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Helpers.html">
+						Helpers					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-RocketShip.Security.html">
+						Security					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Session.html">
+						Session<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-RocketShip.Session.Drivers.html">
+						Drivers					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-RocketShip.Upload.html">
+						Upload					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Utils.html">
+						Utils					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li class="active"><a href="class-RocketShip.Security.Encryption.html">Encryption</a></li>
+				<li><a href="class-RocketShip.Security.Input.html">Input</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-RocketShip.Security.html" title="Summary of RocketShip\Security"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Encryption</h1>
+
+
+	<div class="description">
+	
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-RocketShip.Base.html"><span>RocketShip\Base</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>RocketShip\Security\Encryption</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> RocketShip\Security<br>
+		
+
+		<b>Located at</b> <a href="source-class-RocketShip.Security.Encryption.html#8-154" title="Go to source code">Security/Encryption.php</a><br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="encrypt" id="_encrypt">
+
+		<td class="attributes"><code>
+			 public static
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_encrypt">#</a>
+		<code><a href="source-class-RocketShip.Security.Encryption.html#10-68" title="Go to source code">encrypt</a>( <span>string <var>$string</var></span>, <span>string <var>$cipher</var> = <span class="php-quote">'rijndael'</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>encrypt</p>
+
+<p>Encrypt string with static password salt</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$string</var></dt>
+					<dd>to encrypt
+</dd>
+					<dt><var>$cipher</var></dt>
+					<dd>cipher
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>encrypted string
+
+				</div>
+
+				<h4>Throws</h4>
+				<div class="list">
+					<code><a href="class-Exception.html">Exception</a></code><br>if the hash configuration is left by default or too short
+
+				</div>
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="decrypt" id="_decrypt">
+
+		<td class="attributes"><code>
+			 public static
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_decrypt">#</a>
+		<code><a href="source-class-RocketShip.Security.Encryption.html#70-127" title="Go to source code">decrypt</a>( <span>string <var>$string</var></span>, <span>string <var>$cipher</var> = <span class="php-quote">'rijndael'</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>decrypt</p>
+
+<p>Decrypt string with static password salt</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$string</var></dt>
+					<dd>to decrypt
+</dd>
+					<dt><var>$cipher</var></dt>
+					<dd>cipher
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>clean string
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="password" id="_password">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_password">#</a>
+		<code><a href="source-class-RocketShip.Security.Encryption.html#129-153" title="Go to source code">password</a>( <span>string <var>$password</var></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>encrypt a secure password</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$password</var></dt>
+					<dd>to hash
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>secure encrypted password
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Methods inherited from <a href="class-RocketShip.Base.html#methods">RocketShip\Base</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-RocketShip.Base.html#___construct">__construct()</a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-RocketShip.Base.html#properties">RocketShip\Base</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-RocketShip.Base.html#$app"><var>$app</var></a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		RocketShip 2 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js?721046668"></script>
+<script src="elementlist.js?2185342485"></script>
+</body>
+</html>

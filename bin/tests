@@ -1,0 +1,22 @@
+#!/usr/bin/php -q
+<?php
+
+require_once dirname(__DIR__) . '/RocketShip/Application.php';
+
+$app     = new RocketShip\Application;
+$console = new RocketShip\Console;
+
+echo "RocketShip Test runner v2.0\r\n\r\n";
+
+if (PHP_OS == 'WIN32' || PHP_OS == 'WINNT' || PHP_OS == 'Windows') {
+    $bin  = '../vendor/phpunit/phpunit/composer/bin';
+    $path = '../../../../../app/tests/';
+    $cmd  = str_replace("/", "\\", "cd \"{$bin}\" && php phpunit --verbose {$path}");
+    $out  = shell_exec($cmd);
+} else {
+    $bin  = dirname(dirname(__FILE__)) . '/vendor/bin';
+    $path = dirname(dirname(__FILE__)) . '/app/tests/';
+    $out  = shell_exec("cd {$bin}; ./phpunit --verbose {$path}");
+}
+
+echo $out;

@@ -1,0 +1,9 @@
+<?php
+
+class [name] extends \RocketShip\Database\Model
+{
+    public function init()
+    {
+        // Your init code
+    }
+}

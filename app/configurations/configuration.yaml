@@ -1,0 +1,63 @@
+# RocketShip application configuration
+
+# Languages
+languages:
+    default: fr
+    available:
+        fr: francais
+        en: english
+
+localization:
+    fr: fr_CA
+    en: en_US
+
+# Development (for sessions, manager can be standard or database)
+development:
+    anticaching: yes
+    session: cookie
+    debugging: yes
+
+# Performance
+performance:
+    memory_limit: 256M
+    html_cache: no
+    cache:
+        use: no
+        driver: redis                 # APC, Memcache, Redis
+        host: localhost
+        port: 6379                    # memcache: 11211, redis: 6379
+        application_key: sitename
+        dbindex: 0                    # Redis Only
+
+# CORS Support
+cors:
+    allow: "*"                        # * or http://domain.com or none
+    methods: [POST, GET]              # array with allowed methods 
+
+# General configurations
+general:
+    timezone: America/Montreal
+    uri_tail: /
+    hash_salt: RBTE$EFGE4565e4wt56jyRDRSEGD3564twge5$F#G%==
+    crypt_key: DGHTRDs35eyhe#$Y^j44w3feg5eTW#QFRGWEGW! #changemetoobeforeyouencrypt
+    sitename: SiteName
+    is_reponsive: yes
+
+# Emailing  (smtp, mail, gmail, sendgrid) (sendgrid sets the host, port, ssl automatically)
+emailing:
+    mode: mail
+    user: user
+    password: password
+    ssl: no
+    server: ""
+    port: 25
+    domain: caspian-framework.ca
+
+# Uploading  (Supported CDNs Rackspace, Amazon S3)
+uploading:
+    driver: mongodb          # local, rackspace, amazon
+    authentication:
+        user:   ""           # Required for Rackspace
+        key:    ""           # Required for Amazon and Rackspace
+        secret: ""           # Required for Amazon and Rackspace (tenant name for rackspace)
+        bucket: ""           # Required for Amazon and Rackspace  (bucket/container)

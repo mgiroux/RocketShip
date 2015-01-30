@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteCond %{HTTPS} !=on
+RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+RewriteRule ^ http://%1%{REQUEST_URI} [R=301,L]
+RewriteRule ^index\.php$ - [QSA,L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [QSA,L]
+
+# Disallow viewing of yaml and conf files (reroute to homepage)
+RewriteRule ^(.*).yaml$  / [QSA,L]
+</IfModule>
+
+Options All -Indexes

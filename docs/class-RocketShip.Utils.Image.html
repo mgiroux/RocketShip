@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class RocketShip\Utils\Image | RocketShip 2</title>
+
+	<link rel="stylesheet" href="resources/style.css?331665766">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-PHP.html">
+						PHP					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-RocketShip.html">
+						RocketShip<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-RocketShip.Api.html">
+						Api					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Cache.html">
+						Cache					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Controller.html">
+						Controller					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Database.html">
+						Database					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Helpers.html">
+						Helpers					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Security.html">
+						Security					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Session.html">
+						Session<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-RocketShip.Session.Drivers.html">
+						Drivers					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-RocketShip.Upload.html">
+						Upload					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-RocketShip.Utils.html">
+						Utils					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-RocketShip.Utils.Geocoder.html">Geocoder</a></li>
+				<li><a href="class-RocketShip.Utils.Http.html">Http</a></li>
+				<li class="active"><a href="class-RocketShip.Utils.Image.html">Image</a></li>
+				<li><a href="class-RocketShip.Utils.Inflector.html">Inflector</a></li>
+				<li><a href="class-RocketShip.Utils.IO.html">IO</a></li>
+				<li><a href="class-RocketShip.Utils.Mail.html">Mail</a></li>
+				<li><a href="class-RocketShip.Utils.Request.html">Request</a></li>
+				<li><a href="class-RocketShip.Utils.Test.html">Test</a></li>
+				<li><a href="class-RocketShip.Utils.Validation.html">Validation</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-RocketShip.Utils.html" title="Summary of RocketShip\Utils"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class Image</h1>
+
+
+	<div class="description">
+	
+
+	</div>
+
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> RocketShip\Utils<br>
+		
+
+		<b>Located at</b> <a href="source-class-RocketShip.Utils.Image.html#12-815" title="Go to source code">Utils/Image.php</a><br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#18-40" title="Go to source code">__construct</a>( <span>integer <var>$file</var></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>__construct</p>
+
+<p>Initialize the image</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$file</var></dt>
+					<dd>object path
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="resize" id="_resize">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_resize">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#42-69" title="Go to source code">resize</a>( <span>integer <var>$w</var></span>, <span>integer <var>$h</var> = <span class="php-num">0</span></span>, <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>resize</p>
+
+<p>Resize requested layer with width and height</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$w</var></dt>
+					<dd>width
+</dd>
+					<dt><var>$h</var></dt>
+					<dd>height
+</dd>
+					<dt><var>$layer</var></dt>
+					<dd>id
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="resizeByWidth" id="_resizeByWidth">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_resizeByWidth">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#71-94" title="Go to source code">resizeByWidth</a>( <span>integer <var>$w</var></span>, <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>resizeByWidth</p>
+
+<p>Resize requested layer by width (keep proportions)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$w</var></dt>
+					<dd>width
+</dd>
+					<dt><var>$layer</var></dt>
+					<dd>id
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="resizeByHeight" id="_resizeByHeight">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_resizeByHeight">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#96-119" title="Go to source code">resizeByHeight</a>( <span>integer <var>$h</var></span>, <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>resizeByHeight</p>
+
+<p>Resize requested layer by height (keep proportions)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$h</var></dt>
+					<dd>height
+</dd>
+					<dt><var>$layer</var></dt>
+					<dd>id
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="crop" id="_crop">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_crop">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#121-148" title="Go to source code">crop</a>( <span>integer <var>$x</var> = <span class="php-num">0</span></span>, <span>integer <var>$y</var> = <span class="php-num">0</span></span>, <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>crop</p>
+
+<p>Crop an image starting at x/y</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$x</var></dt>
+					<dd>x
+</dd>
+					<dt><var>$y</var></dt>
+					<dd>y
+</dd>
+					<dt><var>$layer</var></dt>
+					<dd>to affect (0 = background)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+				<h4>Public</h4>
+				<div class="list">
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="cropFromCenter" id="_cropFromCenter">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_cropFromCenter">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#150-174" title="Go to source code">cropFromCenter</a>( <span>integer <var>$x</var> = <span class="php-num">0</span></span>, <span>integer <var>$y</var> = <span class="php-num">0</span></span>, <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>cropFromCenter</p>
+
+<p>Crop an image from center</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$x</var></dt>
+					<dd>x
+</dd>
+					<dt><var>$y</var></dt>
+					<dd>y
+</dd>
+					<dt><var>$layer</var></dt>
+					<dd>to affect (0 = background)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+				<h4>Public</h4>
+				<div class="list">
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="thumbnail" id="_thumbnail">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_thumbnail">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#176-219" title="Go to source code">thumbnail</a>( <span>integer <var>$w</var></span>, <span>integer <var>$h</var></span>, <span>integer <var>$x</var> = <span class="php-num">0</span></span>, <span>integer <var>$y</var> = <span class="php-num">0</span></span>, <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>thumbnail</p>
+
+<p>Generate a cropped thumbnail (square) of the source document</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$w</var></dt>
+					<dd>width
+</dd>
+					<dt><var>$h</var></dt>
+					<dd>height
+</dd>
+					<dt><var>$x</var></dt>
+					<dd>from x (0 = center)
+</dd>
+					<dt><var>$y</var></dt>
+					<dd>from y (0 = center)
+</dd>
+					<dt><var>$layer</var></dt>
+					<dd>to affect (0 = background)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="negative" id="_negative">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_negative">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#221-243" title="Go to source code">negative</a>( <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>negative</p>
+
+<p>Reverse all colors of the layer</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$layer</var></dt>
+					<dd>to affect (0 = background)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="grayscale" id="_grayscale">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_grayscale">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#245-267" title="Go to source code">grayscale</a>( <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>grayscale</p>
+
+<p>Generate a grayscale version of the layer</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$layer</var></dt>
+					<dd>to affect (0 = background)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+				<h4>Public</h4>
+				<div class="list">
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="brightness" id="_brightness">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_brightness">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#269-295" title="Go to source code">brightness</a>( <span>integer <var>$level</var> = <span class="php-num">100</span></span>, <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>brightness</p>
+
+<p>Change the brightness of the layer</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$level</var></dt>
+					<dd>level (-255 to 255) (defaults to 100)
+</dd>
+					<dt><var>$layer</var></dt>
+					<dd>to affect (0 = background)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+				<h4>Public</h4>
+				<div class="list">
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="contrast" id="_contrast">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_contrast">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#297-323" title="Go to source code">contrast</a>( <span>integer <var>$level</var> = <span class="php-num">50</span></span>, <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>contrast</p>
+
+<p>Change contrast of the layer</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$level</var></dt>
+					<dd>level (-100 to 100) (defaults to 50)
+</dd>
+					<dt><var>$layer</var></dt>
+					<dd>to affect (0 = background)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+				<h4>Public</h4>
+				<div class="list">
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="blur" id="_blur">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_blur">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#325-347" title="Go to source code">blur</a>( <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>blur</p>
+
+<p>Apply a gaussian blur to the layer</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$layer</var></dt>
+					<dd>to affect (0 = background)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+				<h4>Public</h4>
+				<div class="list">
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="pixelate" id="_pixelate">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_pixelate">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#349-372" title="Go to source code">pixelate</a>( <span>integer <var>$level</var> = <span class="php-num">3</span></span>, <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>pixelate</p>
+
+<p>Pixelate the layer</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$level</var></dt>
+					<dd>size (defaults to 3)
+</dd>
+					<dt><var>$layer</var></dt>
+					<dd>to affect (0 = background)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+				<h4>Public</h4>
+				<div class="list">
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="smooth" id="_smooth">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_smooth">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#374-400" title="Go to source code">smooth</a>( <span>integer <var>$level</var> = <span class="php-num">3</span></span>, <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>smooth</p>
+
+<p>Try to smooth the pixels in the layer</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$level</var></dt>
+					<dd>level (-8 to 8) (defaults to 3)
+</dd>
+					<dt><var>$layer</var></dt>
+					<dd>to affect (0 = background)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+				<h4>Public</h4>
+				<div class="list">
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="colorize" id="_colorize">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_colorize">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#402-444" title="Go to source code">colorize</a>( <span>integer <var>$red</var></span>, <span>integer <var>$green</var></span>, <span>integer <var>$blue</var></span>, <span>integer <var>$alpha</var> = <span class="php-num">0</span></span>, <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>colorize</p>
+
+<p>Colorize the layer (r/g/b/a)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$red</var></dt>
+					<dd>value  (-255 to 255)
+</dd>
+					<dt><var>$green</var></dt>
+					<dd>value (-255 to 255)
+</dd>
+					<dt><var>$blue</var></dt>
+					<dd>value (-255 to 255)
+</dd>
+					<dt><var>$alpha</var></dt>
+					<dd>(0 = opaque, 127 = transparent)
+</dd>
+					<dt><var>$layer</var></dt>
+					<dd>to affect (0 = background)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+				<h4>Public</h4>
+				<div class="list">
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="flip" id="_flip">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_flip">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#446-486" title="Go to source code">flip</a>( <span>mixed <var>$direction</var> = <span class="php-quote">'horizontal'</span></span>, <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>flip</p>
+
+<p>Flip the layer vertically or horizontally</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$direction</var></dt>
+					<dd>or integer (horizontal, horizon, 0) or (vertical, vert, 1)
+</dd>
+					<dt><var>$layer</var></dt>
+					<dd>to affect (0 = background)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+				<h4>Public</h4>
+				<div class="list">
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="opacity" id="_opacity">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_opacity">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#488-514" title="Go to source code">opacity</a>( <span>integer <var>$level</var> = <span class="php-num">50</span></span>, <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>opacity</p>
+
+<p>Set opacity for layer (lower = more transparent)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$level</var></dt>
+					<dd>(defaults to 50)
+</dd>
+					<dt><var>$layer</var></dt>
+					<dd>to affect (0 = background)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+				<h4>Public</h4>
+				<div class="list">
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="rotate" id="_rotate">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_rotate">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#516-540" title="Go to source code">rotate</a>( <span>integer <var>$degree</var> = -<span class="php-num">45</span></span>, <span>integer <var>$layer</var> = <span class="php-num">0</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>rotate</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$degree</var></dt>
+					<dd>(-360 to 360) (defaults to -45)
+</dd>
+					<dt><var>$layer</var></dt>
+					<dd>to affect (0 = background)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+				<h4>Public</h4>
+				<div class="list">
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addLayer" id="_addLayer">
+
+		<td class="attributes"><code>
+			 public 
+
+			object
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addLayer">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#542-569" title="Go to source code">addLayer</a>( <span>string <var>$file</var></span>, <span>integer <var>$x</var> = <span class="php-num">0</span></span>, <span>integer <var>$y</var> = <span class="php-num">0</span></span>, <span>string <var>$position</var> = <span class="php-quote">'LT'</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>addLayer</p>
+
+<p>Add a layer on top of the others</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$file</var></dt>
+					<dd>file to create it from
+</dd>
+					<dt><var>$x</var></dt>
+					<dd>(position of the layer) (defaults to 0)
+</dd>
+					<dt><var>$y</var></dt>
+					<dd>(position of the layer) (default to 0)
+</dd>
+					<dt><var>$position</var></dt>
+					<dd>point (LT, LB, RT, RB) (Defaults to LT)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>object</code><br>this object
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="outputFile" id="_outputFile">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_outputFile">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#571-628" title="Go to source code">outputFile</a>( <span>string <var>$target</var></span>, <span>integer <var>$quality</var> = <span class="php-num">80</span></span>, <span>string <var>$type</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$color</var> = <span class="php-keyword1">null</span></span>, <span>boolean <var>$output_hash</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>outputFile</p>
+
+<p>Output the image to file by using the application's upload adapter</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$target</var></dt>
+					<dd>target name
+</dd>
+					<dt><var>$quality</var></dt>
+					<dd>from 0 to 100
+</dd>
+					<dt><var>$type</var></dt>
+					<dd>of file to output (gif, png, jpg) (defaults to : autodetect)
+</dd>
+					<dt><var>$color</var></dt>
+					<dd>color (defaults to null, required for opacity transformations)
+</dd>
+					<dt><var>$output_hash</var></dt>
+					<dd>the hash only or full path
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>the full path of the file or the hash
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="outputTemp" id="_outputTemp">
+
+		<td class="attributes"><code>
+			 public 
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_outputTemp">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#630-669" title="Go to source code">outputTemp</a>( <span>string <var>$target</var></span>, <span>integer <var>$quality</var> = <span class="php-num">80</span></span>, <span>string <var>$type</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$color</var> = <span class="php-keyword1">null</span></span>, <span>mixed <var>$output_hash</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>outputTemp</p>
+
+<p>Output the image temporarily to the system temp folder</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$target</var></dt>
+					<dd>target name
+</dd>
+					<dt><var>$quality</var></dt>
+					<dd>from 0 to 100
+</dd>
+					<dt><var>$type</var></dt>
+					<dd>of file to output (gif, png, jpg) (defaults to : autodetect)
+</dd>
+					<dt><var>$color</var></dt>
+					<dd>color (defaults to null, required for opacity transformations)
+</dd>
+					<dt><var>$output_hash</var></dt>
+					<dd>
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>the full path to file
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="output" id="_output">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_output">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#671-719" title="Go to source code">output</a>( <span>integer <var>$quality</var> = <span class="php-num">80</span></span>, <span>string <var>$type</var> = <span class="php-keyword1">null</span></span>, <span>string <var>$color</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>output</p>
+
+<p>Output the image data to the browser directly</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$quality</var></dt>
+					<dd>from 0 to 100
+</dd>
+					<dt><var>$type</var></dt>
+					<dd>of file to output (gif, png, jpg) (defaults to : autodetect)
+</dd>
+					<dt><var>$color</var></dt>
+					<dd>color (defaults to null, required for opacity transformations)
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="tag" id="_tag">
+
+		<td class="attributes"><code>
+			 public static
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_tag">#</a>
+		<code><a href="source-class-RocketShip.Utils.Image.html#721-771" title="Go to source code">tag</a>( <span>string <var>$file</var></span>, <span>integer <var>$width</var></span>, <span>integer <var>$height</var> = <span class="php-keyword1">null</span></span>, <span>array <var>$options</var> = <span class="php-keyword1">array</span>()</span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>tag</p>
+
+<p>Generate an HTML img tag for the given image hash, this method keeps proportions</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$file</var></dt>
+					<dd>hash
+</dd>
+					<dt><var>$width</var></dt>
+					<dd>to use
+</dd>
+					<dt><var>$height</var></dt>
+					<dd>(optional)
+</dd>
+					<dt><var>$options</var></dt>
+					<dd>of options (class, title, alt, id) (optional)
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>HTML tag code
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		RocketShip 2 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js?721046668"></script>
+<script src="elementlist.js?2185342485"></script>
+</body>
+</html>

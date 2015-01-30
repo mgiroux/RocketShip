@@ -1,0 +1,16 @@
+<?php
+
+use RocketShip\Bundle;
+
+class [name]Bundle extends Bundle
+{
+    public function init()
+    {
+        // Init code
+    }
+
+    public function install()
+    {
+        // Install code
+    }
+}

@@ -1,0 +1,6 @@
+.DS_Store
+/bundles/
+/public/
+/.idea/
+/vendor/
+composer.lock

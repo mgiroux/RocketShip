@@ -227,7 +227,7 @@ Javascript and Stylesheet injection work the same way, once you have injected th
     <!-- inject:js -->
     <!-- inject:css -->
     
-In views, the `<!-- .... -->` are called directives. RocketShip comes with the following directives to help your views.
+In views, the `<!-- .... -->` are called directives. RocketShip comes with the following directives to help you with views.
 
      <!-- view -->                Displays the view
      <!-- inject:js -->           Injects your javascript (if any)

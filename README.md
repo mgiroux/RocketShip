@@ -321,3 +321,5 @@ So pretty much everything that is really useful :)
 Also the `tools` and `bin` directories should be deleted before moving to production.
 
 **API Documentation and More detailled documentation coming soon.**
+
+This document is not to be used or changed without explicit written permission. (C) 2015 Marc Giroux.

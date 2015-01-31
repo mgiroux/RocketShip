@@ -24,34 +24,36 @@ class HTML extends Base
         foreach ($files as $file) {
             switch ($file)
             {
-                /* Bootstrap cdn support */
-                case "bootstrap":
-                    echo '<link rel="stylesheet" href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/css/bootstrap-combined.min.css">' . "\n";
+                case "cdn:normalize":
+                    echo '<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.2/normalize.min.css">' . "\n";
                     break;
 
-                /* jQuery UI */
+                case "cdn:bootstrap":
+                    echo '<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">' . "\n";
+                    break;
+
                 case "jquery-ui":
-                    echo '<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1/themes/ui-lightness/jquery-ui.css">' . "\n";
+                    echo '<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-lightness/jquery-ui.css">' . "\n";
                     break;
 
                 default:
-                if (!strstr($file, '.css')) {
-                    if (!stristr($file, '.htc')) {
-                        /* Add .css if not added (lazy loading) */
-                        $file .= '.css';
+                    if (!strstr($file, '.css')) {
+                        if (!stristr($file, '.htc')) {
+                            /* Add .css if not added (lazy loading) */
+                            $file .= '.css';
+                        }
                     }
-                }
 
-                if (file_exists($this->app->root_path . '/' . $path . '/' . $file)) {
-                    /* Add file modification time only for developement and staging environments (helps with debugging) */
-                    if ($this->app->config->development->anticaching == 'yes') {
-                        $time = filemtime($path . '/' . $file);
-                        echo '<link rel="stylesheet" href="' . $this->app->site_url . '/' . $path . '/' . $file . '?' . $time . '">' . "\n";
-                    } else {
-                        echo '<link rel="stylesheet" href="' . $this->app->site_url . '/' . $path . '/' . $file . '">' . "\n";
+                    if (file_exists($this->app->root_path . '/' . $path . '/' . $file)) {
+                        /* Add file modification time only for developement and staging environments (helps with debugging) */
+                        if ($this->app->config->development->anticaching == 'yes') {
+                            $time = filemtime($path . '/' . $file);
+                            echo '<link rel="stylesheet" href="' . $this->app->site_url . '/' . $path . '/' . $file . '?' . $time . '">' . "\n";
+                        } else {
+                            echo '<link rel="stylesheet" href="' . $this->app->site_url . '/' . $path . '/' . $file . '">' . "\n";
+                        }
                     }
-                }
-                break;
+                    break;
             }
         }
     }
@@ -114,20 +116,43 @@ class HTML extends Base
             /* Handle special CDNs for jquery, jquery-ui, bootstrap, angular */
             switch ($file)
             {
-                case "jquery":
-                    echo '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>' . "\n";
+                case "cdn:jquery":
+                    echo '<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>' . "\n";
                     break;
 
-                case "jquery-ui":
-                    echo '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>' . "\n";
+                case "cdn:jquery-ui":
+                    echo '<script src="//cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>' . "\n";
                     break;
 
-                case "bootstrap":
-                    echo '<script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>' . "\n";
+                case "cdn:bootstrap":
+                    echo '<script src="//cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.2/js/bootstrap.min.js"></script>' . "\n";
                     break;
 
-                case "angular":
-                    echo '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1/angular.min.js"></script>' . "\n";
+                case "cdn:angular":
+                    echo '<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.11/angular.min.js"></script>' . "\n";
+                    break;
+
+                case "cdn:angular-common":
+                    echo '<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.11/angular.min.js"></script>' . "\n";
+                    echo '<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.10/angular-route.min.js"></script>' . "\n";
+                    echo '<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.11/angular-sanitize.min.js"></script>' . "\n";
+                    echo '<script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.11/angular-resource.min.js"></script>' . "\n";
+                    break;
+
+                case "cdn:three":
+                    echo '<script src="//cdnjs.cloudflare.com/ajax/libs/three.js/r70/three.min.js"></script>' . "\n";
+                    break;
+
+                case "cdn:tweenmax":
+                    echo '<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.15.1/TimelineMax.min.js"></script>' . "\n";
+                    break;
+
+                case "cdn:tweenlite":
+                    echo '<script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.15.1/TweenLite.min.js"></script>' . "\n";
+                    break;
+
+                case "cdn:tinycolor":
+                    echo '<script src="//cdnjs.cloudflare.com/ajax/libs/tinycolor/1.1.1/tinycolor.min.js"></script>' . "\n";
                     break;
 
                 default:

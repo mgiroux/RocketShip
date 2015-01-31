@@ -1,0 +1,6 @@
+RocketShip Changelog
+
+31-01-2015
+
+    - Added view directives (<!--view-->, <!--partial:partial_name-->, <!--inject:js-->, <!--inject:css-->)
+    - Updated documentation

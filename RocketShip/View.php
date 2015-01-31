@@ -13,7 +13,7 @@ class View extends Base
      * @var String
      *
      */
-    const JSON = 'json';
+    const JSON = AssetTypes::JSON;
 
     /**
      *
@@ -22,7 +22,7 @@ class View extends Base
      * @var String
      *
      */
-    const HTML = 'html';
+    const HTML = AssetTypes::HTML;
 
     /**
      *
@@ -266,7 +266,13 @@ class View extends Base
                 include_once $file;
                 $content = ob_get_clean();
 
-                $html = str_replace(array('<!--view-->', '<!-- view -->', '<!--VIEW-->', '<!-- VIEW -->'), $content, $html);
+                $html = $this->parseDirectives(array(
+                    'view'         => $content,
+                    'injected_js'  => HTML::$injected_js,
+                    'injected_css' => HTML::$injected_css,
+                    'layout'       => $html
+                ));
+
                 $this->rendered = true;
             } else {
                 if(!$this->layout) {
@@ -378,4 +384,63 @@ class View extends Base
             }
         }
     }
+
+    private final function parseDirectives($config)
+    {
+        /* Parse the view */
+        $exp = '~<!--(\s?)(.*?)(\s?)-->~msi';
+        $out = '';
+
+        preg_match_all($exp, $config['layout'], $matches);
+
+        /* Place the view first (so parse everything with one pass) */
+        arsort($matches[2]);
+
+        foreach ($matches[2] as $num => $directive) {
+            /* View */
+            if (strtolower($directive) == 'view') {
+                $out = str_replace($matches[0][$num], $config['view'], $config['layout']);
+            }
+
+            /* Directives with options  */
+            if (stristr($directive, ':')) {
+                $d = strtolower(trim(substr($directive, 0, strpos($directive, ':'))));
+                $arg = trim(substr($directive, strpos($directive, ':') + 1));
+
+                switch ($d) {
+                    case "partial":
+                        ob_start();
+                        $this->partial($arg, null);
+                        $html = ob_get_clean();
+                        $out = str_replace($matches[0][$num], $html, $out);
+                        break;
+
+                    case "injected":
+                    case "inject":
+                        if (strtolower($arg) == 'js') {
+                            $out = str_replace($matches[0][$num], $config['injected_js'], $out);
+                        } else {
+                            $out = str_replace($matches[0][$num], $config['injected_css'], $out);
+                        }
+                        break;
+                }
+            }
+        }
+
+        return $out;
+    }
+}
+
+/* Asset type constants */
+class AssetTypes
+{
+    const JS   = "js";
+    const CSS  = "css";
+    const PNG  = "png";
+    const JPG  = "jpg";
+    const JPEG = "jpeg";
+    const GIF  = "gif";
+    const SVG  = "svg";
+    const HTML = "html";
+    const JSON = "json";
 }

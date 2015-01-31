@@ -175,6 +175,16 @@ In controllers, you can pretty much do whatever php code you want. You never nee
         }
     }
 
+From any controller, you can inject javascript and stylesheets. This enables you to have per route javascripts and stylesheets instead of having everything loaded all the time. This is how it works:
+
+    // From the App public directory
+    $this->inject(RocketShip\AssetType::JS, ['file1', 'file2', 'etc']);
+    $this->inject(RocketShip\AssetType::CSS, ['file1', 'file2', 'etc']);
+    
+    // From a bundle public directory
+    $this->injectFromBundle('bundlename', RocketShip\AssetTypes::JS, ['file1', 'file2', 'etc']);
+    $this->injectFromBundle('bundlename', RocketShip\AssetTypes::CSS, ['file1', 'file2', 'etc']);
+
 The way you get your view data on the other side (in views):
 
     <?=$this->your_key_here;?>
@@ -212,6 +222,27 @@ You can also specify that the layout you want is within a specific bundle, like 
 
     $this->view->useLayout('layout_name@bundle_name');
 
+Javascript and Stylesheet injection work the same way, once you have injected them from your controller, you must declare where in your layout you want the javascript and/or stylesheets to be injected. You do that with:
+ 
+    <!-- inject:js -->
+    <!-- inject:css -->
+    
+In views, the `<!-- .... -->` are called directives. RocketShip comes with the following directives to help your views.
+
+     <!-- view -->                Displays the view
+     <!-- inject:js -->           Injects your javascript (if any)
+     <!-- inject:css -->          Injects your stylesheets (if any)
+     <!-- partial:file_name -->   Displays a partial
+     
+For the partial directive, you just need to specify the name of the partial, it must reside in the same directory as the view. for example:
+
+    /app/views/controller_name/view.html
+    
+the partial should be located here:
+
+    /app/views/controller_name/partials/the_name.html
+
+More directives will be available in the future. There is also plans for you to be able to add your own directives.
 
 6. API
 ---

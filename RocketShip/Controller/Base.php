@@ -2,6 +2,7 @@
 
 namespace RocketShip\Controller;
 
+use RocketShip\AssetTypes;
 use RocketShip\Base as CaspianBase;
 use RocketShip\Configuration;
 use RocketShip\Utils\Inflector;
@@ -142,5 +143,53 @@ class Base extends CaspianBase
         print_r($data);
         $dump = ob_get_clean();
         error_log($dump);
+    }
+
+    /**
+     *
+     * Inject Stylesheets or Javascript when the view renders
+     *
+     * @param   string      type (ASSET:JS or ASSET:CSS)
+     * @param   array       list of files (called the same way you call them when in view)
+     * @access  protected
+     * @final
+     *
+     */
+    protected final function inject($type, $files)
+    {
+        switch ($type)
+        {
+            case AssetTypes::JS:
+                $this->app->helpers->html->injectJS($files);
+                break;
+
+            case AssetTypes::CSS:
+                $this->app->helpers->html->injectCSS($files);
+                break;
+        }
+    }
+
+    /**
+     *
+     * Inject Stylesheets or Javascript from a bundle when the view renders
+     *
+     * @param   string      type (ASSET:JS or ASSET:CSS)
+     * @param   array       list of files (called the same way you call them when in view)
+     * @access  protected
+     * @final
+     *
+     */
+    protected final function injectFromBundle($bundle, $type, $files)
+    {
+        switch ($type)
+        {
+            case AssetTypes::JS:
+                $this->app->helpers->html->injectBundleJS($bundle, $files);
+                break;
+
+            case AssetTypes::CSS:
+                $this->app->helpers->html->injectBundleCSS($bundle, $files);
+                break;
+        }
     }
 }

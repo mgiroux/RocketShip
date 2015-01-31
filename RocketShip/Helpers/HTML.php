@@ -6,12 +6,14 @@ use RocketShip\Base;
 
 class HTML extends Base
 {
+    public static $injected_js  = "";
+    public static $injected_css = "";
+
     /**
      *
      * Load css files (each argument is 1 file) (outputs the css html code directly)
      *
      * @param     string     infinite list of files (ex: css('file1', 'file2', 'file3'))
-     * @return    void
      * @access    protected
      * @final
      *
@@ -64,7 +66,6 @@ class HTML extends Base
      *
      * @param   string  bundle name as first argument
      * @param   mixed   indefinite list of css to load
-     * @return  void
      * @access  public
      * @final
      *
@@ -102,7 +103,6 @@ class HTML extends Base
      * Load javascript files (each argument is 1 file) (outputs the javascript html code directly)
      *
      * @param     string     infinite list of files (ex: javascript('file1', 'file2', 'file3'))
-     * @return    void
      * @access    protected
      * @final
      *
@@ -181,7 +181,6 @@ class HTML extends Base
      *
      * @param   string  bundle name as first argument
      * @param   mixed   indefinite list of javascripts to load
-     * @return  void
      * @access  public
      * @final
      *
@@ -195,41 +194,19 @@ class HTML extends Base
         $path  = 'public/' . $bundle . '/javascript';
 
         foreach ($args as $file) {
-            /* Handle special CDNs for jquery, jquery-ui, bootstrap, angular */
-            switch ($file)
-            {
-                case "jquery":
-                    echo '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>' . "\n";
-                    break;
+            if (!strstr($file, '.js')) {
+                /* Add .js if not added (lazy loading) */
+                $file .= '.js';
+            }
 
-                case "jquery-ui":
-                    echo '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1/jquery-ui.min.js"></script>' . "\n";
-                    break;
-
-                case "bootstrap":
-                    echo '<script type="text/javascript" src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.1/js/bootstrap.min.js"></script>' . "\n";
-                    break;
-
-                case "angular":
-                    echo '<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/angularjs/1/angular.min.js"></script>' . "\n";
-                    break;
-
-                default:
-                    if (!strstr($file, '.js')) {
-                        /* Add .js if not added (lazy loading) */
-                        $file .= '.js';
-                    }
-
-                    if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $path . '/' . $file)) {
-                        /* Add file modification time only for developement and staging environments (helps with debugging) */
-                        if ($this->app->config->development->anticaching == 'yes') {
-                            $time = filemtime($path . '/' . $file);
-                            echo '<script type="text/javascript" src="' . $this->app->site_url . '/' . $path . '/' . $file . '?' . $time . '"></script>' . "\n";
-                        } else {
-                            echo '<script type="text/javascript" src="' . $this->app->site_url . '/' . $path . '/' . $file . '"></script>' . "\n";
-                        }
-                    }
-                    break;
+            if (file_exists($_SERVER['DOCUMENT_ROOT'] . '/' . $path . '/' . $file)) {
+                /* Add file modification time only for developement and staging environments (helps with debugging) */
+                if ($this->app->config->development->anticaching == 'yes') {
+                    $time = filemtime($path . '/' . $file);
+                    echo '<script type="text/javascript" src="' . $this->app->site_url . '/' . $path . '/' . $file . '?' . $time . '"></script>' . "\n";
+                } else {
+                    echo '<script type="text/javascript" src="' . $this->app->site_url . '/' . $path . '/' . $file . '"></script>' . "\n";
+                }
             }
         }
     }
@@ -239,7 +216,6 @@ class HTML extends Base
      * Load an image from the views public images path (outputs directly)
      *
      * @param     string     image source
-     * @return    void
      * @access    protected
      * @final
      *
@@ -251,11 +227,83 @@ class HTML extends Base
 
     /**
      *
-     * Get a fullp
+     * Get a path only to special public file.
+     *
+     * @param   string  file to get the path to
+     * @access  public
+     * @final
      *
      */
     public final function fromPublicPath($file)
     {
         echo $this->app->site_url . '/public/app/' . $file;
+    }
+
+    /**
+     *
+     * Inject Javascript at view rendering
+     *
+     * @param   array   files to load
+     * @access  public
+     * @final
+     *
+     */
+    public final function injectJS($files)
+    {
+        ob_start();
+        call_user_func_array(array($this, 'js'), $files);
+        self::$injected_js .= ob_get_clean();
+    }
+
+    /**
+     *
+     * Inject Stylesheets at view rendering
+     *
+     * @param   array   files to load
+     * @access  public
+     * @final
+     *
+     */
+    public final function injectCSS($files)
+    {
+        ob_start();
+        call_user_func_array(array($this, 'css'), $files);
+        self::$injected_css .= ob_get_clean();
+    }
+
+    /**
+     *
+     * Inject Bundle's Javascript at view rendering
+     *
+     * @param   array   files to load
+     * @access  public
+     * @final
+     *
+     */
+    public final function injectBundleJS($bundle, $files)
+    {
+        ob_start();
+        array_unshift($files, $bundle);
+
+        call_user_func_array(array($this, 'bundlejs'), $files);
+        self::$injected_js .= ob_get_clean();
+    }
+
+    /**
+     *
+     * Inject Bundle's Stylesheets at view rendering
+     *
+     * @param   array   files to load
+     * @access  public
+     * @final
+     *
+     */
+    public final function injectBundleCSS($bundle, $files)
+    {
+        ob_start();
+        array_unshift($files, $bundle);
+
+        call_user_func_array(array($this, 'bundlecss'), $files);
+        self::$injected_css .= ob_get_clean();
     }
 }

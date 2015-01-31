@@ -189,6 +189,11 @@ This is useful for css, javascript loading. Like this:
 
     <?=$this->html->js('js1', 'js2', 'js3');?>
     
+For the most common/popular javascript and css, you can tell RocketShip to load from a CDN
+
+    <?=$this->html->js('cdn:jquery', 'cdn:angular');?>
+    <?=$this->html->css('cdn:normalize');?>
+    
 This is expecting that your javascript files reside in `/public/app/javascript/`. The same applies for stylesheets and images. Images are loaded like this:
 
     <img src="<?=$this->html->image('yourimage.png');?>">

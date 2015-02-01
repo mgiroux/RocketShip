@@ -1,6 +1,14 @@
 RocketShip Changelog
 
+01-02-2015
+
+    - Added possibility of custom directives
+    - Added support for directives in the generator
+    - Documentation!!! First in 5 years
+    - API documentation updated
+    - Bug fixes
+
 31-01-2015
 
-    - Added view directives (<!--view-->, <!--partial:partial_name-->, <!--inject:js-->, <!--inject:css-->)
+    - Added view directives (<!--view-->, <!--include:partial_name-->, <!--inject:js-->, <!--inject:css-->)
     - Updated documentation

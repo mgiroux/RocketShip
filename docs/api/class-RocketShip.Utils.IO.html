@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class RocketShip\Utils\IO</title>
+
+	<link rel="stylesheet" href="resources/style.css?331665766">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+				<h3>Namespaces</h3>
+			<ul>
+				<li>
+					<a href="namespace-None.html">
+						None					</a>
+
+						</li>
+				<li>
+					<a href="namespace-PHP.html">
+						PHP					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-RocketShip.html">
+						RocketShip<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-RocketShip.Api.html">
+						Api					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Cache.html">
+						Cache					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Controller.html">
+						Controller					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Database.html">
+						Database					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Helpers.html">
+						Helpers					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Security.html">
+						Security					</a>
+
+						</li>
+				<li>
+					<a href="namespace-RocketShip.Session.html">
+						Session<span></span>
+					</a>
+
+						<ul>
+				<li>
+					<a href="namespace-RocketShip.Session.Drivers.html">
+						Drivers					</a>
+
+						</li>
+							</ul></li>
+				<li>
+					<a href="namespace-RocketShip.Upload.html">
+						Upload					</a>
+
+						</li>
+				<li class="active">
+					<a href="namespace-RocketShip.Utils.html">
+						Utils					</a>
+
+						</li>
+							</ul></li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-RocketShip.Utils.Geocoder.html">Geocoder</a></li>
+				<li><a href="class-RocketShip.Utils.Http.html">Http</a></li>
+				<li><a href="class-RocketShip.Utils.Image.html">Image</a></li>
+				<li><a href="class-RocketShip.Utils.Inflector.html">Inflector</a></li>
+				<li class="active"><a href="class-RocketShip.Utils.IO.html">IO</a></li>
+				<li><a href="class-RocketShip.Utils.Mail.html">Mail</a></li>
+				<li><a href="class-RocketShip.Utils.Request.html">Request</a></li>
+				<li><a href="class-RocketShip.Utils.Test.html">Test</a></li>
+				<li><a href="class-RocketShip.Utils.Validation.html">Validation</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-RocketShip.Utils.html" title="Summary of RocketShip\Utils"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class IO</h1>
+
+
+	<div class="description">
+	
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+			<a href="class-RocketShip.Base.html"><span>RocketShip\Base</span></a>
+			
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>RocketShip\Utils\IO</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> RocketShip\Utils<br>
+		
+
+		<b>Located at</b> <a href="source-class-RocketShip.Utils.IO.html#7-396" title="Go to source code">Utils/IO.php</a><br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-RocketShip.Utils.IO.html#20-72" title="Go to source code">__construct</a>( <span>string <var>$file</var></span>, <span>boolean <var>$open</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Get every information about the file</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$file</var></dt>
+					<dd>file (with path)
+</dd>
+					<dt><var>$open</var></dt>
+					<dd>the file and store it in $content ?
+</dd>
+				</dl></div>
+
+
+
+
+				<h4>Overrides</h4>
+				<div class="list"><code><a href="class-RocketShip.Base.html#___construct">RocketShip\Base::__construct()</a></code></div>
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getSize" id="_getSize">
+
+		<td class="attributes"><code>
+			 public static
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getSize">#</a>
+		<code><a href="source-class-RocketShip.Utils.IO.html#74-97" title="Go to source code">getSize</a>( <span>integer <var>$size</var></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Convert a bytes value into bytes, mb, gb, tb value</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$size</var></dt>
+					<dd>to calculate
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>file size
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getRemoteSize" id="_getRemoteSize">
+
+		<td class="attributes"><code>
+			 public static
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getRemoteSize">#</a>
+		<code><a href="source-class-RocketShip.Utils.IO.html#99-114" title="Go to source code">getRemoteSize</a>( <span>string <var>$file</var></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Get the formatted size of a remote file without downloading that file</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$file</var></dt>
+					<dd>of the file
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>formatted filesize
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="write" id="_write">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_write">#</a>
+		<code><a href="source-class-RocketShip.Utils.IO.html#116-130" title="Go to source code">write</a>( <span>string <var>$data</var></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Comment</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$data</var></dt>
+					<dd>description
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="append" id="_append">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_append">#</a>
+		<code><a href="source-class-RocketShip.Utils.IO.html#132-148" title="Go to source code">append</a>( <span>string <var>$data</var></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Append data to a file</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$data</var></dt>
+					<dd>to append
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="prepend" id="_prepend">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_prepend">#</a>
+		<code><a href="source-class-RocketShip.Utils.IO.html#150-166" title="Go to source code">prepend</a>( <span>string <var>$data</var></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Prepend data to a file</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$data</var></dt>
+					<dd>to prepend
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="rename" id="_rename">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_rename">#</a>
+		<code><a href="source-class-RocketShip.Utils.IO.html#168-182" title="Go to source code">rename</a>( <span>string <var>$name</var></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Rename the current file to new name</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$name</var></dt>
+					<dd>filename
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="delete" id="_delete">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_delete">#</a>
+		<code><a href="source-class-RocketShip.Utils.IO.html#184-197" title="Go to source code">delete</a>( )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>delete the file</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="create" id="_create">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_create">#</a>
+		<code><a href="source-class-RocketShip.Utils.IO.html#199-221" title="Go to source code">create</a>( <span>boolean <var>$is_dir</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Create a file or directory with the given file (from construct)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$is_dir</var></dt>
+					<dd>file is a directory?
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="chmod" id="_chmod">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_chmod">#</a>
+		<code><a href="source-class-RocketShip.Utils.IO.html#223-241" title="Go to source code">chmod</a>( <span>integer <var>$perm</var> = <span class="php-num">755</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Set permissions on the current file</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$perm</var></dt>
+					<dd>to set (defaults to 755)
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getFiles" id="_getFiles">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getFiles">#</a>
+		<code><a href="source-class-RocketShip.Utils.IO.html#243-278" title="Go to source code">getFiles</a>( <span>boolean <var>$recursive</var> = <span class="php-keyword1">true</span></span>, <span>string <var>$file</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Get the files within the directory (if file is a directory)</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$recursive</var></dt>
+					<dd>check
+</dd>
+					<dt><var>$file</var></dt>
+					<dd>to look in
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isDirectoryWritable" id="_isDirectoryWritable">
+
+		<td class="attributes"><code>
+			 public static
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isDirectoryWritable">#</a>
+		<code><a href="source-class-RocketShip.Utils.IO.html#280-324" title="Go to source code">isDirectoryWritable</a>( <span>string <var>$dir</var></span>, <span>boolean <var>$warn</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$add_root</var> = <span class="php-keyword1">true</span></span>, <span>boolean <var>$die</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Check if given directory is writable</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$dir</var></dt>
+					<dd>to look at
+</dd>
+					<dt><var>$warn</var></dt>
+					<dd>if the directory is not writable
+</dd>
+					<dt><var>$add_root</var></dt>
+					<dd>the root path is already handed
+</dd>
+					<dt><var>$die</var></dt>
+					<dd>on warning or not
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>true/false
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="isWritable" id="_isWritable">
+
+		<td class="attributes"><code>
+			 public static
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_isWritable">#</a>
+		<code><a href="source-class-RocketShip.Utils.IO.html#326-348" title="Go to source code">isWritable</a>( <span>string <var>$file</var></span>, <span>boolean <var>$warn</var> = <span class="php-keyword1">false</span></span>, <span>boolean <var>$die</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Check if given file is writable</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$file</var></dt>
+					<dd>to look at
+</dd>
+					<dt><var>$warn</var></dt>
+					<dd>if the file is not writable
+</dd>
+					<dt><var>$die</var></dt>
+					<dd>on warning or not
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code><br>true/false
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getExtension" id="_getExtension">
+
+		<td class="attributes"><code>
+			 public static
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getExtension">#</a>
+		<code><a href="source-class-RocketShip.Utils.IO.html#350-365" title="Go to source code">getExtension</a>( <span>string <var>$filename</var></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Get the extension of given file</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$filename</var></dt>
+					<dd>to get the extension of
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>extension
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getMimeType" id="_getMimeType">
+
+		<td class="attributes"><code>
+			 public static
+
+			string
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getMimeType">#</a>
+		<code><a href="source-class-RocketShip.Utils.IO.html#367-395" title="Go to source code">getMimeType</a>( <span>string <var>$file</var></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Get the mime-type for the given file (supports remote files)</p>
+
+<p>Note: Requires finfo PECL extension for local files</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$file</var></dt>
+					<dd>url
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>string</code><br>the mime type
+
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+	<table class="summary properties" id="properties">
+	<caption>Properties summary</caption>
+	<tr data-order="size" id="$size">
+		<td class="attributes"><code>
+			public  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-RocketShip.Utils.IO.html#9" title="Go to source code"><var>$size</var></a>
+
+			<div class="description short">
+				
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$size" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="path" id="$path">
+		<td class="attributes"><code>
+			public  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-RocketShip.Utils.IO.html#10" title="Go to source code"><var>$path</var></a>
+
+			<div class="description short">
+				
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$path" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="file" id="$file">
+		<td class="attributes"><code>
+			public  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-RocketShip.Utils.IO.html#11" title="Go to source code"><var>$file</var></a>
+
+			<div class="description short">
+				
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$file" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="permissions" id="$permissions">
+		<td class="attributes"><code>
+			public  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-RocketShip.Utils.IO.html#12" title="Go to source code"><var>$permissions</var></a>
+
+			<div class="description short">
+				
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$permissions" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="mtime" id="$mtime">
+		<td class="attributes"><code>
+			public  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-RocketShip.Utils.IO.html#13" title="Go to source code"><var>$mtime</var></a>
+
+			<div class="description short">
+				
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$mtime" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="atime" id="$atime">
+		<td class="attributes"><code>
+			public  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-RocketShip.Utils.IO.html#14" title="Go to source code"><var>$atime</var></a>
+
+			<div class="description short">
+				
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$atime" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="type" id="$type">
+		<td class="attributes"><code>
+			public  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-RocketShip.Utils.IO.html#15" title="Go to source code"><var>$type</var></a>
+
+			<div class="description short">
+				
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$type" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="extension" id="$extension">
+		<td class="attributes"><code>
+			public  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-RocketShip.Utils.IO.html#16" title="Go to source code"><var>$extension</var></a>
+
+			<div class="description short">
+				
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$extension" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="content" id="$content">
+		<td class="attributes"><code>
+			public  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-RocketShip.Utils.IO.html#17" title="Go to source code"><var>$content</var></a>
+
+			<div class="description short">
+				
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$content" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	<tr data-order="error" id="$error">
+		<td class="attributes"><code>
+			public  
+			mixed
+		</code></td>
+
+		<td class="name">
+				<a href="source-class-RocketShip.Utils.IO.html#18" title="Go to source code"><var>$error</var></a>
+
+			<div class="description short">
+				
+
+			</div>
+
+			<div class="description detailed hidden">
+				
+
+
+			</div>
+		</td>
+		<td class="value">
+			<div>
+				<a href="#$error" class="anchor">#</a>
+				<code></code>
+			</div>
+		</td>
+	</tr>
+	</table>
+
+	<table class="summary inherited">
+	<caption>Properties inherited from <a href="class-RocketShip.Base.html#properties">RocketShip\Base</a></caption>
+	<tr>
+		<td><code>
+			<a href="class-RocketShip.Base.html#$app"><var>$app</var></a>
+		</code></td>
+	</tr>
+	</table>
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		 API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js?721046668"></script>
+<script src="elementlist.js?3851112002"></script>
+</body>
+</html>

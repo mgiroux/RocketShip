@@ -1,6 +1,8 @@
 <?php
 
-class [name] extends \RocketShip\Database\Model
+use RocketShip\Database;
+
+class [name] extends Model
 {
     public function init()
     {

@@ -10,7 +10,7 @@ echo "RocketShip CLI v1.0.0 (8)\r\n\r\n";
 include_once __DIR__ . '/lib/bin.php';
 
 /* Available options */
-$console->addOption(array('db', 'd'), array(
+$console->addOption(array('model', 'm'), array(
     'default'     => null,
     'description' => 'Generate a model class')
 );
@@ -25,6 +25,11 @@ $console->addOption(array('bundle', 'b'), array(
     'description' => 'Generate a bundle skeleton')
 );
 
+$console->addOption(array('directive', 'd'), array(
+    'default'     => null,
+    'description' => 'Generate a directive skeleton')
+);
+
 $console->addOption(array('cli'), array(
     'default'     => null,
     'description' => 'Generate a cli application skeleton')
@@ -37,7 +42,7 @@ $console->addOption(array('test', 'tdd'), array(
 
 $console->addOption(array('target', 't'), array(
     'default'     => 'app',
-    'description' => 'leave blank for app or the bundle name for which the code should be generated')
+    'description' => 'leave blank for app or the bundle name')
 );
 
 $args = $console->getArguments();

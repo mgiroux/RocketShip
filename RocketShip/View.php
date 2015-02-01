@@ -3,6 +3,7 @@
 namespace RocketShip;
 
 use RocketShip\Helpers\HTML;
+use RocketShip\Directives;
 
 class View extends Base
 {
@@ -266,12 +267,7 @@ class View extends Base
                 include_once $file;
                 $content = ob_get_clean();
 
-                $html = $this->parseDirectives(array(
-                    'view'         => $content,
-                    'injected_js'  => HTML::$injected_js,
-                    'injected_css' => HTML::$injected_css,
-                    'layout'       => $html
-                ));
+                $html = Directives::parse($this, $html, $content);
 
                 $this->rendered = true;
             } else {
@@ -281,7 +277,8 @@ class View extends Base
                     include_once $file;
                     $content = ob_get_clean();
 
-                    $html = $content;
+                    $html = Directives::parse($this, '', $content);
+
                     $this->rendered = true;
                 } else {
                     throw new \Exception("Could not locate the layout '" . basename($layout) . "' in " . dirname($layout));
@@ -323,16 +320,16 @@ class View extends Base
                 ob_start();
                 include $this->path . '/partials/' . $name;
                 $html = ob_get_clean();
-
-                echo $this->app->events->trigger('render', $html, 'filter');
+                $html = $this->app->events->trigger('render', $html, 'filter');
+                echo Directives::parse($this, '', $html);
             }
         } else {
             if (file_exists($this->path . '/partials/' . $name . $addition . '.html')) {
                 ob_start();
                 include $this->path . '/partials/' . $name . $addition . '.html';
                 $html = ob_get_clean();
-
-                echo $this->app->events->trigger('render', $html, 'filter');
+                $html = $this->app->events->trigger('render', $html, 'filter');
+                echo Directives::parse($this, '', $html);
             }
         }
     }
@@ -353,9 +350,10 @@ class View extends Base
         if (file_exists($file)) {
             ob_start();
             include $file;
-            $html = ob_get_clean();
 
-            echo $this->app->events->trigger('render', $html, 'filter');
+            $html = ob_get_clean();
+            $html = $this->app->events->trigger('render', $html, 'filter');
+            echo Directives::parse($this, '', $html);
         }
     }
 
@@ -379,55 +377,9 @@ class View extends Base
                 ob_start();
                 $this->partial($name, $item);
                 $html = ob_get_clean();
-
-                echo $this->app->events->trigger('render', $html, 'filter');
+                $html = $this->app->events->trigger('render', $html, 'filter');
             }
         }
-    }
-
-    private final function parseDirectives($config)
-    {
-        /* Parse the view */
-        $exp = '~<!--(\s?)(.*?)(\s?)-->~msi';
-        $out = '';
-
-        preg_match_all($exp, $config['layout'], $matches);
-
-        /* Place the view first (so parse everything with one pass) */
-        arsort($matches[2]);
-
-        foreach ($matches[2] as $num => $directive) {
-            /* View */
-            if (strtolower($directive) == 'view') {
-                $out = str_replace($matches[0][$num], $config['view'], $config['layout']);
-            }
-
-            /* Directives with options  */
-            if (stristr($directive, ':')) {
-                $d = strtolower(trim(substr($directive, 0, strpos($directive, ':'))));
-                $arg = trim(substr($directive, strpos($directive, ':') + 1));
-
-                switch ($d) {
-                    case "partial":
-                        ob_start();
-                        $this->partial($arg, null);
-                        $html = ob_get_clean();
-                        $out = str_replace($matches[0][$num], $html, $out);
-                        break;
-
-                    case "injected":
-                    case "inject":
-                        if (strtolower($arg) == 'js') {
-                            $out = str_replace($matches[0][$num], $config['injected_js'], $out);
-                        } else {
-                            $out = str_replace($matches[0][$num], $config['injected_css'], $out);
-                        }
-                        break;
-                }
-            }
-        }
-
-        return $out;
     }
 }
 

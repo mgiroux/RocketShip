@@ -9,9 +9,9 @@ class Bin
             $args->target = 'default';
         }
 
-        if (isset($args->db)) {
+        if (isset($args->model)) {
             /* Generate a mongo  model */
-            $this->generateMongo($args->db, $args->target);
+            $this->generateMongo($args->model, $args->target);
         }
 
         if (isset($args->controller)) {
@@ -22,6 +22,11 @@ class Bin
         if (isset($args->bundle)) {
             /* Generate a bundle skeleton */
             $this->generateBundle($args->bundle);
+        }
+
+        if (isset($args->directive)) {
+            /* Generate a directive */
+            $this->generateDirective($args->directive, $args->target);
         }
 
         if (isset($args->cli)) {
@@ -65,10 +70,10 @@ class Bin
                 file_put_contents($filename, $src);
             }
 
-            if (stristr($path, 'apps')) {
+            if (stristr($path, 'app')) {
                 /* Application */
                 if (file_exists($filename)) {
-                    $pathway = array('apps' => array($target => array('models' => array($name . '.php <-- Created'))));
+                    $pathway = array('app' => array('models' => array($name . '.php <-- Created')));
                     $console->displayTree($pathway);
                 } else {
                     $console->error("Cannot create model in application '{:app}'. The model already exists", array('app' => $target));
@@ -111,7 +116,7 @@ class Bin
             $filename = $path . '/controllers/' . $name . '.php';
             $src      = file_get_contents(dirname(__DIR__) . '/templates/controller');
 
-            if (stristr($path, 'apps')) {
+            if (stristr($path, 'app')) {
                 /* Application */
                 $src = str_replace(array('[name]', '[type]'), array($name, 'Application'), $src);
 
@@ -120,7 +125,7 @@ class Bin
                 }
 
                 if (file_exists($filename)) {
-                    $pathway = array('apps' => array($target => array('controllers' => array($name . '.php <-- Created'))));
+                    $pathway = array('app' =>  array('controllers' => array($name . '.php <-- Created')));
                     $console->displayTree($pathway);
                 } else {
                     $console->error("Cannot create controller in application '{:app}'. The model already exists", array('app' => $target));
@@ -176,7 +181,7 @@ class Bin
 
             $dirs = array(
                 'configurations', 'controllers', 'helpers', 'locale', 'models',
-                'views', 'views/layouts', 'views/' . $name, 'views/partials'
+                'views', 'views/layouts', 'views/' . $name, 'views/partials', 'views/directives'
             );
 
             $files = array(
@@ -225,6 +230,58 @@ class Bin
             $console->error("Cannot create bundle, it already exists");
         }
     }
+
+    /**
+     *
+     * generateDirective
+     *
+     * Generate a directive
+     *
+     */
+    private function generateDirective($name, $target)
+    {
+        $console = new RocketShip\Console;
+        $path    = $this->findPath($target);
+
+        if (empty($name)) {
+            $console->error("Cannot create directive, no name given");
+            return;
+        }
+
+        if (!empty($path)) {
+            $console->write("Generating a directive class\n");
+
+            $name     = ucfirst(strtolower($name));
+            $filename = $path . '/directives/' . $name . '.php';
+            $src      = file_get_contents(dirname(__DIR__) . '/templates/directive');
+
+            $src = str_replace('[name]', $name, $src);
+
+            if (!file_exists($filename)) {
+                file_put_contents($filename, $src);
+            }
+
+            if (stristr($path, 'app')) {
+                /* Application */
+                if (file_exists($filename)) {
+                    $pathway = array('app' => array('directives' => array($name . '.php <-- Created')));
+                    $console->displayTree($pathway);
+                } else {
+                    $console->error("Cannot create directive in app. The directive already exists", array());
+                }
+            } else {
+                /* Bundle */
+                if (file_exists($filename)) {
+                    $pathway = array('bundles' => array($target => array('directives' => array($name . '.php <-- Created'))));
+                    $console->displayTree($pathway);
+                } else {
+                    $console->error("Cannot create directive in bundle '{:bundle}'. The directive already exists", array('bundle' => $target));
+                }
+            }
+        } else {
+            $console->error("Cannot find bundle '{:bundle}'", array('bundle' => $target));
+        }
+    }
     
     /**
      *
@@ -243,7 +300,7 @@ class Bin
             $console->write("Generating CLI application skeleton\n");
             copy(dirname(__DIR__) . '/templates/cli', $path . $name . '.php');
 
-            $pathway = array('apps' => array('cli' => array($name . '.php <-- Created')));
+            $pathway = array('app' => array('cli' => array($name . '.php <-- Created')));
             $console->displayTree($pathway);
         } else {
             $console->error("Cannot create CLI application, it already exists");
@@ -273,7 +330,7 @@ class Bin
                 $src = str_replace(array('[NAME]', '[APP]'), array(ucfirst($name), strtolower($target)), $src);
                 file_put_contents($path . '/tests/' . ucfirst($name) . 'Test.php', $src);
 
-                $pathway = array('apps' => array($app => array('tests' => array(ucfirst($name) . 'Test.php <-- Created'))));
+                $pathway = array('app' => array($app => array('tests' => array(ucfirst($name) . 'Test.php <-- Created'))));
                 $console->displayTree($pathway);
             } else {
                 $console->error("Cannot create test, it already exists");

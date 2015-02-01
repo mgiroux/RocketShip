@@ -1,0 +1,16 @@
+<?php
+
+use RocketShip\Directives;
+
+class [name] extends Directives
+{
+    public function register()
+    {
+        return array();
+    }
+
+    public function execute($scope, $directive, $arguments)
+    {
+        return '';
+    }
+}

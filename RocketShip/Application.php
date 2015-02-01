@@ -7,6 +7,7 @@ use RocketShip\Utils\IO;
 use RocketShip\Utils\Request;
 use RocketShip\Security\Input;
 use RocketShip\Session;
+use RocketShip\Directives;
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\JsonResponseHandler;
@@ -255,6 +256,9 @@ class Application
         /* Routing (load routes) */
         $this->router = new Routing;
         $this->router->loadAppRoutes();
+
+        /* Register directives */
+        Directives::loadAll();
 
         /* Load bundles */
         $this->loadBundles();

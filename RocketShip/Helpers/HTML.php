@@ -250,6 +250,10 @@ class HTML extends Base
      */
     public final function injectJS($files)
     {
+        if (!is_array($files)) {
+            $files = [$files];
+        }
+
         ob_start();
         call_user_func_array(array($this, 'js'), $files);
         self::$injected_js .= ob_get_clean();
@@ -266,6 +270,10 @@ class HTML extends Base
      */
     public final function injectCSS($files)
     {
+        if (!is_array($files)) {
+            $files = [$files];
+        }
+
         ob_start();
         call_user_func_array(array($this, 'css'), $files);
         self::$injected_css .= ob_get_clean();
@@ -282,6 +290,10 @@ class HTML extends Base
      */
     public final function injectBundleJS($bundle, $files)
     {
+        if (!is_array($files)) {
+            $files = [$files];
+        }
+
         ob_start();
         array_unshift($files, $bundle);
 
@@ -300,6 +312,10 @@ class HTML extends Base
      */
     public final function injectBundleCSS($bundle, $files)
     {
+        if (!is_array($files)) {
+            $files = [$files];
+        }
+
         ob_start();
         array_unshift($files, $bundle);
 

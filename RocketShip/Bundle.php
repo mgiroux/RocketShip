@@ -64,19 +64,21 @@ abstract class Bundle extends Base
      * Check if the given bundle exists / is loaded
      *
      * @param   string      the bundle name (without the "Bundle" part)
-     * @access  protected
+     * @access  public
      *
      */
-    protected final function dependency($class)
+    public final static function dependency($class)
     {
-        if ($this->app->events->isTriggered('post-bundles')) {
+        $app = Application::$instance;
+
+        if ($app->events->isTriggered('post-bundles')) {
             /* Boot already done, just call it directly */
             self::$dependency_check[] = $class;
             self::dependencies();
         } else {
             /* We are not ready to call this yet, register for event */
             self::$dependency_check[] = $class;
-            $this->app->events->register('post-bundles', null, 'RocketShip\Bundle::dependencies');
+            $app->events->register('post-bundles', null, 'RocketShip\Bundle::dependencies');
         }
     }
 

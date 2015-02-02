@@ -73,9 +73,8 @@ abstract class Directives
                 $directive = strtolower(trim($match));
             }
 
-            $handler  = self::$directives_router->{$directive};
-
-            if (!empty($handler)) {
+            if (!empty(self::$directives_router->{$directive})) {
+                $handler  = self::$directives_router->{$directive};
                 $instance = self::$registered_directives->{$handler};
                 $return = $instance->execute($scope, $directive, $args);
                 $out = str_replace($matches[0][$num], $return, $out);

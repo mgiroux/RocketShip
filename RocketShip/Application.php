@@ -402,7 +402,7 @@ class Application
         /* Remove namespace from class name */
         $class = str_replace('\\', '/', $class);
 
-        /* Look in the caspian system folder */
+        /* Look in the RocketShip system folder */
         if (file_exists(dirname(__DIR__) . '/' . $class . '.php')) {
             include_once dirname(__DIR__) . '/' . $class . '.php';
             return true;
@@ -477,30 +477,31 @@ class Application
      */
     private function setupDebugging()
     {
-        if ($this->environment != 'production' && $this->config->development->debugging == 'yes') {
-            error_reporting(E_ERROR | E_PARSE | E_CORE_ERROR);
-
-            $whoops      = new Run();
-            $errorPage   = new PrettyPageHandler;
-            $jsonHandler = new JsonResponseHandler;
-
-            $errorPage->setPageTitle('RocketShip Exception');
-            $errorPage->setEditor('sublime');
-            $errorPage->addDataTable('Platform', array(
-                'RocketShip version' => self::VERSION,
-                'PHP version'     => phpversion() . '-' . PHP_OS
-            ));
-
-            $jsonHandler->onlyForAjaxRequests(true);
-            $whoops->pushHandler($errorPage);
-            $whoops->pushHandler($jsonHandler);
-            $whoops->register();
-
-            ini_set('display_errors', 'On');
-        } else {
-            error_reporting(0);
-            ini_set('display_errors', 'off');
-        }
+        ini_set('display_errors', 'On');
+//        if ($this->environment != 'production' && $this->config->development->debugging == 'yes') {
+//            error_reporting(E_ERROR | E_PARSE | E_CORE_ERROR);
+//
+//            $whoops      = new Run();
+//            $errorPage   = new PrettyPageHandler;
+//            $jsonHandler = new JsonResponseHandler;
+//
+//            $errorPage->setPageTitle('RocketShip Exception');
+//            $errorPage->setEditor('sublime');
+//            $errorPage->addDataTable('Platform', array(
+//                'RocketShip version' => self::VERSION,
+//                'PHP version'     => phpversion() . '-' . PHP_OS
+//            ));
+//
+//            $jsonHandler->onlyForAjaxRequests(true);
+//            $whoops->pushHandler($errorPage);
+//            $whoops->pushHandler($jsonHandler);
+//            $whoops->register();
+//
+//            ini_set('display_errors', 'On');
+//        } else {
+//            error_reporting(0);
+//            ini_set('display_errors', 'off');
+//        }
     }
 
     /**
@@ -549,22 +550,6 @@ class Application
                 if (!empty($models)) {
                     foreach ($models as $model) {
                         include_once $model;
-                    }
-                }
-
-                /* Load helpers for that bundle */
-                $helpers = glob(dirname($bundle) . '/helpers/*.php');
-                if (!empty($helpers)) {
-                    foreach ($helpers as $helper) {
-                        include_once $helper;
-
-                        $name  = str_replace('.php', '', basename($helper));
-                        $clean_name = strtolower($name);
-                        $class = ucfirst($name);
-
-                        if (class_exists($class)) {
-                            $this->helpers->{$clean_name} = new $class;
-                        }
                     }
                 }
 

@@ -237,6 +237,19 @@ class Application
         /* Debugging */
         $this->setupDebugging();
 
+        /* Routing (load routes) */
+        $this->router = new Routing;
+        $this->router->loadAppRoutes();
+
+        /* Register directives */
+        Directives::loadAll();
+
+        /* Load bundles */
+        $this->loadBundles();
+                
+        /* Load helpers */
+        $this->loadHelpers();
+
         /* Session management */
         $handler = new Session($this->config->development->session);
         session_set_save_handler(
@@ -252,19 +265,6 @@ class Application
         register_shutdown_function('session_write_close');
         session_start();
         $this->session = $handler;
-
-        /* Routing (load routes) */
-        $this->router = new Routing;
-        $this->router->loadAppRoutes();
-
-        /* Register directives */
-        Directives::loadAll();
-
-        /* Load bundles */
-        $this->loadBundles();
-                
-        /* Load helpers */
-        $this->loadHelpers();
 
         /* Request data (client, ip, request type, etc.) */
         $request       = new Request;

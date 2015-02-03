@@ -1,5 +1,10 @@
 RocketShip Changelog
 
+01-03-2015
+
+    - Added bundleimage in HTML helper
+    - Fixed bug with database update statements where the key is the _id and is not an MongoId instance
+
 01-02-2015
 
     - Added possibility of custom directives

@@ -227,6 +227,21 @@ class HTML extends Base
 
     /**
      *
+     * Load an image from the bundle's public images path (outputs directly)
+     *
+     * @param     string     the bundle name
+     * @param     string     image source
+     * @access    protected
+     * @final
+     *
+     */
+    public final function bundleimage($bundle, $src)
+    {
+        echo $this->app->site_url . '/public/' . $bundle . '/images/' . $src;
+    }
+
+    /**
+     *
      * Get a path only to special public file.
      *
      * @param   string  file to get the path to

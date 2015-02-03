@@ -509,14 +509,22 @@ class Collection
         } else {
             /* Update */
             foreach ($this as $var => $value) {
-                if ($var != 'connection' && $var != 'query' && $var != 'collection' && $var != 'isGridFS' && $var != $key && $var != 'creation_date' && $var != 'modification_date') {
+                if ($var != '_id' && $var != 'connection' && $var != 'query' && $var != 'collection' && $var != 'isGridFS' && $var != $key && $var != 'creation_date' && $var != 'modification_date') {
                     $query[$var] = $value;
                 }
             }
             
             $query['modification_date'] = new \MongoDate(time());
 
-            $where = array($key => $this->{$key});
+            if ($key == '_id') {
+                if (!is_object(($this->{$key}))) {
+                    $keyval = new \MongoId($this->{$key});
+                } else {
+                    $keyval = $this->{$key};
+                }
+            }
+
+            $where = array($key => $keyval);
             $this->collection->update($where, array('$set' => $query));
 
             $app->events->trigger('db-update', $this, 'any');

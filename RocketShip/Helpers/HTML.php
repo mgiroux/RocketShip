@@ -110,7 +110,7 @@ class HTML extends Base
     public final function js()
     {
         $files = func_get_args();
-        $path  = str_replace(SITE_URL . '/', '', 'public/app') . '/javascript';
+        $path  = str_replace($this->app->site_url . '/', '', 'public/app') . '/javascript';
 
         foreach ($files as $file) {
             /* Handle special CDNs for jquery, jquery-ui, bootstrap, angular */
@@ -321,5 +321,128 @@ class HTML extends Base
 
         call_user_func_array(array($this, 'bundlecss'), $files);
         self::$injected_css .= ob_get_clean();
+    }
+
+    /**
+     *
+     * formatDate
+     *
+     * Format given unix timestamp to readable date
+     *
+     * @param   long    unix timestamp
+     * @param   bool    show hours
+     * @param   string  language code
+     * @param   bool    output directly
+     * @param   bool    show day in output
+     * @param   bool    show year
+     * @return  string  formatted date
+     * @access  public
+     *
+     */
+    public function formatDate($date, $hours=false, $lang='fr', $output=true, $showday=false, $showyear=true)
+    {
+        if ($lang == 'fr') {
+            $months = array(
+                'null', "Janvier", "F&eacute;vrier",
+                "Mars", "Avril", "Mai",
+                "Juin", "Juillet", "Ao&ucirc;t",
+                "Septembre", "Octobre", "Novembre",
+                "D&eacute;cembre",
+                "01" => "Janvier", "02" => "F&eacute;vrier",
+                "03" => "Mars",  "04" => "Avril",
+                "05" => "Mai", "06" => "Juin",
+                "07" => "Juillet", "08" => "Ao&ucirc;t",
+                "09" => "Septembre", "10" => "Octobre",
+                "11" => "Novembre", "12" => "D&eacute;cembre"
+            );
+
+            $days = array(
+                0 => 'Dimanche',
+                1 => 'Lundi',
+                2 => 'Mardi',
+                3 => 'Mercredi',
+                4 => 'Jeudi',
+                5 => 'Vendredi',
+                6 => 'Samedi'
+            );
+
+            $month = $months[date("m", $date)];
+            $day   = date("j", $date);
+
+            /* Cardinality */
+            if ($day == "1") {
+                $day .= 'er';
+            }
+
+            $year = date("Y", $date);
+
+            if ($hours) {
+                $time = date(" H\hi", $date);
+            } else {
+                $time = null;
+            }
+
+            if ($output) {
+                if ($showday) {
+                    echo $days[date('w', $date)] . ", ";
+                }
+
+                if ($showyear) {
+                    echo $day . " " . $month . " " . $year . $time;
+                } else {
+                    echo $day . " " . $month . " " . $time;
+                }
+            } else {
+                if ($showyear) {
+                    if ($showday) {
+                        return $days[date('w', $date)] . ", " . $day . " " . $month . " " . $year . $time;
+                    } else {
+                        return $day . " " . $month . " " . $year . $time;
+                    }
+                } else {
+                    if ($showday) {
+                        return $days[date('w', $date)] . ", " . $day . " " . $month . " " . $time;
+                    } else {
+                        return $day . " " . $month . " " . $time;
+                    }
+                }
+            }
+        } else {
+            if ($showyear) {
+                $y = ' Y';
+            } else {
+                $y = '';
+            }
+
+            if (!$hours) {
+                if ($output) {
+                    if ($showday) {
+                        echo date('l, F jS' . $y, $date);
+                    } else {
+                        echo date('F jS' . $y, $date);
+                    }
+                } else {
+                    if ($showday) {
+                        return date('l, F jS' . $y, $date);
+                    } else {
+                        return date('F jS' . $y, $date);
+                    }
+                }
+            } else {
+                if ($output) {
+                    if ($showday) {
+                        echo date('l, F jS' . $y . ' H\hi', $date);
+                    } else {
+                        echo date('F jS' . $y . ' H\hi', $date);
+                    }
+                } else {
+                    if ($showday) {
+                        return date('l, F jS' . $y . ' H\hi', $date);
+                    } else {
+                        return date('F jS' . $y . ' H\hi', $date);
+                    }
+                }
+            }
+        }
     }
 }

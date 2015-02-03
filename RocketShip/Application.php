@@ -477,31 +477,30 @@ class Application
      */
     private function setupDebugging()
     {
-        ini_set('display_errors', 'On');
-//        if ($this->environment != 'production' && $this->config->development->debugging == 'yes') {
-//            error_reporting(E_ERROR | E_PARSE | E_CORE_ERROR);
-//
-//            $whoops      = new Run();
-//            $errorPage   = new PrettyPageHandler;
-//            $jsonHandler = new JsonResponseHandler;
-//
-//            $errorPage->setPageTitle('RocketShip Exception');
-//            $errorPage->setEditor('sublime');
-//            $errorPage->addDataTable('Platform', array(
-//                'RocketShip version' => self::VERSION,
-//                'PHP version'     => phpversion() . '-' . PHP_OS
-//            ));
-//
-//            $jsonHandler->onlyForAjaxRequests(true);
-//            $whoops->pushHandler($errorPage);
-//            $whoops->pushHandler($jsonHandler);
-//            $whoops->register();
-//
-//            ini_set('display_errors', 'On');
-//        } else {
-//            error_reporting(0);
-//            ini_set('display_errors', 'off');
-//        }
+        if ($this->environment != 'production' && $this->config->development->debugging == 'yes') {
+            error_reporting(E_ERROR | E_PARSE | E_CORE_ERROR);
+
+            $whoops      = new Run();
+            $errorPage   = new PrettyPageHandler;
+            $jsonHandler = new JsonResponseHandler;
+
+            $errorPage->setPageTitle('RocketShip Exception');
+            $errorPage->setEditor('sublime');
+            $errorPage->addDataTable('Platform', array(
+                'RocketShip version' => self::VERSION,
+                'PHP version'     => phpversion() . '-' . PHP_OS
+            ));
+
+            $jsonHandler->onlyForAjaxRequests(true);
+            $whoops->pushHandler($errorPage);
+            $whoops->pushHandler($jsonHandler);
+            $whoops->register();
+
+            ini_set('display_errors', 'On');
+        } else {
+            error_reporting(0);
+            ini_set('display_errors', 'off');
+        }
     }
 
     /**

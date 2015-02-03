@@ -6,18 +6,18 @@ database:
         port: 27017
         user: ""
         password: ""
-        database: caspian
+        database: RocketShip
 
     staging:
         host: localhost
         port: 27017
         user: ""
         password: ""
-        database: caspian
+        database: RocketShip
 
     production:
         host: localhost
         port: 27017
         user: ""
         password: ""
-        database: caspian
+        database: RocketShip

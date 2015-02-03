@@ -310,27 +310,37 @@ sup {
 
 <h4>Documentation (version 1.0)</h4>
 
-<ol>
-<li><a href="requirements.html">Requirements</a></li>
-<li><a href="install.html">Install</a></li>
-<li><a href="getting-started.html">Getting started</a></li>
-<li><a href="routes.html">Routes</a></li>
-<li><a href="controllers.html">Controllers</a></li>
-<li><a href="views.html">Views</a></li>
-<li><a href="layouts.html">Layouts</a></li>
-<li><a href="directives.html">Directives</a></li>
-<li><a href="api.html">API</a></li>
-<li><a href="database.html">Database</a></li>
-<li><a href="events.html">Events</a></li>
-<li><a href="special-notes.html">Special Notes</a></li>
-</ol>
+<h2>Events</h2>
+
+<p>RocketShip comes with Events builtin. The event engine also supports filters. Events are triggered by the system or by your app. Filters are made to enable you to filter data at certain points before it is displayed.</p>
+
+<p>Here is the list of events that RocketShip triggers</p>
+
+<ul>
+<li>post-bundles</li>
+<li>pre-controller</li>
+<li>api-authenticated</li>
+<li>shutdown</li>
+<li>db-record-destroy-query</li>
+<li>db-record-destroy-id</li>
+<li>db-collection-drop</li>
+<li>db-insert</li>
+<li>db-update</li>
+<li>db-grid-insert</li>
+<li>db-grid-destroy-id</li>
+<li>db-grid-destroy-query</li>
+<li>post-locale</li>
+<li>pre-render</li>
+</ul>
 
 
-<p>Otherwise, the API documentation is <a href="api/index.html">here</a>.</p>
+<p>Some of the events pass data along with the event, most of the time, it passes context (an id, a name, etc.)</p>
 
-<p>Ready to go? Let's do it.</p>
+<p>Filters on the other hand enables you to change data before it is presented.</p>
 
-<p><a href="requirements.html">Requirements ></a></p>
+<p>RocketShip only triggers one filter out of the box. When your view is about to be rendered, the <code>render</code> filter is executed. If you register to that filter, you are responsible of what you hand back to the caller.</p>
+
+<p><a href="database.html">&lt; Database</a> <a href="index.html">Index</a> <a href="special-notes.html">Special notes ></a></p>
 
 <h2><br/><br/></h2>
 

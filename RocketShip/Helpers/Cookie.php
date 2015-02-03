@@ -59,7 +59,7 @@ class Cookie extends Base
 
         $exp  = time() + $this->expiration;
         $json = json_encode($this->handler);
-        setcookie('caspian', $json, $exp, $this->path, $this->domain, $this->secure, $this->httpOnly);
+        setcookie('RocketShip', $json, $exp, $this->path, $this->domain, $this->secure, $this->httpOnly);
     }
 
     /**
@@ -89,6 +89,6 @@ class Cookie extends Base
      */
     public function expire()
     {
-        setcookie('caspian', '', time() - 60, $this->path, $this->domain, $this->secure, $this->httpOnly);
+        setcookie('RocketShip', '', time() - 60, $this->path, $this->domain, $this->secure, $this->httpOnly);
     }
 }

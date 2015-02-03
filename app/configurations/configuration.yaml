@@ -51,7 +51,7 @@ emailing:
     ssl: no
     server: ""
     port: 25
-    domain: caspian-framework.ca
+    domain: RocketShip-framework.ca
 
 # Uploading  (Supported CDNs Rackspace, Amazon S3)
 uploading:

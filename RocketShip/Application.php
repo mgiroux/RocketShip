@@ -28,7 +28,7 @@ class Application
     /**
      *
      * Session instance
-     * @var \RocketShip\Session\Session
+     * @var \RocketShip\Session
      *
      */
     public $session;
@@ -237,6 +237,19 @@ class Application
         /* Debugging */
         $this->setupDebugging();
 
+        /* Routing (load routes) */
+        $this->router = new Routing;
+        $this->router->loadAppRoutes();
+
+        /* Register directives */
+        Directives::loadAll();
+
+        /* Load bundles */
+        $this->loadBundles();
+                
+        /* Load helpers */
+        $this->loadHelpers();
+
         /* Session management */
         $handler = new Session($this->config->development->session);
         session_set_save_handler(
@@ -252,19 +265,6 @@ class Application
         register_shutdown_function('session_write_close');
         session_start();
         $this->session = $handler;
-
-        /* Routing (load routes) */
-        $this->router = new Routing;
-        $this->router->loadAppRoutes();
-
-        /* Register directives */
-        Directives::loadAll();
-
-        /* Load bundles */
-        $this->loadBundles();
-                
-        /* Load helpers */
-        $this->loadHelpers();
 
         /* Request data (client, ip, request type, etc.) */
         $request       = new Request;
@@ -366,7 +366,7 @@ class Application
     public function quit()
     {
         Collection::disconnect();
-        $this->events->trigger('shutdown', null, 'events');
+        $this->events->trigger('shutdown', null, 'event');
         exit();
     }
 
@@ -402,7 +402,7 @@ class Application
         /* Remove namespace from class name */
         $class = str_replace('\\', '/', $class);
 
-        /* Look in the caspian system folder */
+        /* Look in the RocketShip system folder */
         if (file_exists(dirname(__DIR__) . '/' . $class . '.php')) {
             include_once dirname(__DIR__) . '/' . $class . '.php';
             return true;
@@ -477,6 +477,7 @@ class Application
      */
     private function setupDebugging()
     {
+        ini_set('display_errors', 'On');
         if ($this->environment != 'production' && $this->config->development->debugging == 'yes') {
             error_reporting(E_ERROR | E_PARSE | E_CORE_ERROR);
 
@@ -549,22 +550,6 @@ class Application
                 if (!empty($models)) {
                     foreach ($models as $model) {
                         include_once $model;
-                    }
-                }
-
-                /* Load helpers for that bundle */
-                $helpers = glob(dirname($bundle) . '/helpers/*.php');
-                if (!empty($helpers)) {
-                    foreach ($helpers as $helper) {
-                        include_once $helper;
-
-                        $name  = str_replace('.php', '', basename($helper));
-                        $clean_name = strtolower($name);
-                        $class = ucfirst($name);
-
-                        if (class_exists($class)) {
-                            $this->helpers->{$clean_name} = new $class;
-                        }
                     }
                 }
 

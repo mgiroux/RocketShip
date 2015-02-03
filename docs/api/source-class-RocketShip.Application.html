@@ -558,7 +558,7 @@
 </span><span id="402" class="l"><a class="l" href="#402">402: </a>        <span class="php-comment">/* Remove namespace from class name */</span>
 </span><span id="403" class="l"><a class="l" href="#403">403: </a>        <span class="php-var">$class</span> = <span class="php-keyword2">str_replace</span>(<span class="php-quote">'\\'</span>, <span class="php-quote">'/'</span>, <span class="php-var">$class</span>);
 </span><span id="404" class="l"><a class="l" href="#404">404: </a>
-</span><span id="405" class="l"><a class="l" href="#405">405: </a>        <span class="php-comment">/* Look in the caspian system folder */</span>
+</span><span id="405" class="l"><a class="l" href="#405">405: </a>        <span class="php-comment">/* Look in the RocketShip system folder */</span>
 </span><span id="406" class="l"><a class="l" href="#406">406: </a>        <span class="php-keyword1">if</span> (<span class="php-keyword2">file_exists</span>(<span class="php-keyword2">dirname</span>(__DIR__) . <span class="php-quote">'/'</span> . <span class="php-var">$class</span> . <span class="php-quote">'.php'</span>)) {
 </span><span id="407" class="l"><a class="l" href="#407">407: </a>            <span class="php-keyword1">include_once</span> <span class="php-keyword2">dirname</span>(__DIR__) . <span class="php-quote">'/'</span> . <span class="php-var">$class</span> . <span class="php-quote">'.php'</span>;
 </span><span id="408" class="l"><a class="l" href="#408">408: </a>            <span class="php-keyword1">return</span> <span class="php-keyword1">true</span>;

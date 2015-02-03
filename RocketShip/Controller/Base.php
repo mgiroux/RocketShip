@@ -3,11 +3,11 @@
 namespace RocketShip\Controller;
 
 use RocketShip\AssetTypes;
-use RocketShip\Base as CaspianBase;
+use RocketShip\Base as RocketShipBase;
 use RocketShip\Configuration;
 use RocketShip\Utils\Inflector;
 
-class Base extends CaspianBase
+class Base extends RocketShipBase
 {
     /**
      *
@@ -72,7 +72,7 @@ class Base extends CaspianBase
                     /* Render requested */
                     if ($render) {
                         call_user_func([$instance->view, 'render'], $method);
-                        $this->view->setRendered(true);
+                        $this->view->rendered = true;
                     }
                 } else {
                     throw new \RuntimeException("Cannot call controller method '{$method}' because the method does not exist. Please check for problems.");
@@ -110,12 +110,11 @@ class Base extends CaspianBase
 
             if (class_exists($class)) {
                 $instance = new $class($bundle_path);
-                $instance->setHelpers();
 
                 if (method_exists($instance, $method)) {
                     call_user_func([$instance, $method], $data);
                     call_user_func(array($instance->view, 'render'), $method);
-                    $this->view->setRendered(true);
+                    $this->view->rendered = true;
                 } else {
                     throw new \RuntimeException("Dispatch has loaded bundle controller '{$class}', but cannot find method '{$method}'.");
                 }

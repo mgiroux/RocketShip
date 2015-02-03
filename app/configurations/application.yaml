@@ -1,7 +1,7 @@
 environments:
     development: [localhost]
-    staging:     [stage.caspian.ca]
-    production:  [caspian.ca]
+    staging:     [stage.RocketShip.ca]
+    production:  [RocketShip.ca]
 
 # Set the environment for the command line interpreter
 cli: development

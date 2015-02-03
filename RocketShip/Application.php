@@ -477,7 +477,6 @@ class Application
      */
     private function setupDebugging()
     {
-        ini_set('display_errors', 'On');
         if ($this->environment != 'production' && $this->config->development->debugging == 'yes') {
             error_reporting(E_ERROR | E_PARSE | E_CORE_ERROR);
 

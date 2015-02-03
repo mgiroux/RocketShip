@@ -110,12 +110,11 @@ class Base extends RocketShipBase
 
             if (class_exists($class)) {
                 $instance = new $class($bundle_path);
-                $instance->setHelpers();
 
                 if (method_exists($instance, $method)) {
                     call_user_func([$instance, $method], $data);
                     call_user_func(array($instance->view, 'render'), $method);
-                    $this->view->setRendered(true);
+                    $this->view->rendered = true;
                 } else {
                     throw new \RuntimeException("Dispatch has loaded bundle controller '{$class}', but cannot find method '{$method}'.");
                 }

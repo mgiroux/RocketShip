@@ -18,12 +18,6 @@ class Upload extends Base
         include_once dirname(__FILE__) . '/Upload/' . $driver . '.php';
         $class        = '\\RocketShip\\Upload\\' . $driver;
         $this->driver = new $class;
-
-        /* Load files in static array */
-        $this->loadFilesArray();
-
-        /* Load cache files in static array */
-        $this->loadCacheArray();
     }
 
     /**

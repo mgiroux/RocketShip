@@ -174,6 +174,19 @@ class View extends Base
 
     /**
      *
+     * Get the data object
+     *
+     * @return  object  the view's data object
+     * @access  public
+     *
+     */
+    public function get()
+    {
+        return $this->data;
+    }
+
+    /**
+     *
      * Use a different layout than the default
      *
      * @param   string  the layout file without .html

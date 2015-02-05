@@ -201,9 +201,7 @@ class Routing extends Base
 
         if (!empty(self::$routes)) {
             foreach (self::$routes as $key => $permalink) {
-                $matched = self::matchURI($permalink, '/*/');
-
-                if ($matched) {
+                if (is_string($permalink->uri) && ($permalink->uri == '/*/' || $permalink->uri == '*')) {
                     /* Catch all route (*) */
                     if (!empty($matched['language'])) {
                         $this->app->session->set('app_language', $matched['language']);

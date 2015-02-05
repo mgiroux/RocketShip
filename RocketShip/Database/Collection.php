@@ -242,12 +242,8 @@ class Collection
 
             foreach ($result as $key => $value) {
                 if (is_array($value)) {
-                    $instance->{$key} = [];
-
-                    foreach ($value as $k => $v) {
-                        $instance->{$key}[$k] = $v;
-                    }
-                } elseif (is_object($value) && get_class($value) != 'MongoId') {
+                    $instance->{$key} = $this->objectifyAssociativeArrays($value);
+                } elseif (is_object($value) && !stristr(get_class($value), 'Mongo')) {
                     $instance->{$key} = new \stdClass;
 
                     foreach ($value as $k => $v) {
@@ -306,12 +302,8 @@ class Collection
 
                 foreach ($doc as $key => $value) {
                     if (is_array($value)) {
-                        $instance->{$key} = [];
-
-                        foreach ($value as $k => $v) {
-                            $instance->{$key}[$k] = $v;
-                        }
-                    } elseif (is_object($value) && get_class($value) != 'MongoId') {
+                        $instance->{$key} = $this->objectifyAssociativeArrays($value);
+                    } elseif (is_object($value) && !stristr(get_class($value), 'Mongo')) {
                         $instance->{$key} = new \stdClass;
 
                         foreach ($value as $k => $v) {
@@ -432,10 +424,11 @@ class Collection
      */
     public final function destroy($all=false)
     {
-        $app = Application::$instance;
+        $app     = Application::$instance;
+        $options = ($all == false) ? array('justOne' => true) : array();
 
         $app->events->trigger('db-record-destroy-query', $this->query['where'], 'event');
-        $this->collection->remove($this->query['where'], array('justOne' => $all));
+        $this->collection->remove($this->query['where'], $options);
     }
 
     /**
@@ -793,8 +786,37 @@ class Collection
         }
     }
 
+    /**
+     *
+     * Specify that this model is GridFS model
+     *
+     * @param   bool    true/false
+     * @access  public
+     * @final
+     *
+     */
     public final function gridFS($is=false)
     {
         $this->isGridFS = true;
+    }
+
+    private final function objectifyAssociativeArrays($array)
+    {
+        reset($array);
+        $akey = key($array);
+
+        if (is_string($akey)) {
+            $out = (object)$array;
+
+            foreach ($out as $skey => $svalue) {
+                if (is_array($svalue)) {
+                    $out->{$skey} = $this->objectifyAssociativeArrays($svalue);
+                }
+            }
+
+            return $out;
+        } else {
+            return $array;
+        }
     }
 }

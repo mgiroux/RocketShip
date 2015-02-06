@@ -161,12 +161,16 @@ class View extends Base
      */
     public function __get($key)
     {
-        if ($key != 'rendered') {
+        if ($key != 'rendered' && $key != 'path') {
             if (!empty($this->data->{$key})) {
                 return $this->data->{$key};
             }
         } else {
-            return $this->rendered;
+            if ($key == 'rendered') {
+                return $this->rendered;
+            } else {
+                return $this->path;
+            }
         }
 
         return null;

@@ -44,7 +44,7 @@ class Redis
      * @final
      *
      */
-    public final function set($key, $value, $expire=MEMCACHE_TEN)
+    public final function set($key, $value, $expire=CACHE_TEN)
     {
         if (!empty($this->link)) {
             /* Delete the item if it exists */

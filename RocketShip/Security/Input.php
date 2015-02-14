@@ -251,7 +251,6 @@ class Input extends Base
                     }
                 }
 
-                $string = str_replace(["SELECT *", "WHERE", "ORDER BY", "LIMIT", "GROUP BY", "COUNT", "SELECT", "DELETE FROM", "UPDATE", "DROP", "ALTER"], "", $string);
                 return $string;
             } else {
                 return $string;

@@ -3,6 +3,7 @@
 namespace RocketShip\Utils;
 
 use PHPImageWorkshop\ImageWorkshop;
+use RocketShip\Application;
 use RocketShip\Upload;
 
 if (!extension_loaded('gd')) {
@@ -34,8 +35,17 @@ class Image
                 $this->layers = ImageWorkshop::initFromPath($file);
             }
 
-            $this->name      = str_replace(array('.jpeg', '.jpg', '.gif', '.png'), '', strtolower(basename($file)));
-            $this->type_hint = IO::getExtension($file);
+            $app = Application::$instance;
+
+            if ($app->config->uploading->driver == 'mongodb') {
+                $type = explode('/', IO::getMimeType($file));
+
+                if ($type == 'jpeg') { $type = 'jpg'; };
+                $this->type_hint = $type[1];
+            } else {
+                $this->name      = str_replace(array('.jpeg', '.jpg', '.gif', '.png'), '', strtolower(basename($file)));
+                $this->type_hint = IO::getExtension($file);
+            }
         }
     }
 
@@ -603,7 +613,7 @@ class Image
         }
 
         /* Save to temporary folder */
-        $path   = dirname(dirname(__DIR__)) . '/tmp/';
+        $path   = dirname(dirname(__DIR__)) . '/app/tmp/';
         $target = str_replace(array('.jpeg', '.jpg', 'gif', '.png'), '', $target) . '.' . $type;
         $this->layers->save($path, $target, false, $color, $quality);
 
@@ -661,7 +671,7 @@ class Image
         }
 
         /* Save to temporary folder */
-        $path   = dirname(dirname(__DIR__)) . '/tmp/';
+        $path   = dirname(dirname(__DIR__)) . '/app/tmp/';
         $target = str_replace(array('.jpeg', '.jpg', 'gif', '.png'), '', $target) . '.' . $type;
         $this->layers->save($path, $target, false, $color, $quality);
 
@@ -768,6 +778,97 @@ class Image
         }
 
         echo '<img src="' . $file . '" ' . $measure . ' ' . $options . '/>';
+    }
+
+    /**
+     *
+     * get
+     *
+     * Generate or get the cache for requested image
+     *
+     * @param   string  file hash
+     * @param   int     width to use
+     * @param   int     height (optional)
+     * @param   bool    crop from center?
+     * @return  string  HTML tag code
+     * @access  public
+     * @static
+     *
+     */
+    public static function get($file, $width, $height=null, $fromCenter=false)
+    {
+        /* Hash given */
+        $upload = new Upload;
+        $cached = $upload->isCached($width . 'x' . $height . '_' . $file);
+
+        $app = Application::$instance;
+
+        if (!$cached) {
+            if ($app->config->uploading->driver == 'mongodb') {
+                $img = new self($app->site_url . '/public/uploads/files/' . $file);
+            } else {
+                $img = new self($upload->get($file));
+            }
+
+            if (!$fromCenter) {
+                if (empty($height)) {
+                    $img->resizeByWidth($width);
+                } elseif (empty($width)) {
+                    $img->resizeByHeight($height);
+                } else {
+                    $img->resize($width, $height);
+                }
+            } else {
+                $img->thumbnail($width, $height);
+            }
+
+            $src      = $img->outputTemp($width . 'x' . $height . '_' . $file);
+            $filedata = $upload->getCache($upload->addCache($src, $width . 'x' . $height . '_' . $file));
+            unlink($src);
+        } else {
+            $filedata = $upload->getCache($width . 'x' . $height . '_' . $file);
+        }
+
+        if ($app->config->uploading->driver == 'mongodb') {
+            $file = $app->site_url . '/public/uploads/files/' . $filedata;
+        } else {
+            $file = $app->site_url . '/public/uploads/' . $filedata;
+        }
+
+        return $file;
+    }
+
+    /**
+     *
+     * Get an image's size without downloading it
+     *
+     * @param   string  url of the image
+     * @return  object  width and height
+     * @access  public
+     * @static
+     *
+     */
+    public static function getImageSize($url)
+    {
+        $headers = array(
+            "Range: bytes=0-32768"
+        );
+
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+        $data = curl_exec($curl);
+        curl_close($curl);
+
+        $im     = imagecreatefromstring($data);
+        $width  = imagesx($im);
+        $height = imagesy($im);
+
+        $obj         = new \stdClass;
+        $obj->width  = $width;
+        $obj->height = $height;
+
+        return $obj;
     }
 
     /**

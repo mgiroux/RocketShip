@@ -5,6 +5,7 @@ namespace RocketShip\Database;
 use RocketShip\Application;
 use RocketShip\Configuration;
 use RocketShip\Event;
+use RocketShip\Filter;
 use RocketShip\Utils\Inflector;
 
 class Collection
@@ -24,27 +25,29 @@ class Collection
      * @final
      *
      */
-    public final function __construct($collection=null)
+    public final function __construct($collection=null, $isGrid=false)
     {
         $config = Configuration::get('database', Application::$_environment);
 
         if (empty(self::$connection)) {
             if (!empty($config->user) && !empty($config->password)) {
-                self::$connection = new \MongoClient("mongodb://{$config->user}:{$config->password}@{$config->host}:{$config->port}/{$config->database}");
+                self::$connection = new \MongoClient(
+                    "mongodb://{$config->user}:{$config->password}@{$config->host}:{$config->port}/{$config->database}"
+                );
             } else {
                 self::$connection = new \MongoClient("mongodb://{$config->host}:{$config->port}/{$config->database}");
             }
         }
 
         if (empty($collection)) {
-            $inflector  = new Inflector;
+            $inflector = new Inflector;
             $collection = $inflector->underscore($inflector->pluralize(get_class($this)));
         } else {
-            $inflector  = new Inflector;
+            $inflector = new Inflector;
             $collection = $inflector->underscore($inflector->pluralize($collection));
         }
 
-        if ($this->isGridFS == true) {
+        if ($this->isGridFS == true || $isGrid == true) {
             $this->collection = self::$connection->{$config->database}->getGridFS($collection);
         } else {
             $this->collection = self::$connection->{$config->database}->{$collection};
@@ -427,7 +430,7 @@ class Collection
         $app     = Application::$instance;
         $options = ($all == false) ? array('justOne' => true) : array();
 
-        $app->events->trigger('db-record-destroy-query', $this->query['where'], 'event');
+        $app->events->trigger(Event::DB_DESTROY_QUERY, $this->query['where']);
         $this->collection->remove($this->query['where'], $options);
     }
 
@@ -448,7 +451,7 @@ class Collection
             $id = new \MongoId($id);
         }
 
-        $app->events->trigger('db-record-destroy-id', (string)$id, 'event');
+        $app->events->trigger(Event::DB_DESTROY_BYID, (string)$id);
         $this->collection->remove(array('_id' => $id));
     }
 
@@ -463,7 +466,7 @@ class Collection
     public final function drop()
     {
         $app = Application::$instance;
-        $app->events->trigger('db-collection-drop', $this->collection->getName(), 'event');
+        $app->events->trigger(Event::DB_DROP_COLLECTION, $this->collection->getName());
         $this->collection->drop();
     }
 
@@ -496,7 +499,7 @@ class Collection
 
             $clone      = $this;
             $clone->_id = $query['_id'];
-            $app->events->trigger('db-insert', $clone, 'any');
+            $app->events->trigger(Event::DB_INSERT, $clone);
 
             return $query['_id'];
         } else {
@@ -520,7 +523,7 @@ class Collection
             $where = array($key => $keyval);
             $this->collection->update($where, array('$set' => $query));
 
-            $app->events->trigger('db-update', $this, 'any');
+            $app->events->trigger(Event::DB_UPDATE, $this);
 
             return $this->_id;
         }
@@ -662,15 +665,17 @@ class Collection
      * @param   mixed   the file path, the binary data or the upload filename
      * @param   bool    is it a file path
      * @param   bool    is it an upload (needs to match with file to work (ex: true and true))
+     * @oaran   string  the optional information about file's mime type
      * @return  string  the file id
      * @access  public
      * @final
      *
      */
-    public final function addFile($file, $is_file=true, $is_upload=false)
+    public final function addFile($file, $is_file=true, $is_upload=false, $mime=null)
     {
         $query = array();
 
+        $query['mime'] = $mime;
         foreach ($this as $var => $value) {
             if ($var != 'connection' && $var != 'query' && $var != 'collection' && $var != 'isGridFS') {
                 $query[$var] = $value;
@@ -688,7 +693,7 @@ class Collection
         }
 
         $app = Application::$instance;
-        $app->events->trigger('db-grid-insert'. $id, 'event');
+        $app->events->trigger(Event::DB_GRID_INSERT, $id);
 
         return $id;
     }
@@ -748,9 +753,9 @@ class Collection
         }
 
         $app = Application::$instance;
-        $app->events->trigger('db-grid-destroy-id'. (string)$id, 'event');
+        $app->events->trigger(Event::DB_GRID_DESTROY_BYID, (string)$id);
 
-        $this->collection->delete($id);
+        $this->collection->remove(array('_id' => $id));
     }
 
     /**
@@ -765,7 +770,7 @@ class Collection
     public final function destroyFiles($just_one=true)
     {
         $app = Application::$instance;
-        $app->events->trigger('db-grid-destroy-query'. $this->query['where'], 'event');
+        $app->events->trigger(Event::DB_GRID_DESTROY_QUERY, $this->query['where']);
 
         $this->collection->remove($this->query['where'], array('justOne' => $just_one));
     }

@@ -27,6 +27,14 @@ class Application
 
     /**
      *
+     * Filters instane
+     * @var \RocketShip\Filter
+     *
+     */
+    public $filters;
+
+    /**
+     *
      * Session instance
      * @var \RocketShip\Session
      *
@@ -205,7 +213,9 @@ class Application
         self::$instance = $this;
 
         $this->autoload();
-        $this->events = new Event;
+
+        $this->events  = new Event;
+        $this->filters = new Filter;
 
         Configuration::loadAppConfigurations();
 
@@ -230,25 +240,50 @@ class Application
     
         /* Setting memory limit of the PHP process */
         ini_set('memory_limit', Configuration::get('configuration', 'performance.memory_limit'));
-        
+
+        /* Pre environment setup */
+        $this->events->trigger(Event::CORE_PRE_SETUP, null);
+
         /* Environment */
         $this->setupEnvironment();
 
         /* Debugging */
         $this->setupDebugging();
 
+        /* Pre routes */
+        $this->events->trigger(Event::CORE_PRE_ROUTES, null);
+
         /* Routing (load routes) */
         $this->router = new Routing;
         $this->router->loadAppRoutes();
 
+        /* Post routes, Pre Directives */
+        $this->events->trigger(Event::CORE_POST_ROUTES, null);
+        $this->events->trigger(Event::CORE_PRE_DIRECTIVES, null);
+
         /* Register directives */
         Directives::loadAll();
 
+        /* Post directives, Pre bundles */
+        $this->events->trigger(Event::CORE_POST_DIRECTIVES, null);
+        $this->events->trigger(Event::CORE_PRE_BUNDLES, null);
+
         /* Load bundles */
         $this->loadBundles();
+
+        /* Pre Helpers */
+        $this->events->trigger(Event::CORE_PRE_HELPERS, null);
                 
         /* Load helpers */
         $this->loadHelpers();
+
+        /* Post Helpers */
+        $this->events->trigger(Event::CORE_POST_HELPERS, null);
+
+        $this->upload = new Upload;
+
+        /* Pre session */
+        $this->events->trigger(Event::CORE_PRE_SESSION, null);
 
         /* Session management */
         $handler = new Session($this->config->development->session);
@@ -270,7 +305,19 @@ class Application
         $request       = new Request;
         $this->request = $request;
 
-        $this->events->trigger("post-bundles", null, 'event');
+        /* Post bundles */
+        $this->events->trigger(Event::CORE_POST_BUNDLES, null);
+
+        /* Handle possible /public/uploads/.... if driver is mongo */
+        if ($this->config->uploading->driver == 'mongodb') {
+            if (stristr($this->uri, '/public/uploads/files/')) {
+                $return = $this->handleStaticFile(basename($this->uri));
+
+                if ($return) {
+                    $this->quit();
+                }
+            }
+        }
 
         /* Find route */
         $this->route = $this->router->find($this->uri);
@@ -305,7 +352,7 @@ class Application
      */
     final public function run()
     {
-        $this->events->trigger('pre-controller', null, 'event');
+        $this->events->trigger(Event::CORE_PRE_CONTROLLER, null);
 
         $lang = $this->session->get('app_language');
         setlocale(LC_ALL, $this->config->localization->{$lang} . '.utf8');
@@ -318,7 +365,7 @@ class Application
                 /* Route is an API call, validate token and used verb */
                 $this->api->validateToken();
                 $this->api->validateVerb($this->route->verbs);
-                $this->events->trigger('api-authenticated', null, 'event');
+                $this->events->trigger(Event::CORE_API_AUTH, null);
                 $is_api = true;
             }
 
@@ -338,6 +385,8 @@ class Application
                         if ($instance->view->rendered == false && $is_api == false) {
                             call_user_func(array($instance->view, 'render'), $method);
                         }
+
+                        $this->events->trigger(Event::CORE_POST_CONTROLLER, $instance);
                     } else {
                         throw new \RuntimeException("Method '{$method}' in controller '{$name}' cannot be called, not found.'");
                     }
@@ -366,7 +415,7 @@ class Application
     public function quit()
     {
         Collection::disconnect();
-        $this->events->trigger('shutdown', null, 'event');
+        $this->events->trigger(Event::CORE_SHUTDOWN, null);
         exit();
     }
 
@@ -615,5 +664,46 @@ class Application
                 $this->helpers->{$name} = new $class;
             }
         }
+    }
+
+    /**
+     *
+     * Handle the serving of upload files
+     *
+     * @param   string  file id
+     * @return  bool    found, not found
+     * @access  private
+     *
+     */
+    private function handleStaticFile($id)
+    {
+        $file = $this->upload->getRaw($id);
+
+        if (empty($file)) {
+            /* Lower level upload id? */
+            $upload = new Collection('uploads', true);
+            $file   = $upload->getFileById($id);
+        }
+
+        if (!empty($file)) {
+            header('Content-Type: ' . $file->file['mime']);
+
+            if ($this->config->development->anticaching == 'yes') {
+                header("Cache-Control: no-cache, must-revalidate");
+                header("Expires: Sat, 26 Jul 1997 05:00:00 GMT");
+            }
+
+            header('Pragma: public');
+            header('Content-Length: ' . $file->getSize());
+            $stream = $file->getResource();
+
+            while (!feof($stream)) {
+                echo fread($stream, 8192);
+            }
+
+            return true;
+        }
+
+        return false;
     }
 }

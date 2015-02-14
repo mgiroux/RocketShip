@@ -4,14 +4,17 @@ namespace RocketShip\Upload;
 
 use OpenCloud\Base\Exceptions\HttpError;
 use OpenCloud\Common\Exceptions\IOError;
-use RocketShip\Configuration;
+use RocketShip\Application;
+use RocketShip\UploadDriver;
 use RocketShip\Utils\IO;
 
-class Rackspace extends \RocketShip\Utils\UploadDriver
+class Rackspace extends UploadDriver
 {
     static private $connection;
     static private $object_store;
     static private $container;
+
+    private $app;
 
     /**
      *
@@ -25,7 +28,8 @@ class Rackspace extends \RocketShip\Utils\UploadDriver
     public function __construct()
     {
         if (empty(self::$connection)) {
-            $config = Configuration::get('configuration', 'uploading');
+            $this->app = Application::$instance;
+            $config    = $this->app->config->uploading;
 
             self::$connection = new \OpenCloud\Rackspace(
                 'https://identity.api.rackspacecloud.com/v2.0',
@@ -88,8 +92,8 @@ class Rackspace extends \RocketShip\Utils\UploadDriver
         $item->size->clean = IO::getSize($fileobj->bytes);
         $item->lastmod     = strtotime($fileobj ->last_modified);
         $item->url         = new \stdClass;
-        $item->url->http   = $fileobj ->publicURL();
-        $item->url->https  = $fileobj ->publicURL('SSL');
+        $item->url->http   = $fileobj->publicURL();
+        $item->url->https  = $fileobj->publicURL('SSL');
 
         return $item;
     }

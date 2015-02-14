@@ -4,8 +4,8 @@
 languages:
     default: fr
     available:
-        fr: francais
-        en: english
+        fr: Français
+        en: English
 
 localization:
     fr: fr_CA
@@ -55,9 +55,11 @@ emailing:
 
 # Uploading  (Supported CDNs Rackspace, Amazon S3)
 uploading:
-    driver: mongodb          # local, rackspace, amazon
+    driver: mongodb          # local, mongodb, rackspace, amazon
     authentication:
         user:   ""           # Required for Rackspace
         key:    ""           # Required for Amazon and Rackspace
         secret: ""           # Required for Amazon and Rackspace (tenant name for rackspace)
         bucket: ""           # Required for Amazon and Rackspace  (bucket/container)
+
+# For the mongodb upload driver, the public path to files is : /public/uploads/files/file-hash-here

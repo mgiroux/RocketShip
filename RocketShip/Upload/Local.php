@@ -3,8 +3,9 @@
 namespace RocketShip\Upload;
 
 use RocketShip\Configuration;
+use RocketShip\UploadDriver;
 
-class Local extends \RocketShip\Utils\UploadDriver
+class Local extends UploadDriver
 {
     private $path;
 

@@ -6,17 +6,22 @@ use Aws\S3\S3Client;
 use Aws\S3\Enum\CannedAcl;
 use Aws\S3\Exception\S3Exception;
 use Guzzle\Http\EntityBody;
+use RocketShip\Application;
 use RocketShip\Configuration;
+use RocketShip\UploadDriver;
 
-class Amazon extends \RocketShip\Utils\UploadDriver
+class Amazon extends UploadDriver
 {
     static private $client;
     static private $bucket;
 
+    private $app;
+
     public function __construct()
     {
         if (empty(self::$client)) {
-            $config           = Configuration::get('configuration', 'uploading');
+            $this->app        = Application::$instance;
+            $config           = $this->app->config->uploading;
             self::$bucket     = $config->authentication->bucket;
             self::$client     = S3Client::factory(array(
                 'key'    => $config->authentication->key,

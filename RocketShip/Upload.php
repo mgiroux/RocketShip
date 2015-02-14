@@ -12,6 +12,8 @@ class Upload extends Base
 
     public function __construct()
     {
+        parent::__construct();
+
         $config = $this->app->config->uploading;
         $driver = ucfirst(strtolower($config->driver));
 
@@ -59,8 +61,12 @@ class Upload extends Base
 
             $file   = $this->driver->moveObject($file['tmp_name'], $type, $filename);
             $return = $this->writeFilesystem($type, $file);
+
+            $this->app->events(Event::UPLOAD_DONE, $return);
+
             return $return;
         } else {
+            $this->app->events(Event::UPLOAD_FAILED, $file);
             return null;
         }
     }
@@ -114,8 +120,10 @@ class Upload extends Base
      */
     public function getCache($hash)
     {
-        if (!empty(self::$cache[$hash])) {
-            return self::$cache[$hash];
+        $cache = $this->searchCacheFiles($hash);
+
+        if (!empty($cache)) {
+            return $cache->path;
         } else {
             return null;
         }
@@ -132,7 +140,8 @@ class Upload extends Base
      */
     public function isCached($hash)
     {
-        if (!empty(self::$cache[$hash])) {
+        $cache = $this->searchCacheFiles($hash);
+        if (!empty($cache)) {
             return true;
         } else {
             return false;
@@ -155,6 +164,7 @@ class Upload extends Base
             foreach ($hash as $hash_string) {
                 $names[] = $this->searchFileSystem($hash_string, 'name');
                 $this->deleteFromFilesystem($hash_string);
+                $this->app->events(Event::UPLOAD_DELETED, $hash_string);
             }
 
             $this->driver->deleteObject('files', $names);
@@ -162,6 +172,7 @@ class Upload extends Base
             $name = $this->searchFileSystem($hash, 'name');
             $this->driver->deleteObject('files', array($name));
             $this->deleteFromFilesystem($hash);
+            $this->app->events(Event::UPLOAD_DELETED, $hash);
         }
     }
 
@@ -183,6 +194,7 @@ class Upload extends Base
 
                 $this->deleteFromFilesystem($hash_string);
                 $this->deleteFromCache($hash_string);
+                $this->app->events(Event::UPLOAD_DELETED, $hash_string);
             }
 
             $this->driver->deleteObject('images', $names);
@@ -190,12 +202,12 @@ class Upload extends Base
             $name = $this->searchFileSystem($hash, 'name');
             $this->driver->deleteObject('images', $name);
             $this->deleteFromFilesystem($hash);
+            $this->app->events(Event::UPLOAD_DELETED, $hash);
 
             $cache_files = $this->searchCacheFiles($hash);
             foreach ($cache_files as $the_hash => $file) {
                 $this->deleteFromCache($the_hash);
                 $name = basename($file);
-                echo $name . ' -- ';
 
                 $this->driver->deleteObject('cache', $name);
             }
@@ -214,7 +226,28 @@ class Upload extends Base
      */
     public function get($hash, $type='path')
     {
-        return $this->searchFileSystem($hash, $type);
+        $file = $this->searchFileSystem($hash, $type);
+        $this->app->events(Event::UPLOAD_GET, $file);
+        return $file;
+    }
+
+    /**
+     *
+     * Get the raw object for the file
+     *
+     * @param   string  the hash of the file
+     * @reutrn  mixed   depends on the driver
+     * @access  public
+     *
+     */
+    public function getRaw($hash)
+    {
+        $path = $this->get($hash);
+        $name = $this->get($hash, 'name');
+
+        $file = $this->driver->getObject($path, $name);
+        $this->app->events(Event::UPLOAD_GET, $file);
+        return $file;
     }
 
     /**
@@ -268,7 +301,7 @@ class Upload extends Base
         if (empty($found)) {
             $model       = new Collection('uploaded_files');
             $model->hash = $hash;
-            $model->path = $filepath;
+            $model->path = (string)$filepath;
             $model->name = $name;
             $model->save();
 
@@ -296,7 +329,8 @@ class Upload extends Base
         if (empty($found)) {
             $model       = new Collection('uploaded_caches');
             $model->hash = $hash;
-            $model->path = $filepath;
+            $model->path = (string)$filepath;
+            $model->save();
 
             return $hash;
         } else {
@@ -362,14 +396,14 @@ class Upload extends Base
      * Search for files that match the hash
      *
      * @param   string  hash
-     * @return  array   list of cache hits
+     * @return  array   cache hit
      * @access  private
      *
      */
     private function searchCacheFiles($hash)
     {
         $model = new Collection('uploaded_caches');
-        $items = $model->where(array('hash' => new \MongoRegex('/' . $hash . '/')))->findAll();
+        $items = $model->where(array('hash' => new \MongoRegex('/' . $hash . '/')))->find();
         return $items;
     }
 }

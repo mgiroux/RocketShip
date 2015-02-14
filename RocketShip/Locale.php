@@ -53,7 +53,7 @@ class Locale extends Base
             self::loadFile($file);
         }
 
-        Application::$instance->events->trigger('post-locale', null, 'event');
+        Application::$instance->events->trigger('post-locale', null);
     }
 
     /**

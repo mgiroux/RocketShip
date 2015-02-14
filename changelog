@@ -1,5 +1,15 @@
 RocketShip Changelog
 
+02-13-2015
+
+    - Added Mongo driver for Upload manager
+    - Added Mongo file serving (for files uploaded using the upload manager)
+    - Added support for Mongo upload files in Image class
+    - Added distinct Filter class
+    - Added new events
+    - System events are now constants within the Event class
+    - Bug fixes
+
 01-03-2015
 
     - Added bundleimage in HTML helper

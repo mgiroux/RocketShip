@@ -306,8 +306,8 @@ class View extends Base
         }
 
         if (!empty($html)) {
-            $this->app->events->trigger('pre-render', $this, 'event');
-            echo $this->app->events->trigger('render', $html, 'filter');
+            $this->app->events->trigger('pre-render', $this);
+            echo $this->app->filters->trigger('render', $html);
         }
     }
 
@@ -337,7 +337,7 @@ class View extends Base
                 ob_start();
                 include $this->path . '/partials/' . $name;
                 $html = ob_get_clean();
-                $html = $this->app->events->trigger('render', $html, 'filter');
+                $html = $this->app->filters->trigger('render', $html);
                 echo Directives::parse($this, '', $html);
             }
         } else {
@@ -345,7 +345,7 @@ class View extends Base
                 ob_start();
                 include $this->path . '/partials/' . $name . $addition . '.html';
                 $html = ob_get_clean();
-                $html = $this->app->events->trigger('render', $html, 'filter');
+                $html = $this->app->filters->trigger('render', $html);
                 echo Directives::parse($this, '', $html);
             }
         }
@@ -369,7 +369,7 @@ class View extends Base
             include $file;
 
             $html = ob_get_clean();
-            $html = $this->app->events->trigger('render', $html, 'filter');
+            $html = $this->app->filters->trigger('render', $html);
             echo Directives::parse($this, '', $html);
         }
     }
@@ -394,7 +394,7 @@ class View extends Base
                 ob_start();
                 $this->partial($name, $item);
                 $html = ob_get_clean();
-                $html = $this->app->events->trigger('render', $html, 'filter');
+                $html = $this->app->filters->trigger('render', $html);
             }
         }
     }

@@ -1,6 +1,6 @@
 <?php
 
-use RocketShip\Database;
+use RocketShip\Database\Model;
 
 class [name] extends Model
 {

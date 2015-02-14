@@ -79,7 +79,7 @@ class Event extends Base
                         if (is_callable($event->method)) {
                             $out[] = call_user_func($event->method, $data);
                         } else {
-                            $out[] = call_user_func(array($event->context, $event->method), $data);
+                            $out[] = call_user_func([$event->context, $event->method], $data);
                         }
                     } else {
                         $class = new $event->context;
@@ -87,7 +87,7 @@ class Event extends Base
                         if (is_callable($event->method)) {
                             $out[] = call_user_func($event->method, $data);
                         } else {
-                            $out[] = call_user_func(array($class, $event->method), $data);
+                            $out[] = call_user_func([$class, $event->method], $data);
                         }
                     }
                 } else {
@@ -120,7 +120,7 @@ class Event extends Base
         }
 
         if (empty(self::$registered_events->{$name})) {
-            self::$registered_events->{$name} = array();
+            self::$registered_events->{$name} = [];
         }
 
         $event_object          = new \stdClass;

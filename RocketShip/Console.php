@@ -28,7 +28,7 @@ class Console
         }
 
         $this->_arguments = new Arguments(compact('strict'));
-        $this->_arguments->addFlag(array('help', 'h'), 'Show this help screen');
+        $this->_arguments->addFlag(['help', 'h'], 'Show this help screen');
     }
 
     /**

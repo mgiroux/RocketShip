@@ -288,12 +288,12 @@ class Application
         /* Session management */
         $handler = new Session($this->config->development->session);
         session_set_save_handler(
-            array($handler, 'open'),
-            array($handler, 'close'),
-            array($handler, 'read'),
-            array($handler, 'write'),
-            array($handler, 'destroy'),
-            array($handler, 'garbageCollect')
+            [$handler, 'open'],
+            [$handler, 'close'],
+            [$handler, 'read'],
+            [$handler, 'write'],
+            [$handler, 'destroy'],
+            [$handler, 'garbageCollect']
         );
 
         /* Prevent problems since we are using OO for session management */
@@ -380,10 +380,10 @@ class Application
                     $instance = new $class;
 
                     if (method_exists($instance, $method)) {
-                        call_user_func_array(array($instance, $method), $this->route->arguments);
+                        call_user_func_array([$instance, $method], $this->route->arguments);
 
                         if ($instance->view->rendered == false && $is_api == false) {
-                            call_user_func(array($instance->view, 'render'), $method);
+                            call_user_func([$instance->view, 'render'], $method);
                         }
 
                         $this->events->trigger(Event::CORE_POST_CONTROLLER, $instance);
@@ -535,10 +535,10 @@ class Application
 
             $errorPage->setPageTitle('RocketShip Exception');
             $errorPage->setEditor('sublime');
-            $errorPage->addDataTable('Platform', array(
+            $errorPage->addDataTable('Platform', [
                 'RocketShip version' => self::VERSION,
-                'PHP version'     => phpversion() . '-' . PHP_OS
-            ));
+                'PHP version'        => phpversion() . '-' . PHP_OS
+            ]);
 
             $jsonHandler->onlyForAjaxRequests(true);
             $whoops->pushHandler($errorPage);
@@ -565,7 +565,7 @@ class Application
         $directory = new \RecursiveDirectoryIterator($this->root_path . '/bundles/');
         $iterator  = new \RecursiveIteratorIterator($directory);
 
-        $files = array();
+        $files = [];
         foreach ($iterator as $info) {
             if (stristr($info->getPathname(), 'bundle.php')) {
                 $files[] = $info->getPathname();

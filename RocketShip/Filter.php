@@ -47,7 +47,7 @@ class Filter extends Base
                         if (is_callable($filter->method)) {
                             $data = call_user_func($filter->method, $data);
                         } else {
-                            $data = call_user_func(array($filter->context, $filter->method), $data);
+                            $data = call_user_func([$filter->context, $filter->method], $data);
                         }
                     } else {
                         $class = new $filter->context;
@@ -55,7 +55,7 @@ class Filter extends Base
                         if (is_callable($filter->method)) {
                             $data = call_user_func($filter->method, $data);
                         } else {
-                            $data = call_user_func(array($class, $filter->method), $data);
+                            $data = call_user_func([$class, $filter->method], $data);
                         }
                     }
                 } else {
@@ -88,7 +88,7 @@ class Filter extends Base
         }
 
         if (empty(self::$registered_filters->{$name})) {
-            self::$registered_filters->{$name} = array();
+            self::$registered_filters->{$name} = [];
         }
 
         $filter_object          = new \stdClass;

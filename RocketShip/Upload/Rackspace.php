@@ -33,11 +33,11 @@ class Rackspace extends UploadDriver
 
             self::$connection = new \OpenCloud\Rackspace(
                 'https://identity.api.rackspacecloud.com/v2.0',
-                array(
+                [
                     'username'   => $config->authentication->user,
                     'apiKey'     => $config->authentication->key,
                     'tenantName' => $config->authentication->secret
-                )
+                ]
             );
 
             self::$object_store = self::$connection->ObjectStore('cloudFiles', 'DFW', 'publicURL');
@@ -65,7 +65,7 @@ class Rackspace extends UploadDriver
         $type    = finfo_file($finfo, $file);
         finfo_close($finfo);
 
-        $fileobj->Create(array('name' => $directory . '/' . $name, 'content_type' => $type), $file);
+        $fileobj->Create(['name' => $directory . '/' . $name, 'content_type' => $type], $file);
         return $this->getObjectURL($directory, $name);
     }
 

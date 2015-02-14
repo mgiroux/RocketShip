@@ -33,14 +33,14 @@ class Api extends Base
 
         $this->mongo  = $mongo->{$config->database};
         $storage      = new Mongo($this->mongo);
-        $this->server = new Server($storage, array('allow_implicit' => true));
+        $this->server = new Server($storage, ['allow_implicit' => true]);
 
         $this->server->addGrantType(new ClientCredentials($storage));
 
         /* Possible scopes */
         $default_scope    = 'default';
         $available_scopes = Configuration::get('definition', 'api.scopes');
-        $memory           = new Memory(array('default_scope' => $default_scope, 'supported_scopes' => $available_scopes));
+        $memory           = new Memory(['default_scope' => $default_scope, 'supported_scopes' => $available_scopes]);
         $scope_util       = new Scope($memory);
         $this->server->setScopeUtil($scope_util);
     }
@@ -91,7 +91,7 @@ class Api extends Base
         $verb = $_SERVER['REQUEST_METHOD'];
 
         if (count($allowed) == 1 && $allowed[0] == '*') {
-            $allowed = array('GET', 'POST', 'PUT', 'DELETE');
+            $allowed = ['GET', 'POST', 'PUT', 'DELETE'];
         }
 
         if (!in_array($verb, $allowed)) {
@@ -136,14 +136,14 @@ class Api extends Base
         $this->app->quit();
     }
 
-    public function createAccess($redirect_uri, $permissions=array('default'))
+    public function createAccess($redirect_uri, $permissions=['default'])
     {
         $account                = new \stdClass;
         $account->client_id     = uniqid();
         $account->client_secret = md5($account->client_id . $this->app->config->general->hash_salt);
         $account->redirect_uri  = $redirect_uri;
         $account->scope         = implode(',', $permissions);
-        $this->mongo->selectCollection('oauth_clients')->insert($account, array('w' => 1));
+        $this->mongo->selectCollection('oauth_clients')->insert($account, ['w' => 1]);
 
         $output         = new \stdClass;
         $output->key    = $account->client_id;

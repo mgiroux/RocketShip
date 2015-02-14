@@ -44,7 +44,7 @@ class Upload extends Base
                 if (stristr($extension, ',')) {
                     $extensions = explode(",", $extension);
                 } else {
-                    $extensions = array($extension);
+                    $extensions = [$extension];
                 }
 
                 $pos = strrpos($file['name'], '.');
@@ -170,7 +170,7 @@ class Upload extends Base
             $this->driver->deleteObject('files', $names);
         } else {
             $name = $this->searchFileSystem($hash, 'name');
-            $this->driver->deleteObject('files', array($name));
+            $this->driver->deleteObject('files', [$name]);
             $this->deleteFromFilesystem($hash);
             $this->app->events(Event::UPLOAD_DELETED, $hash);
         }
@@ -352,7 +352,7 @@ class Upload extends Base
     {
         $model = new Collection('uploaded_files');
 
-        $item = $model->where(array('hash' => $hash))->find();
+        $item = $model->where(['hash' => $hash])->find();
 
         if (!empty($item)) {
             if ($return_value == 'name') {
@@ -374,7 +374,7 @@ class Upload extends Base
     private function deleteFromFilesystem($hash)
     {
         $model = new Collection('uploaded_files');
-        $model->where(array('hash' => $hash))->destroy();
+        $model->where(['hash' => $hash])->destroy();
     }
 
     /**
@@ -388,7 +388,7 @@ class Upload extends Base
     private function deleteFromCache($hash)
     {
         $model = new Collection('uploaded_caches');
-        $model->where(array('hash' => $hash))->destroy();
+        $model->where(['hash' => $hash])->destroy();
     }
 
     /**
@@ -403,7 +403,7 @@ class Upload extends Base
     private function searchCacheFiles($hash)
     {
         $model = new Collection('uploaded_caches');
-        $items = $model->where(array('hash' => new \MongoRegex('/' . $hash . '/')))->find();
+        $items = $model->where(['hash' => new \MongoRegex('/' . $hash . '/')])->find();
         return $items;
     }
 }

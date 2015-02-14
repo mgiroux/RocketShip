@@ -43,7 +43,7 @@ class Image
                 if ($type == 'jpeg') { $type = 'jpg'; };
                 $this->type_hint = $type[1];
             } else {
-                $this->name      = str_replace(array('.jpeg', '.jpg', '.gif', '.png'), '', strtolower(basename($file)));
+                $this->name      = str_replace(['.jpeg', '.jpg', '.gif', '.png'], '', strtolower(basename($file)));
                 $this->type_hint = IO::getExtension($file);
             }
         }
@@ -614,7 +614,7 @@ class Image
 
         /* Save to temporary folder */
         $path   = dirname(dirname(__DIR__)) . '/app/tmp/';
-        $target = str_replace(array('.jpeg', '.jpg', 'gif', '.png'), '', $target) . '.' . $type;
+        $target = str_replace(['.jpeg', '.jpg', 'gif', '.png'], '', $target) . '.' . $type;
         $this->layers->save($path, $target, false, $color, $quality);
 
         /* Ask upload to move it */
@@ -672,7 +672,7 @@ class Image
 
         /* Save to temporary folder */
         $path   = dirname(dirname(__DIR__)) . '/app/tmp/';
-        $target = str_replace(array('.jpeg', '.jpg', 'gif', '.png'), '', $target) . '.' . $type;
+        $target = str_replace(['.jpeg', '.jpg', 'gif', '.png'], '', $target) . '.' . $type;
         $this->layers->save($path, $target, false, $color, $quality);
 
         return $path . $target;
@@ -743,7 +743,7 @@ class Image
      * @static
      *
      */
-    public static function tag($file, $width, $height=null, $options=array())
+    public static function tag($file, $width, $height=null, $options=[])
     {
         /* Hash given */
         $upload = new Upload;
@@ -850,9 +850,7 @@ class Image
      */
     public static function getImageSize($url)
     {
-        $headers = array(
-            "Range: bytes=0-32768"
-        );
+        $headers = ["Range: bytes=0-32768"];
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);

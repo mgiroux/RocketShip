@@ -23,10 +23,10 @@ class Amazon extends UploadDriver
             $this->app        = Application::$instance;
             $config           = $this->app->config->uploading;
             self::$bucket     = $config->authentication->bucket;
-            self::$client     = S3Client::factory(array(
+            self::$client     = S3Client::factory([
                 'key'    => $config->authentication->key,
                 'secret' => $config->authentication->secret
-            ));
+            ]);
         }
     }
 
@@ -47,12 +47,12 @@ class Amazon extends UploadDriver
     {
         $data = EntityBody::factory(fopen($file, 'r'));
 
-        self::$client->putObject(array(
+        self::$client->putObject([
             'Bucket' => self::$bucket,
             'Key'    => $directory . '/' . $name,
             'Body'   => EntityBody::factory(fopen($file, 'r')),
             'ACL'    => CannedAcl::PUBLIC_READ
-        ));
+        ]);
 
         return $this->getObjectURL($directory, $name);
     }
@@ -72,10 +72,10 @@ class Amazon extends UploadDriver
     public function getObject($directory, $name)
     {
         if (self::$client->doesObjectExist(self::$bucket, $directory . '/' . $name)) {
-            $object = self::$client->getObject(array(
+            $object = self::$client->getObject([
                 'Bucket' => self::$bucket,
                 'Key'    => $directory . '/' . $name
-            ));
+            ]);
 
             return $object;
         } else {
@@ -118,23 +118,23 @@ class Amazon extends UploadDriver
     public function deleteObject($directory, $name)
     {
         if (is_string($name)) {
-            self::$client->deleteObject(array(
+            self::$client->deleteObject([
                'Bucket' => self::$bucket,
                'Key'    => $directory. '/' . $name
-            ));
+            ]);
         } else {
             $files = [];
 
             foreach ($name as $item) {
-                $files[] = array(
+                $files[] = [
                     'Key' => $directory . '/' . $item
-                );
+                ];
             }
 
-            self::$client->deleteObjects(array(
+            self::$client->deleteObjects([
                 'Bucket'  => self::$bucket,
-                'Objects' => array($files)
-            ));
+                'Objects' => [$files]
+            ]);
         }
     }
 }

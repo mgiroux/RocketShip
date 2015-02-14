@@ -2,6 +2,8 @@
 
 namespace RocketShip\Session\Drivers;
 
+use RocketShip\Database\Collection;
+
 class Database
 {
     /* Model instance */
@@ -22,7 +24,7 @@ class Database
      */
     public final function open($savepath, $session_id)
     {
-        $this->model = new Session;
+        $this->model = new Collection('sessions');
         return true;
     }
     
@@ -57,9 +59,7 @@ class Database
     public final function read($id)
     {
         /* Unique key that help prevent session hijacking */ 
-        $query = new Query;
-        $query->where(array('id' => $id));
-        $session = $this->model->find($query);
+        $session = $this->model->where(['id' => $id])->find();
                 
         if (!empty($session)) {
             return json_decode(base64_decode($session->contents));
@@ -86,11 +86,11 @@ class Database
         /* Unique key that help prevent session hijacking */
         $data = base64_encode(json_encode($data));
 
-        $model              = new Session;
+        $model              = new Collection('sessions');
         $model->id          = $id;
         $model->contents    = $data;
         $model->modify_date = time();
-        $model->insert();
+        $model->save();
 
         return true;
     }
@@ -109,7 +109,7 @@ class Database
      */
     public final function destroy($id)
     {
-        $this->model->destroyBy(array('id' => $id));
+        $this->model->destroyById($id);
         return true;
     }
     
@@ -128,7 +128,8 @@ class Database
     public final function garbageCollect($lifetime)
     {
         $old = time() - $lifetime;
-        $this->model->destroyBy(array('modify_date' => array('&lte' => $old)));
+
+        $this->model->where(['modify_date' => ['&lte' => $old]])->destroy();
         return true;
     }
 }

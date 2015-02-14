@@ -30,7 +30,7 @@ abstract class HTTPResponse
     /**
      * HTTP Response code mapping
      */
-    private $response_codes = array(
+    private $response_codes = [
         200 => 'OK',
         201	=> 'Created',
         202	=> 'Accepted',
@@ -50,7 +50,7 @@ abstract class HTTPResponse
         405	=> 'Method Not Allowed',
         406	=> 'Not Acceptable',
         408	=> 'Request Time-out'
-    );
+    ];
 
     public $status;
     public $code;

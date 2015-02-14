@@ -4,9 +4,9 @@ namespace RocketShip;
 
 class Routing extends Base
 {
-    private static $routes          = array();
-    private static $route_arguments = array();
-    private static $patterns        = array();
+    private static $routes          = [];
+    private static $route_arguments = [];
+    private static $patterns        = [];
 
     /**
      *
@@ -124,7 +124,7 @@ class Routing extends Base
                         }
                     }
 
-                    $permalink->arguments = array();
+                    $permalink->arguments = [];
                     self::$current_path  = $permalink->path;
                     return $permalink;
                 }
@@ -138,8 +138,8 @@ class Routing extends Base
 
                 if ($is_wild) {
                     /* Replace easy-wildcards by regex params */
-                    $targets = array('(:num)', '(:any)', '(:param)');
-                    $replace = array('([0-9]+)', '([0-9a-zA-Z\.\-\_\/\:\=]+)', '([0-9a-zA-Z\.\-\_\:\=]+)');
+                    $targets = ['(:num)', '(:any)', '(:string)', '(:mongoid)'];
+                    $replace = ['([0-9]+)', '([0-9a-zA-Z\.\-\_\/\:\=]+)', '([a-zA-Z]+)', '([0-9a-fA-F]{24})'];
 
                     foreach ($permalink->uri as $lang => $the_uri) {
                         $pattern = '/(\\()((?:[a-zA-Z0-9]*))(\\))/';
@@ -186,7 +186,7 @@ class Routing extends Base
                                 }
                             }
 
-                            $permalink->arguments = array();
+                            $permalink->arguments = [];
                             if (!empty(self::$route_arguments)) {
                                 $permalink->arguments = self::$route_arguments;
                             }
@@ -217,7 +217,7 @@ class Routing extends Base
                         }
                     }
 
-                    $permalink->arguments = array();
+                    $permalink->arguments = [];
                     self::$current_path = $permalink->path;
                     return $permalink;
                 }
@@ -258,7 +258,7 @@ class Routing extends Base
                     self::$json_flag = true;
                 }
 
-                return array('language' => $lang);
+                return ['language' => $lang];
             }
         }
 
@@ -280,7 +280,7 @@ class Routing extends Base
         $pattern_regex = '/(\\()((?:[a-zA-Z0-9]*))(\\))/';
 
         foreach ($uri as $lang => $the_uri) {
-            if (stristr($the_uri, '(:any)') || stristr($the_uri, '(:num)') || stristr($the_uri, '(:param)')) {
+            if (stristr($the_uri, '(:any)') || stristr($the_uri, '(:num)') || stristr($the_uri, '(:string)' || stristr($the_uri, '(:mongoid)'))) {
                 return true;
             }
         }
@@ -310,7 +310,7 @@ class Routing extends Base
     public function to($route, $arguments=null)
     {
         if (!empty($arguments) && is_string($arguments)) {
-            $arguments = array($arguments);
+            $arguments = [$arguments];
         }
 
         foreach (self::$routes as $key => $permalink) {
@@ -350,7 +350,7 @@ class Routing extends Base
      */
     private function parseRoute($url, $arguments)
     {
-        $targets = array('(:num)', '(:any)', '(:param)');
+        $targets = ['(:num)', '(:any)', '(:string)', '(:mongoid)'];
         $pattern = '/(\\()((?:[a-zA-Z0-9]*))(\\))/';
 
         preg_match_all($pattern, $url, $matches);
@@ -361,7 +361,7 @@ class Routing extends Base
             }
         }
 
-        $url = str_replace($targets, array('%d', '%s', '%s'), $url);
+        $url = str_replace($targets, ['%d', '%s', '%s', '%s'], $url);
         return vsprintf($url, $arguments);
     }
 }

@@ -22,7 +22,7 @@ abstract class Directives
             $directive = strtolower(trim($match));
 
             if ($directive == 'view') {
-                $output = self::$registered_directives->view->execute($scope, $directive, array($view));
+                $output = self::$registered_directives->view->execute($scope, $directive, [$view]);
                 $out    = str_replace($matches[0][$num], $output, $layout);
                 break;
             }
@@ -69,7 +69,7 @@ abstract class Directives
                     }
                 }
             } else {
-                $args = array();
+                $args = [];
                 $directive = strtolower(trim($match));
             }
 

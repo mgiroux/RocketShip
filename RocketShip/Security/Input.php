@@ -4,7 +4,7 @@ namespace RocketShip\Security;
 
 use RocketShip\Base;
 
-$GLOBALS['_PUT'] = array();
+$GLOBALS['_PUT'] = [];
 
 class Input extends Base
 {
@@ -251,7 +251,7 @@ class Input extends Base
                     }
                 }
 
-                $string = str_replace(array("SELECT *", "WHERE", "ORDER BY", "LIMIT", "GROUP BY", "COUNT", "SELECT", "DELETE FROM", "UPDATE", "DROP", "ALTER"), "", $string);
+                $string = str_replace(["SELECT *", "WHERE", "ORDER BY", "LIMIT", "GROUP BY", "COUNT", "SELECT", "DELETE FROM", "UPDATE", "DROP", "ALTER"], "", $string);
                 return $string;
             } else {
                 return $string;

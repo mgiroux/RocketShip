@@ -270,7 +270,7 @@ class HTML extends Base
         }
 
         ob_start();
-        call_user_func_array(array($this, 'js'), $files);
+        call_user_func_array([$this, 'js'], $files);
         self::$injected_js .= ob_get_clean();
     }
 
@@ -290,7 +290,7 @@ class HTML extends Base
         }
 
         ob_start();
-        call_user_func_array(array($this, 'css'), $files);
+        call_user_func_array([$this, 'css'], $files);
         self::$injected_css .= ob_get_clean();
     }
 
@@ -312,7 +312,7 @@ class HTML extends Base
         ob_start();
         array_unshift($files, $bundle);
 
-        call_user_func_array(array($this, 'bundlejs'), $files);
+        call_user_func_array([$this, 'bundlejs'], $files);
         self::$injected_js .= ob_get_clean();
     }
 
@@ -334,7 +334,7 @@ class HTML extends Base
         ob_start();
         array_unshift($files, $bundle);
 
-        call_user_func_array(array($this, 'bundlecss'), $files);
+        call_user_func_array([$this, 'bundlecss'], $files);
         self::$injected_css .= ob_get_clean();
     }
 
@@ -357,7 +357,7 @@ class HTML extends Base
     public function formatDate($date, $hours=false, $lang='fr', $output=true, $showday=false, $showyear=true)
     {
         if ($lang == 'fr') {
-            $months = array(
+            $months = [
                 'null', "Janvier", "F&eacute;vrier",
                 "Mars", "Avril", "Mai",
                 "Juin", "Juillet", "Ao&ucirc;t",
@@ -369,9 +369,9 @@ class HTML extends Base
                 "07" => "Juillet", "08" => "Ao&ucirc;t",
                 "09" => "Septembre", "10" => "Octobre",
                 "11" => "Novembre", "12" => "D&eacute;cembre"
-            );
+            ];
 
-            $days = array(
+            $days = [
                 0 => 'Dimanche',
                 1 => 'Lundi',
                 2 => 'Mardi',
@@ -379,7 +379,7 @@ class HTML extends Base
                 4 => 'Jeudi',
                 5 => 'Vendredi',
                 6 => 'Samedi'
-            );
+            ];
 
             $month = $months[date("m", $date)];
             $day   = date("j", $date);

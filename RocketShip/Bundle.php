@@ -51,7 +51,7 @@ abstract class Bundle extends Base
         $bundle_model = new Collection('bundles');
         $bundle_class = get_class($this);
 
-        if ($bundle_model->count(array('class_name' => $bundle_class)) == 0) {
+        if ($bundle_model->count(['class_name' => $bundle_class]) == 0) {
             $this->install();
 
             $bundle_model->class_name = $bundle_class;

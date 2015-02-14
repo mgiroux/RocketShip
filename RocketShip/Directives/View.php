@@ -10,7 +10,7 @@ class View extends Directives
 
     public function register()
     {
-        return array('view', 'inject', 'include');
+        return ['view', 'inject', 'include'];
     }
 
     public function execute($scope, $directive, $arguments)

@@ -4,8 +4,8 @@ namespace RocketShip\Utils;
 
 class Inflector
 {
-    protected static $_plural = array(
-        'rules' => array(
+    protected static $_plural = [
+        'rules' => [
              '/(s)tatus$/i' => '\1\2tatuses',
              '/(quiz)$/i' => '\1zes',
              '/^(ox)$/i' => '\1\2en',
@@ -28,11 +28,11 @@ class Inflector
              '/s$/' => 's',
              '/^$/' => '',
              '/$/' => 's',
-        ),
-        'uninflected' => array(
+        ],
+        'uninflected' => [
              '.*[nrlm]ese', '.*deer', '.*fish', '.*measles', '.*ois', '.*pox', '.*sheep', 'people'
-        ),
-        'irregular' => array(
+        ],
+        'irregular' => [
              'atlas' => 'atlases',
              'beef' => 'beefs',
              'brother' => 'brothers',
@@ -66,11 +66,11 @@ class Inflector
              'turf' => 'turfs',
              'meta' => 'metas',
              'media' => 'medias'
-        )
-    );
+        ]
+    ];
 
-    protected static $_singular = array(
-       'rules' => array(
+    protected static $_singular = [
+       'rules' => [
              '/(s)tatuses$/i' => '\1\2tatus',
              '/^(.*)(menu)s$/i' => '\1\2',
              '/(quiz)zes$/i' => '\\1',
@@ -104,22 +104,22 @@ class Inflector
              '/eaus$/' => 'eau',
              '/^(.*us)$/' => '\\1',
              '/s$/i' => ''
-         ),
-         'uninflected' => array(
+         ],
+         'uninflected' => [
              '.*[nrlm]ese', '.*deer', '.*fish', '.*measles', '.*ois', '.*pox', '.*sheep', '.*ss'
-         ),
-         'irregular' => array(
+         ],
+         'irregular' => [
              'foes' => 'foe',
              'waves' => 'wave',
              'curves' => 'curve',
-             'metas'  => 'meta',
-         )
-    );
+             'metas'  => 'meta'
+         ]
+    ];
 
     protected static $_cache = [];
     protected static $_initialState = [];
 
-    protected static $_uninflected = array(
+    protected static $_uninflected = [
          'Amoyese', 'bison', 'Borghese', 'bream', 'breeches', 'britches', 'buffalo', 'cantus',
          'carp', 'chassis', 'clippers', 'cod', 'coitus', 'Congoese', 'contretemps', 'corps',
          'debris', 'diabetes', 'djinn', 'eland', 'elk', 'equipment', 'Faroese', 'flounder',
@@ -132,9 +132,9 @@ class Inflector
          'sea[- ]bass', 'series', 'Shavese', 'shears', 'siemens', 'species', 'swine', 'testes',
          'trousers', 'trout', 'tuna', 'Vermontese', 'Wenchowese', 'whiting', 'wildebeest',
          'Yengeese'
-    );
+    ];
 
-    protected static $_transliteration = array(
+    protected static $_transliteration = [
         '/ä|æ|ǽ/' => 'ae',
          '/ö|œ/' => 'oe',
          '/ü/' => 'ue',
@@ -185,7 +185,7 @@ class Inflector
          '/ĳ/' => 'ij',
          '/Œ/' => 'OE',
          '/ƒ/' => 'f'
-    );
+    ];
 
     /**
      *

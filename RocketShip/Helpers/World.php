@@ -18,7 +18,7 @@ class World extends Base
      */
     public function getAmericanStates($locale='fr')
     {
-        $list['en'] = array(
+        $list['en'] = [
             'Alabama', 'Alaska', 'Arizona', 'Arkansas',
             'California', 'Colorado', 'Connecticut', 'Delaware',
             'Washington D.C.', 'Florida', 'Georgia', 'Hawaii',
@@ -33,9 +33,9 @@ class World extends Base
             'Texas', 'Utah', 'Vermont', 'Virginia',
             'Washington', 'West Virginia', 'Wisconsin', 'Wyoming',
             'Puerto Rico', 'Guam'
-        );
+        ];
 
-        $list['fr'] = array(
+        $list['fr'] = [
             'Alabama', 'Alaska', 'Arizona', 'Arkansas',
             'Californie', 'Colorado', 'Connecticut', 'Delaware',
             'Washington D.C.', 'Floride', 'Georgie', 'Hawaii',
@@ -50,9 +50,9 @@ class World extends Base
             'Utah', 'Vermont', 'Virginie', 'Washington',
             'Virginie de l\'Ouest', 'Wisconsin', 'Wyoming',
             'Puerto Rico', 'Guam'
-        );
+        ];
 
-        $codes = array(
+        $codes = [
             'AL', 'AK', 'AZ', 'AR',
             'CA', 'CO', 'CT', 'DE',
             'DC', 'FL', 'GA', 'HI',
@@ -67,7 +67,7 @@ class World extends Base
             'UT', 'VA', 'WA', 'WV',
             'WV', 'WI', 'WY', 'PR',
             'GU'
-        );
+        ];
 
         return array_combine($codes, $list[$locale]);
     }
@@ -113,29 +113,29 @@ class World extends Base
      */
     public function getCanadianProvinces($locale='fr')
     {
-        $list['en'] = array(
+        $list['en'] = [
             'Ontario', 'Quebec', 'Nova Scotia',
             'New Brunswick', 'Manitoba', 'British Columbia',
             'Prince Edward Island', 'Saskatchewan', 'Alberta',
             'Newfoundland and Labrador', 'Northwest Territories',
             'Yukon', 'Nunavut'
-        );
+        ];
 
-        $list['fr'] = array(
+        $list['fr'] = [
             'Ontario', 'Québec', 'Nouvelle-Écosse',
             'Nouveau-Brunswick', 'Manitoba', 'Colombie Britannique',
             'l\'île du Prince-Édouard', 'Saskatchewan', 'Alberta',
             'Terre-Neuve et Labrador','Territoires du Nord-Ouest',
             'Yukon', 'Nunavut'
-        );
+        ];
 
-        $codes = array(
+        $codes = [
             'ON', 'QC', 'NS',
             'NB', 'MB', 'BC',
             'PE', 'SK', 'AB',
             'NL', 'NT', 'YT',
             'NU'
-        );
+        ];
 
         return array_combine($codes, $list[$locale]);
     }
@@ -237,7 +237,7 @@ class World extends Base
      */
     public function getCountries($locale='fr')
     {
-        $countries['en'] = array(
+        $countries['en'] = [
             'CA' => 'Canada', 'US' => 'United States of America', 'AF' => 'Afghanistan',
             'AL' => 'Albania', 'DZ' => 'Algeria', 'AS' => 'American Samoa',
             'AD' => 'Andorra', 'AO' => 'Angola', 'AI' => 'Anguilla',
@@ -320,9 +320,9 @@ class World extends Base
             'VB' => 'Virgin Islands (Brit)', 'WK' => 'Wake Island', 'WF' => 'Wallis &amp; Futana Is',
             'YE' => 'Yemen', 'ZR' => 'Zaire', 'ZM' => 'Zambia',
             'ZW' => 'Zimbabwe',
-        );
+        ];
 
-        $countries['fr'] = array(
+        $countries['fr'] = [
             'CA' => 'Canada', 'US' => 'États-Unis', 'AF' => 'Afghanistan',
             'ZA' => 'Afrique du Sud', 'AL' => 'Albanie', 'DZ' => 'Algérie',
             'DE' => 'Allemagne', 'AD' => 'Andorre', 'AO' => 'Angola',
@@ -402,7 +402,7 @@ class World extends Base
             'VA' => 'Vatican, cité du', 'VN' => 'Vietnam', 'VE' => 'Vénézuela',
             'WF' => 'Wallis et Futuna', 'YU' => 'Yougoslavie', 'YE' => 'Yémen',
             'ZM' => 'Zambie', 'ZW' => 'Zimbabwé',
-        );
+        ];
 
         return $countries[$locale];
     }

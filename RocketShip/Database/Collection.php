@@ -13,7 +13,7 @@ class Collection
     private static $connection;
     private $collection;
     private $isGridFS = false;
-    private $query = array('select' => array(), 'where' => array(), 'order' => array(), 'limit' => '', 'offset' => '', 'paginate' => '');
+    private $query    = ['select' => [], 'where' => [], 'order' => [], 'limit' => '', 'offset' => '', 'paginate' => ''];
 
     /**
      *
@@ -164,9 +164,9 @@ class Collection
         if (is_string($order)) {
             list($field, $sort) = explode(" ", $order);
             if (strtoupper($sort) == 'ASC') {
-                $this->query['order'] = array($field => 1);
+                $this->query['order'] = [$field => 1];
             } elseif (strtoupper($sort) == 'DESC') {
-                $this->query['order'] = array($field => -1);
+                $this->query['order'] = [$field => -1];
             }
         } else {
             $this->query['order'] = $order;
@@ -295,7 +295,7 @@ class Collection
                 $out->pagination = $pagination;
                 return $out;
             } else {
-                return array();
+                return [];
             }
         } else {
             $class = get_class($this);
@@ -364,7 +364,7 @@ class Collection
      */
     public final function findById($id)
     {
-        return $this->where(array('_id' => new \MongoId($id)))->find();
+        return $this->where(['_id' => new \MongoId($id)])->find();
     }
 
     /**
@@ -383,7 +383,7 @@ class Collection
         $class    = get_called_class();
         $instance = new $class;
 
-        return $instance->where(array('_id' => new \MongoId($id)))->find();
+        return $instance->where(['_id' => new \MongoId($id)])->find();
     }
 
     /**
@@ -428,7 +428,7 @@ class Collection
     public final function destroy($all=false)
     {
         $app     = Application::$instance;
-        $options = ($all == false) ? array('justOne' => true) : array();
+        $options = ($all == false) ? ['justOne' => true] : [];
 
         $app->events->trigger(Event::DB_DESTROY_QUERY, $this->query['where']);
         $this->collection->remove($this->query['where'], $options);
@@ -452,7 +452,7 @@ class Collection
         }
 
         $app->events->trigger(Event::DB_DESTROY_BYID, (string)$id);
-        $this->collection->remove(array('_id' => $id));
+        $this->collection->remove(['_id' => $id]);
     }
 
     /**
@@ -520,8 +520,8 @@ class Collection
                 }
             }
 
-            $where = array($key => $keyval);
-            $this->collection->update($where, array('$set' => $query));
+            $where = [$key => $keyval];
+            $this->collection->update($where, ['$set' => $query]);
 
             $app->events->trigger(Event::DB_UPDATE, $this);
 
@@ -541,9 +541,9 @@ class Collection
      * @final
      *
      */
-    public static final function createIndex($field, $sorting=-1, $options=array())
+    public static final function createIndex($field, $sorting=-1, $options=[])
     {
-        self::getCollectionInstance(get_called_class())->createIndex(array($field => $sorting), $options);
+        self::getCollectionInstance(get_called_class())->createIndex([$field => $sorting], $options);
     }
 
     /**
@@ -557,7 +557,7 @@ class Collection
      * @final
      *
      */
-    public static final function createCompoundIndex($list, $options=array())
+    public static final function createCompoundIndex($list, $options=[])
     {
         self::getCollectionInstance(get_called_class())->createIndex($list, $options);
     }
@@ -609,7 +609,7 @@ class Collection
         }
 
         $collection = self::getCollectionInstance(get_called_class());
-        $document   = $collection->findOne(array('_id' => $id));
+        $document   = $collection->findOne(['_id' => $id]);
         return $collection->createDBRef($document);
     }
 
@@ -673,7 +673,7 @@ class Collection
      */
     public final function addFile($file, $is_file=true, $is_upload=false, $mime=null)
     {
-        $query = array();
+        $query = [];
 
         $query['mime'] = $mime;
         foreach ($this as $var => $value) {
@@ -709,7 +709,7 @@ class Collection
      */
     public final function getFile()
     {
-        $result = $this->collection->findOne($this->query['where'], array());
+        $result = $this->collection->findOne($this->query['where'], []);
 
         if (!empty($result)) {
             return $result;
@@ -734,7 +734,7 @@ class Collection
             $id = new \MongoId($id);
         }
 
-        return $this->where(array('_id' => $id))->getFile();
+        return $this->where(['_id' => $id])->getFile();
     }
 
     /**
@@ -755,7 +755,7 @@ class Collection
         $app = Application::$instance;
         $app->events->trigger(Event::DB_GRID_DESTROY_BYID, (string)$id);
 
-        $this->collection->remove(array('_id' => $id));
+        $this->collection->remove(['_id' => $id]);
     }
 
     /**
@@ -772,7 +772,7 @@ class Collection
         $app = Application::$instance;
         $app->events->trigger(Event::DB_GRID_DESTROY_QUERY, $this->query['where']);
 
-        $this->collection->remove($this->query['where'], array('justOne' => $just_one));
+        $this->collection->remove($this->query['where'], ['justOne' => $just_one]);
     }
 
     /**

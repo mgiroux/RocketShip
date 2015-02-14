@@ -209,11 +209,11 @@ class Locale extends Base
      * @access   public
      *
      */
-    public function t($string, $variables=array())
+    public function t($string, $variables=[])
     {
         if (!empty($variables)) {
             if (is_string($variables)) {
-                $variables = array($variables);
+                $variables = [$variables];
             }
 
             echo vsprintf(self::getString($string), $variables);
@@ -234,11 +234,11 @@ class Locale extends Base
      * @access   public
      *
      */
-    public function get($string, $variables=array())
+    public function get($string, $variables=[])
     {
         if (!empty($variables)) {
             if (is_string($variables)) {
-                $variables = array($variables);
+                $variables = [$variables];
             }
 
             return vsprintf(self::getString($string), $variables);
@@ -259,11 +259,11 @@ class Locale extends Base
      * @access   public
      *
      */
-    public function find($string, $variables=array())
+    public function find($string, $variables=[])
     {
         if (!empty($variables)) {
             if (is_string($variables)) {
-                $variables = array($variables);
+                $variables = [$variables];
             }
 
             return vsprintf(self::findString($string), $variables);

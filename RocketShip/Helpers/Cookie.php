@@ -26,7 +26,7 @@ class Cookie extends Base
         $this->domain     = $domain;
         $this->secure     = $secure;
         $this->httpOnly   = $httpOnly;
-        $this->handler    = array();
+        $this->handler    = [];
 
         self::$instance = $this;
     }

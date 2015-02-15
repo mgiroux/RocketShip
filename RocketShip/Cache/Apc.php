@@ -2,13 +2,15 @@
 
 namespace RocketShip\Cache;
 
-class Apc
+use RocketShip\CacheAdapter;
+
+class Apc implements CacheAdapter
 {
     private $caching;
 
+    public final function connect(){}
+
     /**
-     *
-     * set
      *
      * Set a variable in the APC server
      *
@@ -22,7 +24,7 @@ class Apc
     public final function set($key, $value, $expire=CACHE_TEN)
     { 
         if ($this->caching == 'yes') {
-            if ($this->apc_installed()) {
+            if ($this->APCInstalled()) {
                 if (apc_exists($key)) {
                     apc_delete($key);
                     apc_store($key, $value, $expire);
@@ -35,8 +37,6 @@ class Apc
 
     /**
      *
-     * delete
-     *
      * Delete given element from the cache
      *
      * @param   string    key
@@ -47,15 +47,13 @@ class Apc
     public final function delete($key)
     {
         if ($this->caching == 'yes') {
-            if ($this->apc_installed()) {
+            if ($this->APCInstalled()) {
                 apc_delete($key);
             }
         }
     }
 
     /**
-     *
-     * get
      *
      * Get element(s) from server
      *
@@ -68,15 +66,13 @@ class Apc
     public final function get($key)
     {
         if ($this->caching == 'yes') {
-            if ($this->apc_installed()) {
+            if ($this->APCInstalled()) {
                 return apc_fetch($key);
             }
         }
     }
 
     /**
-     *
-     * flush_memory
      *
      * Flush all memory blocks
      *
@@ -85,18 +81,16 @@ class Apc
      * @final
      *
      */
-    public final function flush_memory()
+    public final function flushMemory()
     {
         if ($this->caching == 'yes') {
-            if ($this->apc_installed()) {
+            if ($this->APCInstalled()) {
                 apc_clear_cache('user');
             }
         }
     }
     
     /**
-     *
-     * apc_installed
      *
      * Check if APC is installed before calling for it
      *
@@ -105,7 +99,7 @@ class Apc
      * @final
      *
      */
-    private final function apc_installed()
+    private final function APCInstalled()
     {
         if (function_exists('apc_store')) {
             return true;

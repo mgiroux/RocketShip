@@ -4,9 +4,7 @@ namespace RocketShip\Api;
 
 abstract class HTTPResponse
 {
-    /**
-     * Constant representing response state
-     */
+    /* HTTP Codes */
     const OK                 = 200;
     const CREATED            = 201;
     const ACCEPTED           = 202;
@@ -27,9 +25,7 @@ abstract class HTTPResponse
     const NOT_ACCEPTABLE     = 406;
     const TIMEOUT            = 408;
 
-    /**
-     * HTTP Response code mapping
-     */
+    /* Code Values */
     private $response_codes = [
         200 => 'OK',
         201	=> 'Created',
@@ -57,9 +53,6 @@ abstract class HTTPResponse
     public $message;
     public $result;
 
-    /**
-     * construct
-     */
     public function __construct($state)
     {
         $this->status   = $this->response_codes[$state];
@@ -69,7 +62,6 @@ abstract class HTTPResponse
     }
 
     /**
-     * render
      *
      * Render the response (state, message, results) to a specific format.
      * The format is handled by subclass of HTTP Response.

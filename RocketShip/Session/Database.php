@@ -1,10 +1,11 @@
 <?php
 
-namespace RocketShip\Session\Drivers;
+namespace RocketShip\Session;
 
+use RocketShip\Base;
 use RocketShip\Database\Collection;
 
-class Database
+class Database extends Base
 {
     /* Model instance */
     private $model;

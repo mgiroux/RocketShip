@@ -27,7 +27,7 @@ class Session extends Base
         parent::__construct();
 
         $name           = ucfirst(strtolower($driver));
-        $class          = '\\RocketShip\\Session\\Drivers\\' . $name;
+        $class          = '\\RocketShip\\Session\\' . $name;
         $this->driver   = new $class;
         self::$instance = $this;
     }

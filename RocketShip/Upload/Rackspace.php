@@ -5,10 +5,10 @@ namespace RocketShip\Upload;
 use OpenCloud\Base\Exceptions\HttpError;
 use OpenCloud\Common\Exceptions\IOError;
 use RocketShip\Application;
-use RocketShip\UploadDriver;
+use RocketShip\UploadAdapter;
 use RocketShip\Utils\IO;
 
-class Rackspace extends UploadDriver
+class Rackspace implements UploadAdapter
 {
     static private $connection;
     static private $object_store;

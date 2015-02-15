@@ -8,9 +8,9 @@ use Aws\S3\Exception\S3Exception;
 use Guzzle\Http\EntityBody;
 use RocketShip\Application;
 use RocketShip\Configuration;
-use RocketShip\UploadDriver;
+use RocketShip\UploadAdapter;
 
-class Amazon extends UploadDriver
+class Amazon implements UploadAdapter
 {
     static private $client;
     static private $bucket;

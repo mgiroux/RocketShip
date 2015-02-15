@@ -2,18 +2,14 @@
 
 namespace RocketShip\Api;
 
-class JsonHTTPResponse extends HTTPResponse {
-
-    /**
-     * construct
-     */
+class JsonHTTPResponse extends HTTPResponse
+{
     public function __construct($state)
     {
         parent::__construct($state);
     }
 
     /**
-     * render
      *
      * Render the response (state, message, results) to a JSON format
      *

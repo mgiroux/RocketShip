@@ -149,3 +149,12 @@ class Cache extends Base
         }
     }
 }
+
+interface CacheAdapter
+{
+    public function connect();
+    public function set($key, $value, $expire);
+    public function get($key);
+    public function delete($key);
+    public function flushMemory();
+}

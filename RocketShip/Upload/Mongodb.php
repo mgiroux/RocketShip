@@ -5,9 +5,9 @@ namespace RocketShip\Upload;
 use RocketShip\Application;
 use RocketShip\Configuration;
 use RocketShip\Database\Collection;
-use RocketShip\UploadDriver;
+use RocketShip\UploadAdapter;
 
-class Mongodb extends UploadDriver
+class Mongodb implements UploadAdapter
 {
     private $path;
     private $model;

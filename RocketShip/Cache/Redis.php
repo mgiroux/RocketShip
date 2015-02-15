@@ -2,9 +2,10 @@
 
 namespace RocketShip\Cache;
 
-use \RocketShip\Configuration;
+use RocketShip\CacheAdapter;
+use RocketShip\Configuration;
 
-class Redis
+class Redis implements CacheAdapter
 {
     protected $link;
 
@@ -97,8 +98,6 @@ class Redis
 
     /**
      *
-     * flush_memory
-     *
      * Flush all memory blocks
      *
      * @return  void
@@ -106,7 +105,7 @@ class Redis
      * @final
      *
      */
-    public final function flush_memory()
+    public final function flushMemory()
     {
         if (!empty($this->link)) {
             $this->link->flushDB();

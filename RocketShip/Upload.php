@@ -409,10 +409,10 @@ class Upload extends Base
 }
 
 /* Driver */
-abstract class UploadDriver
+interface UploadAdapter
 {
-    abstract public function moveObject($file, $directory, $name);
-    abstract public function deleteObject($directory, $name);
-    abstract public function getObject($directory, $name);
-    abstract public function getObjectURL($directory, $name);
+    public function moveObject($file, $directory, $name);
+    public function deleteObject($directory, $name);
+    public function getObject($directory, $name);
+    public function getObjectURL($directory, $name);
 }

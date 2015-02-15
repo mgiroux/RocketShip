@@ -1,5 +1,13 @@
 RocketShip Changelog
 
+02-14-2015
+
+    - Cleaned up API's HTTPResponse and JSONHTTPResponse classes
+    - Created CacheAdapter interface
+    - Refactored Cache adapters to respect the CacheAdapter interface
+    - Refactored Session adapters (moved one level up)
+    - Refactored UploadDriver to UploadAdapter and type to interface instead of Abstract
+
 02-13-2015
 
     - Added Mongo driver for Upload manager

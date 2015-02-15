@@ -2,15 +2,14 @@
 
 namespace RocketShip\Cache;
 
-use \RocketShip\Configuration;
+use RocketShip\CacheAdapter;
+use RocketShip\Configuration;
 
-class Memcache
+class Memcache implements CacheAdapter
 {
     protected $link;
 
     /**
-     *
-     * Construct
      *
      * Connect to the memcache daemon if memcache support is turned on
      *
@@ -32,8 +31,6 @@ class Memcache
     
     /**
      *
-     * set
-     *
      * Set a variable in the memcache server
      *
      * @param   string  key
@@ -54,8 +51,6 @@ class Memcache
     
     /**
      *
-     * delete
-     *
      * Delete given element from the cache
      *
      * @param   string    key
@@ -71,8 +66,6 @@ class Memcache
     }
     
     /**
-     *
-     * get
      *
      * Get element(s) from server
      *
@@ -97,8 +90,6 @@ class Memcache
 
     /**
      *
-     * flush_memory
-     *
      * Flush all memory blocks
      *
      * @return  void
@@ -106,7 +97,7 @@ class Memcache
      * @final
      *
      */
-    public final function flush_memory()
+    public final function flushMemory()
     {
         if (!empty($this->link)) {
             $this->link->flush();

@@ -1,6 +1,6 @@
 <?php
 
-namespace RocketShip\Session\Drivers;
+namespace RocketShip\Session;
 
 use RocketShip\Base;
 

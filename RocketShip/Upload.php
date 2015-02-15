@@ -62,11 +62,11 @@ class Upload extends Base
             $file   = $this->driver->moveObject($file['tmp_name'], $type, $filename);
             $return = $this->writeFilesystem($type, $file);
 
-            $this->app->events(Event::UPLOAD_DONE, $return);
+            $this->app->events->trigger(Event::UPLOAD_DONE, $return);
 
             return $return;
         } else {
-            $this->app->events(Event::UPLOAD_FAILED, $file);
+            $this->app->events->trigger(Event::UPLOAD_FAILED, $file);
             return null;
         }
     }
@@ -164,7 +164,7 @@ class Upload extends Base
             foreach ($hash as $hash_string) {
                 $names[] = $this->searchFileSystem($hash_string, 'name');
                 $this->deleteFromFilesystem($hash_string);
-                $this->app->events(Event::UPLOAD_DELETED, $hash_string);
+                $this->app->events->trigger(Event::UPLOAD_DELETED, $hash_string);
             }
 
             $this->driver->deleteObject('files', $names);
@@ -172,7 +172,7 @@ class Upload extends Base
             $name = $this->searchFileSystem($hash, 'name');
             $this->driver->deleteObject('files', [$name]);
             $this->deleteFromFilesystem($hash);
-            $this->app->events(Event::UPLOAD_DELETED, $hash);
+            $this->app->events->trigger(Event::UPLOAD_DELETED, $hash);
         }
     }
 
@@ -194,7 +194,7 @@ class Upload extends Base
 
                 $this->deleteFromFilesystem($hash_string);
                 $this->deleteFromCache($hash_string);
-                $this->app->events(Event::UPLOAD_DELETED, $hash_string);
+                $this->app->events->trigger(Event::UPLOAD_DELETED, $hash_string);
             }
 
             $this->driver->deleteObject('images', $names);
@@ -202,7 +202,7 @@ class Upload extends Base
             $name = $this->searchFileSystem($hash, 'name');
             $this->driver->deleteObject('images', $name);
             $this->deleteFromFilesystem($hash);
-            $this->app->events(Event::UPLOAD_DELETED, $hash);
+            $this->app->events->trigger(Event::UPLOAD_DELETED, $hash);
 
             $cache_files = $this->searchCacheFiles($hash);
             foreach ($cache_files as $the_hash => $file) {
@@ -227,7 +227,7 @@ class Upload extends Base
     public function get($hash, $type='path')
     {
         $file = $this->searchFileSystem($hash, $type);
-        $this->app->events(Event::UPLOAD_GET, $file);
+        $this->app->events->trigger(Event::UPLOAD_GET, $file);
         return $file;
     }
 
@@ -246,7 +246,7 @@ class Upload extends Base
         $name = $this->get($hash, 'name');
 
         $file = $this->driver->getObject($path, $name);
-        $this->app->events(Event::UPLOAD_GET, $file);
+        $this->app->events->trigger(Event::UPLOAD_GET, $file);
         return $file;
     }
 

@@ -357,6 +357,31 @@ class Application
         $lang = $this->session->get('app_language');
         setlocale(LC_ALL, $this->config->localization->{$lang} . '.utf8');
 
+        $ip        = $_SERVER['REMOTE_ADDR'];
+        $forbidden = false;
+
+        if (!empty($this->route->allow) && $this->route->allow != 'all' && $this->route->allow != $ip) {
+            $forbidden = true;
+        }
+
+        if (is_array($this->route->allow) && !in_array($ip, $this->route->allow)) {
+            $forbidden = true;
+        } else {
+            $forbidden = false;
+        }
+
+        /* Permissions */
+        if ($forbidden) {
+            $file = $this->root_path . '/app/controllers/Error.php';
+            include_once $file;
+
+            $instance = new \ErrorController;
+            $instance->forbidden();
+
+            call_user_func([$instance->view, 'render'], 'forbidden');
+            $this->quit();
+        }
+
         if (!empty($this->route->action)) {
             list($method, $controller) = explode('@', $this->route->action);
 
@@ -402,6 +427,9 @@ class Application
             include_once $file;
             $instance = new \ErrorController;
             $instance->notFound();
+
+            call_user_func([$instance->view, 'render'], 'forbidden');
+            $this->quit();
         }
     }
 

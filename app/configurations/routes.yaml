@@ -8,3 +8,4 @@ default:
     action: index@default    # method@controller
     secure: no               # use https?
     enforce: no              # enforce locale rule
+    allow: all               # all or ip or [ip1, ip2, ip3]

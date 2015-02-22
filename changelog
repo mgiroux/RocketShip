@@ -1,5 +1,11 @@
 RocketShip Changelog
 
+02-21-2015
+
+    - Added Route permissions (allow: all, ip or array of ips)
+    - Added forbidden method in error controller
+    - Removed useless code from error controller
+
 02-14-2015
 
     - Cleaned up API's HTTPResponse and JSONHTTPResponse classes

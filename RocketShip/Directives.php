@@ -29,7 +29,11 @@ abstract class Directives
         }
 
         if (empty($out)) {
-            $out = $view;
+            if (!empty($layout)) {
+                $out = $layout;
+            } else {
+                $out = $view;
+            }
         }
 
         /* Look for directives again (the html data changed) */

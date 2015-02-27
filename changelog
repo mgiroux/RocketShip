@@ -4,6 +4,7 @@ RocketShip Changelog
 
     - Restored weak passphrases for hash and encryption (you need to set those when starting a project)
     - Added the timezone setting at the top of the generate script to silence errors
+    - Fixed bug in directive parsing when using a layout that has absolutely no directives
 
 02-21-2015
 

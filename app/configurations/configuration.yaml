@@ -38,8 +38,8 @@ cors:
 general:
     timezone: America/Montreal
     uri_tail: /
-    hash_salt: RBTE$EFGE4565e4wt56jyRDRSEGD3564twge5$F#G%==
-    crypt_key: DGHTRDs35eyhe#$Y^j44w3feg5eTW#QFRGWEGW! #changemetoobeforeyouencrypt
+    hash_salt: changemebeforeyouhash
+    crypt_key: changemetoobeforeyouencrypt
     sitename: SiteName
     is_reponsive: yes
 

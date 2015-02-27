@@ -1,5 +1,10 @@
 RocketShip Changelog
 
+02-27-2015
+
+    - Restored weak passphrases for hash and encryption (you need to set those when starting a project)
+    - Added the timezone setting at the top of the generate script to silence errors
+
 02-21-2015
 
     - Added Route permissions (allow: all, ip or array of ips)

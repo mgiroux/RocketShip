@@ -428,7 +428,7 @@ class Application
             $instance = new \ErrorController;
             $instance->notFound();
 
-            call_user_func([$instance->view, 'render'], 'forbidden');
+            call_user_func([$instance->view, 'render'], 'notFound');
             $this->quit();
         }
     }

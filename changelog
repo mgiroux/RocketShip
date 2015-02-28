@@ -1,5 +1,10 @@
 RocketShip Changelog
 
+02-28-2015
+
+    - Fixed 404 Error handling
+    - Renamed 404 file in views
+
 02-27-2015
 
     - Restored weak passphrases for hash and encryption (you need to set those when starting a project)

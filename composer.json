@@ -12,7 +12,8 @@
         "filp/whoops": "1.*",
         "sybio/image-workshop": "2.*",
         "nesbot/carbon": "dev-master",
-        "bshaffer/oauth2-server-php": "v1.3"
+        "bshaffer/oauth2-server-php": "v1.3",
+        "gherkins/regexpbuilderphp": "dev-master"
     },
     "repositories": [
         {

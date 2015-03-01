@@ -2,6 +2,7 @@ RocketShip Changelog
 
 02-28-2015
 
+    - Added RegexpBuilder to composer for easy Regex programming
     - Fixed 404 Error handling
     - Renamed 404 file in views
 

@@ -48,8 +48,8 @@ class Routing extends Base
 
             foreach ($data as $num => $route) {
                 foreach ($route->uri as $lang => $uri) {
-		            $route->uri->{$lang} = (substr($uri, -1, 1) == '/') ? substr($uri, 0, strlen($uri) - 1) : $uri;
-	            }
+                    $route->uri->{$lang} = (substr($uri, -1, 1) == '/') ? substr($uri, 0, strlen($uri) - 1) : $uri;
+                }
                 $route->path = $this->app->root_path . '/app';
             }
 
@@ -86,11 +86,11 @@ class Routing extends Base
                         $route->uri->{$lang} = (substr($uri, -1, 1) == '/') ? substr($uri, 0, strlen($uri) - 1) : $uri;
                     }
                     $route->path = $path;
-                    
+
                     self::$routes->{$key} = $route;
                 }
             }
-        }        
+        }
     }
 
     /**
@@ -139,7 +139,7 @@ class Routing extends Base
                 if ($is_wild) {
                     /* Replace easy-wildcards by regex params */
                     $targets = ['(:num)', '(:any)', '(:string)', '(:mongoid)'];
-                    $replace = ['([0-9]+)', '([0-9a-zA-Z\.\-\_\/\:\=]+)', '([a-zA-Z]+)', '([0-9a-fA-F]{24})'];
+                    $replace = ['([0-9]+)', '([0-9a-zA-Z\.\-\_\/\:\=]+)', '([a-zA-Z\-]+)', '([0-9a-fA-F]{24})'];
 
                     foreach ($permalink->uri as $lang => $the_uri) {
                         $pattern = '/(\\()((?:[a-zA-Z0-9]*))(\\))/';

@@ -1,5 +1,10 @@
 RocketShip Changelog
 
+03-02-2015
+
+    - Added support for dash (-) in (:string) url segments
+    - Updated documentation for routes
+
 02-28-2015
 
     - Added RegexpBuilder to composer for easy Regex programming

@@ -83,7 +83,8 @@ class Number
      */
     public function inc()
     {
-        return new Number($this->primitiveValue++);
+        $this->primitiveValue++;
+        return $this;
     }
 
     /**
@@ -96,7 +97,8 @@ class Number
      */
     public function dec()
     {
-        return new Number($this->primitiveValue--);
+        $this->primitiveValue--;
+        return $this;
     }
 
     /**
@@ -114,7 +116,8 @@ class Number
             $number = $number->raw();
         }
 
-        return new Number($number + $this->primitiveValue);
+        $this->primitiveValue += $number;
+        return $this;
     }
 
     /**
@@ -132,7 +135,8 @@ class Number
             $number = $number->raw();
         }
 
-        return new Number($this->primitiveValue - $number);
+        $this->primitiveValue -= $number;
+        return $this;
     }
 
     /**
@@ -150,7 +154,8 @@ class Number
             $number = $number->raw();
         }
 
-        return new Number($this->primitiveValue / $number);
+        $this->primitiveValue /= $number;
+        return $this;
     }
 
     /**
@@ -168,7 +173,8 @@ class Number
             $number = $number->raw();
         }
 
-        return new Number($this->primitiveValue * $number);
+        $this->primitiveValue *= $number;
+        return $this;
     }
 
     /**
@@ -226,7 +232,8 @@ class Number
             $precision = $precision->raw();
         }
 
-        return new Number(round($this->primitiveValue, $precision));
+        $this->primitiveValue = round($this->primitiveValue, $precision);
+        return $this;
     }
 
     /**
@@ -239,7 +246,8 @@ class Number
      */
     public function floor()
     {
-        return new Number(floor($this->primitiveValue));
+        $this->primitiveValue = floor($this->primitiveValue);
+        return $this;
     }
 
     /**
@@ -252,7 +260,8 @@ class Number
      */
     public function ceil()
     {
-        return new Number(ceil($this->primitiveValue));
+        $this->primitiveValue = ceil($this->primitiveValue);
+        return $this;
     }
 
     /**

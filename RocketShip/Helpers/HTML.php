@@ -3,6 +3,7 @@
 namespace RocketShip\Helpers;
 
 use RocketShip\Base;
+use String;
 
 class HTML extends Base
 {
@@ -438,9 +439,9 @@ class HTML extends Base
                     }
                 } else {
                     if ($showday) {
-                        return date('l, F jS' . $y, $date);
+                        return String::init(date('l, F jS' . $y, $date));
                     } else {
-                        return date('F jS' . $y, $date);
+                        return String::init(date('F jS' . $y, $date));
                     }
                 }
             } else {
@@ -452,9 +453,9 @@ class HTML extends Base
                     }
                 } else {
                     if ($showday) {
-                        return date('l, F jS' . $y . ' H\hi', $date);
+                        return String::init(date('l, F jS' . $y . ' H\hi', $date));
                     } else {
-                        return date('F jS' . $y . ' H\hi', $date);
+                        return String::init(date('F jS' . $y . ' H\hi', $date));
                     }
                 }
             }

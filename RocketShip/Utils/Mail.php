@@ -97,6 +97,12 @@ class Mail extends Base
      */
     public function send($target, $from, $subject, $txt, $html)
     {
+        $target  = (string)$target;
+        $from    = (string)$from;
+        $subject = (string)$subject;
+        $txt     = (string)$txt;
+        $html    = (string)$html;
+
         list($name, $mail) = explode('<', $from);
 
         $this->mailer->setFrom(substr($mail, 0, strlen($mail) - 1), trim($name));
@@ -106,9 +112,6 @@ class Mail extends Base
         $this->mailer->MsgHTML($html);
         $this->mailer->isHTML(true);
         $this->mailer->AddAddress($target);
-
-        //print_r($this);
-        //die();
 
         if (empty($this->mailer->ErrorInfo)) {
             if ($this->mailer->send()) {

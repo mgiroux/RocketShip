@@ -60,6 +60,10 @@ class Rackspace implements UploadAdapter
      */
     public function moveObject($file, $directory, $name)
     {
+        $file      = (string)$file;
+        $directory = (string)$directory;
+        $name      = (string)$name;
+
         $fileobj = self::$container->DataObject();
         $finfo   = finfo_open(FILEINFO_MIME_TYPE);
         $type    = finfo_file($finfo, $file);
@@ -83,6 +87,9 @@ class Rackspace implements UploadAdapter
      */
     public function getObject($directory, $name)
     {
+        $directory = (string)$directory;
+        $name      = (string)$name;
+
         $item = new \stdClass;
 
         $fileobj           = self::$container->DataObject($directory . '/' . $name);
@@ -112,6 +119,9 @@ class Rackspace implements UploadAdapter
      */
     public function getObjectURL($directory, $name)
     {
+        $directory = (string)$directory;
+        $name      = (string)$name;
+
         $fileobj = self::$container->DataObject($directory . '/' . $name);
         return $fileobj->publicURL('SSL');
     }
@@ -129,6 +139,8 @@ class Rackspace implements UploadAdapter
      */
     public function deleteObject($directory, $name)
     {
+        $directory = (string)$directory;
+
         if (is_string($name)) {
             echo $directory . '/' . $name;
             $obj = self::$container->DataObject($directory . '/' . $name);

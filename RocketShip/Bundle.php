@@ -3,6 +3,7 @@
 namespace RocketShip;
 
 use RocketShip\Database\Collection;
+use String;
 
 abstract class Bundle extends Base
 {
@@ -23,7 +24,7 @@ abstract class Bundle extends Base
      */
     public function setBundlePath($path)
     {
-        $this->bundle_path = $path;
+        $this->bundle_path = String::init($path);
     }
 
     /**

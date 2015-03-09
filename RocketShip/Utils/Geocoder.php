@@ -2,6 +2,8 @@
 
 namespace RocketShip\Utils;
 
+use String;
+
 class Geocoder
 {
     public $success;
@@ -29,6 +31,8 @@ class Geocoder
      */
     public function __construct($search)
     {
+        $search = (string)$search;
+
         $formatted = str_replace(" ", "+", $search);
         $url = 'http://maps.googleapis.com/maps/api/geocode/json?address=' . $formatted . '&sensor=false';
         
@@ -39,12 +43,12 @@ class Geocoder
         curl_close($ch);
 
         $this->success = false;
-        $this->message = 'no results for query';
+        $this->message = String::init('no results for query');
 
         if ($geoloc->status == 'OK') {
             $this->parseData($geoloc);
             $this->success = true;
-            $this->message = 'OK';
+            $this->message = String::init('OK');
         }
     }
     
@@ -69,47 +73,47 @@ class Geocoder
             switch ($type)
             {
                 case "street_number":
-                    $this->street_number = $component->long_name;
+                    $this->street_number = String::init($component->long_name);
                     break;
                     
                 /* Street */
                 case "route":
-                    $this->street = $component->long_name;
+                    $this->street = String::init($component->long_name);
                     break;
                     
                 case "neighborhood":
-                    $this->neighborhood = $component->long_name;
+                    $this->neighborhood = String::init($component->long_name);
                     break;
                     
                 /* City */
                 case "locality":
-                    $this->city = $component->long_name;
+                    $this->city = String::init($component->long_name);
                     break;
                 
                 /* Province/State */
                 case "administrative_area_level_1":
-                    $this->province_state = $component->long_name;
-                    $this->province_state_code = $component->short_name;
+                    $this->province_state      = String::init($component->long_name);
+                    $this->province_state_code = String::init($component->short_name);
                     break;
                 
                 /* Administrative area */
                 case "administrative_area_level_2":
-                    $this->administrative_area = $component->long_name;
+                    $this->administrative_area = String::init($component->long_name);
                     break;
                     
                 case "country":
-                    $this->country = $component->long_name;
-                    $this->country_code = $component->short_name;
+                    $this->country      = String::init($component->long_name);
+                    $this->country_code = String::init($component->short_name);
                     break;
                     
                 case "postal_code":
-                    $this->postal = $component->long_name;
+                    $this->postal = String::init($component->long_name);
                     break;
             }
         }
         
-        $this->query     = $data->formatted_address;
-        $this->latitude  = $data->geometry->location->lat;
-        $this->longitude = $data->geometry->location->lng;
+        $this->query     = String::init($data->formatted_address);
+        $this->latitude  = String::init($data->geometry->location->lat);
+        $this->longitude = String::init($data->geometry->location->lng);
     }
 }

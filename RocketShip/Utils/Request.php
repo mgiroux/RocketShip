@@ -4,6 +4,8 @@ namespace RocketShip\Utils;
 
 use RocketShip\Api\HTTPResponse;
 use RocketShip\Configuration;
+use Number;
+use String;
 
 class Request
 {
@@ -35,42 +37,42 @@ class Request
     {
         /* Status code */
         if (function_exists("http_response_code")) {
-            $this->status_code = http_response_code();
+            $this->status_code = Number::init(http_response_code());
         } else {
             if (!empty($_SERVER['REDIRECT_STATUS'])) {
-                $this->status_code = $_SERVER['REDIRECT_STATUS'];
+                $this->status_code = Number::init($_SERVER['REDIRECT_STATUS']);
             } else {
-                $this->status_code = HTTPResponse::OK;
+                $this->status_code = Number::init(HTTPResponse::OK);
             }
         }
 
         /* Request type */
         if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest') {
-            $this->request_type = self::AJAX;
+            $this->request_type = String::init(self::AJAX);
         } else {
-            $this->request_type = self::STANDARD;
+            $this->request_type = String::init(self::STANDARD);
         }
 
         /* Request method (post, get, etc.) */
-        $this->request_method = $_SERVER['REQUEST_METHOD'];
+        $this->request_method = String::init($_SERVER['REQUEST_METHOD']);
 
         /* Protocol (IIS support) */
         if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-            $this->protocol = 'https';
+            $this->protocol = String::init('https');
         } else {
             if ($_SERVER['SERVER_PORT'] == '443') {
-                $this->protocol = self::HTTPS;
+                $this->protocol = String::init(self::HTTPS);
             } else {
-                $this->protocol = self::HTTP;
+                $this->protocol = String::init(self::HTTP);
             }
         }
 
         /* Client */
-        $this->client   = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
-        $this->ip       = $_SERVER['REMOTE_ADDR'];
-        $this->url      = $_SERVER['REQUEST_URI'];
+        $this->client   = isset($_SERVER['HTTP_USER_AGENT']) ? String::init($_SERVER['HTTP_USER_AGENT']) : String::init('');
+        $this->ip       = String::init($_SERVER['REMOTE_ADDR']);
+        $this->url      = String::init($_SERVER['REQUEST_URI']);
         $this->mobile   = $this->isMobile();
-        $this->platform = $this->getPlatform();
+        $this->platform = String::init($this->getPlatform());
     }
 
     public function __get($variable)
@@ -158,6 +160,7 @@ class Request
      */
     public function setCode($code)
     {
+        $code = ($code instanceof Number) ? $code->raw() : $code;
         http_response_code($code);
     }
 }

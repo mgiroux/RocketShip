@@ -3,6 +3,7 @@
 namespace RocketShip\Helpers;
 
 use RocketShip\Base;
+use Collection;
 
 class Text extends Base
 {
@@ -18,6 +19,8 @@ class Text extends Base
      */
     public function slug($string, $keep_slashes=false)
     {
+        $string = (string)$string;
+
         if ($keep_slashes) {
             $string = str_replace("/", "-systemslash-", $string);
         }
@@ -44,6 +47,8 @@ class Text extends Base
      */
     public function convertSmartQuotes($string)
     {
+        $string = (string)$string;
+
         $search = [
             chr(0xe2) . chr(0x80) . chr(0x98),
             chr(0xe2) . chr(0x80) . chr(0x99),
@@ -79,7 +84,9 @@ class Text extends Base
      */
     public function truncate($string, $limit=100, $end_char='...', $preserve_words=false)
     {
-        $limit = (int)$limit;
+        $string   = (string)$string;
+        $end_char = (string)$end_char;
+        $limit    = (int)$limit;
 
         if (function_exists('mb_strlen')) {
             if (trim($string) === '' || mb_strlen($string) <= $limit) {
@@ -124,6 +131,10 @@ class Text extends Base
      */
     public function censor($string, $badwords, $replacement='#', $replace_partial_words=true)
     {
+        $string      = (string)$string;
+        $badwords    = ($badwords instanceof Collection) ? $badwords->raw() : $badwords;
+        $replacement = (string)$replacement;
+
         foreach ((array)$badwords as $key => $badword) {
             $badwords[$key] = str_replace('\*', '\S*?', preg_quote((string)$badword));
         }

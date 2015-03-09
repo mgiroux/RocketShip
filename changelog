@@ -1,5 +1,11 @@
 RocketShip Changelog
 
+03-08-2015
+
+    - Added Primitive Object Types (String, Number, Collection) -- BETA
+    - Updated the system to use new Primitive Object Types
+    - Upgrade version to 1.1.0
+
 03-02-2015
 
     - Added support for dash (-) in (:string) url segments

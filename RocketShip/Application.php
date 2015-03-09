@@ -2,6 +2,11 @@
 
 namespace RocketShip;
 
+/* Primitive types loading */
+require_once __DIR__ . '/primitives/String.php';
+require_once __DIR__ . '/primitives/Number.php';
+require_once __DIR__ . '/primitives/Collection.php';
+
 use RocketShip\Database\Collection;
 use RocketShip\Utils\IO;
 use RocketShip\Utils\Request;
@@ -11,11 +16,14 @@ use RocketShip\Directives;
 use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\JsonResponseHandler;
+use String;
+use Number;
+use Collection AS stdCollection;
 
 class Application
 {
-    const VERSION    = '1.0.0 (8)';
-    const POWERED_BY = 'RocketShip 1.0.0 (8)';
+    const VERSION    = '1.1.0 (8)';
+    const POWERED_BY = 'RocketShip 1.1.0 (8)';
 
     /**
      *
@@ -205,7 +213,7 @@ class Application
     final public function __construct()
     {
         if (empty($_SERVER['REQUEST_URI'])) {
-            $_SERVER['REQUEST_URI'] = '/';
+            $_SERVER['REQUEST_URI'] = String::init('/');
         }
 
         $this->bundles  = new \stdClass;
@@ -219,13 +227,13 @@ class Application
 
         Configuration::loadAppConfigurations();
 
-        $this->config    = Configuration::getObject('configuration');
-        $this->constants = Configuration::getObject('constants');
+        $this->config    = Configuration::getObject(String::init('configuration'));
+        $this->constants = Configuration::getObject(String::init('constants'));
 
         /* CORS Support */
         if ($this->config->cors->allow != 'none' && php_sapi_name() != 'cli') {
             header('Access-Control-Allow-Origin: ' . $this->config->cors->allow);
-            header('Access-Control-Allow-Methods: ' . implode(",", $this->config->cors->methods));
+            header('Access-Control-Allow-Methods: ' . $this->config->cors->methods->join(","));
             header('Access-Control-Allow-Credentials: true');
             header('Access-Control-Allow-Headers: X-Requested-With');
         }
@@ -239,7 +247,7 @@ class Application
         }
     
         /* Setting memory limit of the PHP process */
-        ini_set('memory_limit', Configuration::get('configuration', 'performance.memory_limit'));
+        ini_set('memory_limit', $this->config->performance->memory_limit);
 
         /* Pre environment setup */
         $this->events->trigger(Event::CORE_PRE_SETUP, null);
@@ -309,8 +317,8 @@ class Application
         $this->events->trigger(Event::CORE_POST_BUNDLES, null);
 
         /* Handle possible /public/uploads/.... if driver is mongo */
-        if ($this->config->uploading->driver == 'mongodb') {
-            if (stristr($this->uri, '/public/uploads/files/')) {
+        if ($this->config->uploading->driver->equals('mongodb')) {
+            if ($this->uri->contains('/public/uploads/files/')) {
                 $return = $this->handleStaticFile(basename($this->uri));
 
                 if ($return) {
@@ -325,7 +333,7 @@ class Application
         if (!empty($this->route)) {
             $this->alternate_routes = $this->router->alternate();
         }
-    
+
         /* Locale */
         Locale::enforceLocale();
         Locale::loadAll();
@@ -382,21 +390,21 @@ class Application
             $this->quit();
         }
 
-        if (!empty($this->route->action)) {
-            list($method, $controller) = explode('@', $this->route->action);
-
+        if (!empty($this->route->action) && !$this->route->action->isEmpty()) {
+            $action = $this->route->action->split('@');
             $is_api = false;
+
             if (!empty($this->route->api)) {
                 /* Route is an API call, validate token and used verb */
                 $this->api->validateToken();
-                $this->api->validateVerb($this->route->verbs);
+                $this->api->validateVerb($this->route->verbs->raw());
                 $this->events->trigger(Event::CORE_API_AUTH, null);
                 $is_api = true;
             }
 
-            $name  = ucfirst(strtolower($controller)) . '.php';
-            $file  = $this->route->path . '/controllers/' . $name;
-            $class = ucfirst(strtolower($controller)) . 'Controller';
+            $name  = $action->{1}->lower()->capitalize()->append('.php');
+            $file  = $this->route->path->append('/controllers/' . $name);
+            $class = $action->{1}->lower()->capitalize()->append('Controller')->raw();
 
             if (file_exists($file)) {
                 include_once $file;
@@ -404,16 +412,18 @@ class Application
                 if (class_exists($class)) {
                     $instance = new $class;
 
-                    if (method_exists($instance, $method)) {
-                        call_user_func_array([$instance, $method], $this->route->arguments);
+                    if (method_exists($instance, $action->{0}->raw())) {
+                        $method = $action->{0}->raw();
+
+                        call_user_func_array([$instance, $method], $this->route->arguments->raw());
 
                         if ($instance->view->rendered == false && $is_api == false) {
-                            call_user_func([$instance->view, 'render'], $method);
+                            call_user_func([$instance->view, 'render'], $action->{0});
                         }
 
                         $this->events->trigger(Event::CORE_POST_CONTROLLER, $instance);
                     } else {
-                        throw new \RuntimeException("Method '{$method}' in controller '{$name}' cannot be called, not found.'");
+                        throw new \RuntimeException("Method '{$action->{0}}' in controller '{$name}' cannot be called, not found.'");
                     }
                 } else {
                     throw new \RuntimeException("Controller '{$name}' does not respect convention, expecting class named '{$class}'");
@@ -504,45 +514,46 @@ class Application
     private function setupEnvironment()
     {
         if (empty($_SERVER['HTTP_HOST'])) {
-            $_SERVER['HTTP_HOST'] = 'CLI';
+            $_SERVER['HTTP_HOST'] = String::init('CLI');
         }
 
         if ($_SERVER['HTTP_HOST'] == 'CLI') {
-            $this->environment  = Configuration::get('definition', 'cli');
-            self::$_environment = $this->environment;
-            $this->site_url     = 'http://';
-            $this->root_path    = dirname(__DIR__);
+            $this->environment  = String::init(Configuration::get('definition', 'cli'));
+            self::$_environment = String::init($this->environment);
+            $this->site_url     = String::init('http://');
+            $this->root_path    = String::init(dirname(__DIR__));
             return;
         }
 
-        $protocol = Request::HTTP;
+        $protocol = String::init(Request::HTTP);
 
         if (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off') {
-            $protocol = Request::HTTPS;
+            $protocol = String::init(Request::HTTPS);
         }
-        
-        $uri    = explode('?', $_SERVER['REQUEST_URI']);
-        $uri[0] = str_replace('.html', '', $uri[0]);
 
-        $this->root_path = dirname(__DIR__);
-        $this->url_path  = str_replace($_SERVER['DOCUMENT_ROOT'], '', $this->root_path);
-        $this->site_url  = $protocol . '://' . $_SERVER['HTTP_HOST'] . $this->url_path;
-        $this->uri       = str_replace('//', '/', str_replace($this->url_path, '/', $uri[0]));
-        $this->domain    = str_replace('www.', '', $_SERVER['HTTP_HOST']);
+        $uri = String::init($_SERVER['REQUEST_URI']);
+        $uri = $uri->split('?');
+        $uri->set(0, $uri->{0}->replace('.html', ''));
 
-        $domain = str_replace('www.', '', $_SERVER['HTTP_HOST']);
-        $stage  = Configuration::get('definition', 'environments.staging');
-        $prod   = Configuration::get('definition', 'environments.production');
+        $this->root_path = String::init(dirname(__DIR__));
+        $this->url_path  = $this->root_path->replace($_SERVER['DOCUMENT_ROOT'], '');
+        $this->site_url  = $this->url_path->replace($protocol . '://', $_SERVER['HTTP_HOST'] . $this->url_path);
+        $this->uri       = $uri->{0}->replace($this->url_path, '/')->replace('//', '/');
+        $this->domain    = String::init(str_replace('www.', '', $_SERVER['HTTP_HOST']));
 
-        if (in_array($domain, $stage)) {
-            $this->environment = 'staging';
-        } elseif (in_array($domain, $prod)) {
-            $this->environment = 'production';
+        $domain = String::init(str_replace('www.', '', $_SERVER['HTTP_HOST']));
+        $stage  = stdCollection::init(Configuration::get('definition', 'environments.staging'));
+        $prod   = stdCollection::init(Configuration::get('definition', 'environments.production'));
+
+        if ($stage->contains($domain)) {
+            $this->environment = String::init('staging');
+        } elseif ($prod->contains($domain)) {
+            $this->environment = String::init('production');
         } else {
-            $this->environment = 'development';
+            $this->environment = String::init('development');
         }
         
-        self::$_environment = $this->environment;
+        self::$_environment = String::init($this->environment);
     }
 
     /**
@@ -554,7 +565,7 @@ class Application
      */
     private function setupDebugging()
     {
-        if ($this->environment != 'production' && $this->config->development->debugging == 'yes') {
+        if ($this->environment->equals('production') && $this->config->development->debugging->equals('yes')) {
             error_reporting(E_ERROR | E_PARSE | E_CORE_ERROR);
 
             $whoops      = new Run();

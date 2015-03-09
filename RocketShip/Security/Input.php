@@ -3,6 +3,9 @@
 namespace RocketShip\Security;
 
 use RocketShip\Base;
+use String;
+use Number;
+use Collection;
 
 $GLOBALS['_PUT'] = [];
 
@@ -25,15 +28,39 @@ class Input extends Base
         $this->put  = new \stdClass;
 
         foreach ($post as $key => $value) {
-            $this->post->{$key} = $value;
+            if (is_string($value)) {
+                $this->post->{$key} = String::init($value);
+            } elseif (is_numeric($value)) {
+                $this->post->{$key} = Number::init($value);
+            } elseif (is_array($value)) {
+                $this->post->{$key} = Collection::init($value);
+            } else {
+                $this->post->{$key} = $value;
+            }
         }
 
         foreach ($get as $key => $value) {
-            $this->get->{$key} = $value;
+            if (is_string($value)) {
+                $this->get->{$key} = String::init($value);
+            } elseif (is_numeric($value)) {
+                $this->get->{$key} = Number::init($value);
+            } elseif (is_array($value)) {
+                $this->get->{$key} = Collection::init($value);
+            } else {
+                $this->get->{$key} = $value;
+            }
         }
 
         foreach ($put as $key => $value) {
-            $this->put->{$key} = $value;
+            if (is_string($value)) {
+                $this->put->{$key} = String::init($value);
+            } elseif (is_numeric($value)) {
+                $this->put->{$key} = Number::init($value);
+            } elseif (is_array($value)) {
+                $this->put->{$key} = Collection::init($value);
+            } else {
+                $this->put->{$key} = $value;
+            }
         }
     }
 
@@ -78,13 +105,21 @@ class Input extends Base
             if ($clean) {
                 return $this->cleanUp($_POST, $filter);
             } else {
-                return $_POST;
+                return Collection::init($_POST);
             }
         } else {
             if (!empty($_POST[$element])) {
                 if ($clean) {
                     return $this->cleanUp($_POST[$element], $filter);
                 } else {
+                    if (is_string($_POST[$element])) {
+                        return String::init($_POST[$element]);
+                    } elseif (is_numeric($_POST[$element])) {
+                        return Number::init($_POST[$element]);
+                    } elseif (is_array($_POST[$element])) {
+                        return Collection::init($_POST[$element]);
+                    }
+
                     return $_POST[$element];
                 }
             } else {
@@ -111,13 +146,21 @@ class Input extends Base
             if ($clean) {
                 return $this->cleanUp($_GET, $filter);
             } else {
-                return $_GET;
+                return Collection::init($_GET);
             }
         } else {
             if (!empty($_GET[$element])) {
                 if ($clean) {
                     return $this->cleanUp($_GET[$element], $filter);
                 } else {
+                    if (is_string($_GET[$element])) {
+                        return String::init($_GET[$element]);
+                    } elseif (is_numeric($_GET[$element])) {
+                        return Number::init($_GET[$element]);
+                    } elseif (is_array($_GET[$element])) {
+                        return Collection::init($_GET[$element]);
+                    }
+
                     return $_GET[$element];
                 }
             } else {
@@ -149,13 +192,21 @@ class Input extends Base
             if ($clean) {
                 return $this->cleanUp($_PUT, $filter);
             } else {
-                return $_PUT;
+                return Collection::init($_PUT);
             }
         } else {
             if (!empty($_PUT[$element])) {
                 if ($clean) {
                     return $this->cleanUp($_PUT[$element], $filter);
                 } else {
+                    if (is_string($_PUT[$element])) {
+                        return String::init($_PUT[$element]);
+                    } elseif (is_numeric($_PUT[$element])) {
+                        return Number::init($_PUT[$element]);
+                    } elseif (is_array($_PUT[$element])) {
+                        return Collection::init($_PUT[$element]);
+                    }
+
                     return $_PUT[$element];
                 }
             } else {
@@ -187,13 +238,21 @@ class Input extends Base
             if ($clean) {
                 return $this->cleanUp($_POST, $filter);
             } else {
-                return $_POST;
+                return Collection::init($_POST);
             }
         } else {
             if (!empty($_POST[$element])) {
                 if ($clean) {
                     return $this->cleanUp($_POST[$element], $filter);
                 } else {
+                    if (is_string($_POST[$element])) {
+                        return String::init($_POST[$element]);
+                    } elseif (is_numeric($_POST[$element])) {
+                        return Number::init($_POST[$element]);
+                    } elseif (is_array($_POST[$element])) {
+                        return Collection::init($_POST[$element]);
+                    }
+
                     return $_POST[$element];
                 }
             } else {
@@ -219,42 +278,19 @@ class Input extends Base
             foreach ($string as $num => $item) {
                 $string[$num] = $this->cleanUp($item, $filter);
             }
-            return $string;
+            return Collection::init($string);
         } else {
             if (is_string($string)) {
-                $string = urldecode($string);
-                $string = strip_tags($string);
-
-                if (!empty($filter)) {
-                    switch ($filter)
-                    {
-                        case "string":
-                            $string = filter_var($string, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_LOW);
-                            break;
-
-                        case "int":
-                        case "id":
-                            $string = filter_var($string, FILTER_SANITIZE_NUMBER_INT);
-                            break;
-
-                        case "float":
-                            $string = filter_var($string, FILTER_SANITIZE_NUMBER_FLOAT);
-                            break;
-
-                        case "email":
-                            $string = filter_var($string, FILTER_SANITIZE_EMAIL);
-                            break;
-
-                        case "safe":
-                            $string = filter_var($string, FILTER_SANITIZE_SPECIAL_CHARS, FILTER_FLAG_ENCODE_HIGH);
-                            break;
-                    }
-                }
-
+                $string = String::init($string);
+                $string->clean($filter);
                 return $string;
-            } else {
-                return $string;
+            } elseif (is_numeric($string)) {
+                return Number::init($string);
+            } elseif (is_array($string)) {
+                return Collection::init($string);
             }
+
+            return $string;
         }
     }
 
@@ -269,9 +305,9 @@ class Input extends Base
     public function csrfToken()
     {
         $_SESSION['csrf_token'] = md5(uniqid(rand(), true));
-        $_SESSION['csrf_time'] = time();
+        $_SESSION['csrf_time']  = time();
 
-        echo '<input type="hidden" name="__csrf" value="' . $_SESSION['csrf_token'] . '" />';
+        echo String::init('<input type="hidden" name="__csrf" value="' . $_SESSION['csrf_token'] . '" />');
     }
 
     /**

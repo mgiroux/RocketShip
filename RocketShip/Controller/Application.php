@@ -2,16 +2,18 @@
 
 namespace RocketShip\Controller;
 
+use String;
+
 class Application extends Base
 {
     public function __construct($custom_view_path=null)
     {
         parent::__construct();
 
-        $this->type = 'application';
-        $this->path = $this->app->root_path . '/app/controllers';
+        $this->type = String::init('application');
+        $this->path = String::init($this->app->root_path . '/app/controllers');
         $this->view = new \RocketShip\View;
-        $name       = strtolower(str_replace('Controller', '', get_class($this)));
+        $name       = String::init(strtolower(str_replace('Controller', '', get_class($this))));
 
         $path = (empty($custom_view_path)) ? dirname($this->path) . '/views/' . $name : $custom_view_path;
 

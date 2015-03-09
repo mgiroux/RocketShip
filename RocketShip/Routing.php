@@ -2,6 +2,9 @@
 
 namespace RocketShip;
 
+use String;
+use Collection;
+
 class Routing extends Base
 {
     private static $routes          = [];
@@ -49,8 +52,12 @@ class Routing extends Base
             foreach ($data as $num => $route) {
                 foreach ($route->uri as $lang => $uri) {
                     $route->uri->{$lang} = (substr($uri, -1, 1) == '/') ? substr($uri, 0, strlen($uri) - 1) : $uri;
+
+                    if (empty($route->uri->{$lang})) {
+                        $route->uri->{$lang} = String::init('/');
+                    }
                 }
-                $route->path = $this->app->root_path . '/app';
+                $route->path = String::init($this->app->root_path . '/app');
             }
 
             self::$routes = $data;
@@ -83,9 +90,9 @@ class Routing extends Base
 
                 foreach ($data as $key => $route) {
                     foreach ($route->uri as $lang => $uri) {
-                        $route->uri->{$lang} = (substr($uri, -1, 1) == '/') ? substr($uri, 0, strlen($uri) - 1) : $uri;
+                        $route->uri->{$lang} = (substr($uri, -1, 1) == '/') ? String::init(substr($uri, 0, strlen($uri) - 1)) : String::init($uri);
                     }
-                    $route->path = $path;
+                    $route->path = String::init($path);
 
                     self::$routes->{$key} = $route;
                 }
@@ -104,6 +111,7 @@ class Routing extends Base
      */
     public function find($url)
     {
+        $url = (string)$url;
         $url = (substr($url, -1, 1) == '/') ? substr($url, 0, strlen($url) - 1) : $url;
 
         /* Static routes */
@@ -111,21 +119,21 @@ class Routing extends Base
             foreach (self::$routes as $key => $permalink) {
                 $matched = self::matchURI($permalink, $url);
 
-                if ($matched) {
-                    $this->app->session->set('app_language', $matched['language']);
-                    Locale::setCurrentLocale($matched['language']);
+                if (!empty($matched) && !$matched->isEmpty()) {
+                    $this->app->session->set('app_language', $matched->language);
+                    Locale::setCurrentLocale($matched->language);
 
                     /* this url is secure, if it's not on HTTPS, force it */
-                    if ($permalink->secure == 'yes') {
+                    if ($permalink->secure->equals('yes')) {
                         if (!isset($_SERVER['HTTPS']) || $_SERVER['HTTPS'] != 'on') {
-                            $url = str_replace("http://", "https://", $this->app->site_url) . $url;
+                            $url = $this->app->site_url->replace('http://', 'http://')->append($url);
                             header('location: ' . $url);
                             exit();
                         }
                     }
 
-                    $permalink->arguments = [];
-                    self::$current_path  = $permalink->path;
+                    $permalink->arguments = Collection::init([]);
+                    self::$current_path   = String::init($permalink->path);
                     return $permalink;
                 }
             }
@@ -186,12 +194,13 @@ class Routing extends Base
                                 }
                             }
 
-                            $permalink->arguments = [];
+                            $permalink->arguments = Collection::init([]);
+
                             if (!empty(self::$route_arguments)) {
-                                $permalink->arguments = self::$route_arguments;
+                                $permalink->arguments = Collection::init(self::$route_arguments);
                             }
 
-                            self::$current_path = $permalink->path;
+                            self::$current_path = String::init($permalink->path);
                             return $permalink;
                         }
                     }
@@ -203,9 +212,9 @@ class Routing extends Base
             foreach (self::$routes as $key => $permalink) {
                 if (is_string($permalink->uri) && ($permalink->uri == '/*/' || $permalink->uri == '*')) {
                     /* Catch all route (*) */
-                    if (!empty($matched['language'])) {
-                        $this->app->session->set('app_language', $matched['language']);
-                        Locale::setCurrentLocale($matched['language']);
+                    if (!empty($matched->language)) {
+                        $this->app->session->set('app_language', $matched->language);
+                        Locale::setCurrentLocale($matched->language);
                     }
 
                     /* this url is secure, if it's not on HTTPS, force it */
@@ -217,8 +226,8 @@ class Routing extends Base
                         }
                     }
 
-                    $permalink->arguments = [];
-                    self::$current_path = $permalink->path;
+                    $permalink->arguments = Collection::init([]);
+                    self::$current_path   = String::init($permalink->path);
                     return $permalink;
                 }
             }
@@ -232,7 +241,7 @@ class Routing extends Base
         $output = new \stdClass;
         foreach ($route->uri as $lang => $uri) {
             if ($this->app->session->get('app_language') != $lang) {
-                $output->{$lang} = $this->app->site_url . $uri;
+                $output->{$lang} = String::init($this->app->site_url . $uri);
             }
         }
 
@@ -258,7 +267,7 @@ class Routing extends Base
                     self::$json_flag = true;
                 }
 
-                return ['language' => $lang];
+                return Collection::init(['language' => $lang]);
             }
         }
 
@@ -318,11 +327,11 @@ class Routing extends Base
                 $url      = $permalink->{$route}->uri;
                 $language = ($this->app->session->get('app_language') != null) ? $this->app->session->get('app_language') : Configuration::get('configuration', 'languages.default');
 
-                return $this->parseRoute($url->{$language}, $arguments);
+                return String::init($this->parseRoute($url->{$language}, $arguments));
             }
         }
 
-        return '';
+        return String::init('');
     }
 
     /**

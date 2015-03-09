@@ -5,6 +5,8 @@ namespace RocketShip\Utils;
 use PHPImageWorkshop\ImageWorkshop;
 use RocketShip\Application;
 use RocketShip\Upload;
+use Number;
+use String;
 
 if (!extension_loaded('gd')) {
     throw new \RuntimeException("GD Extension is not available, cannot use Imaging library");
@@ -27,6 +29,8 @@ class Image
      */
     public function __construct($file)
     {
+        $file = (string)$file;
+
         if (!empty($file)) {
             /* Image as first layer */
             if (stristr($file, 'http://') || stristr($file, 'https://')) {
@@ -64,6 +68,10 @@ class Image
      */
     public function resize($w, $h=0, $layer=0)
     {
+        $w     = ($w instanceof Number) ? $w->raw() : $w;
+        $h     = ($h instanceof Number) ? $h->raw() : $h;
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         $w = ($w == 0) ? null : $w;
@@ -92,6 +100,9 @@ class Image
      */
     public function resizeByWidth($w, $layer=0)
     {
+        $w     = ($w instanceof Number) ? $w->raw() : $w;
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         if ($layer == 0) {
@@ -117,6 +128,9 @@ class Image
      */
     public function resizeByHeight($h, $layer=0)
     {
+        $h     = ($h instanceof Number) ? $h->raw() : $h;
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         if ($layer == 0) {
@@ -143,6 +157,10 @@ class Image
      */
     public function crop($x=0, $y=0, $layer=0)
     {
+        $x     = ($x instanceof Number) ? $x->raw() : $x;
+        $y     = ($y instanceof Number) ? $y->raw() : $y;
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         $x = ($x == 0) ? null : $x;
@@ -172,6 +190,10 @@ class Image
      */
     public function cropFromCenter($x=0, $y=0, $layer=0)
     {
+        $x     = ($x instanceof Number) ? $x->raw() : $x;
+        $y     = ($y instanceof Number) ? $y->raw() : $y;
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         if ($layer == 0) {
@@ -200,6 +222,12 @@ class Image
      */
     public function thumbnail($w, $h, $x=0, $y=0, $layer=0)
     {
+        $x     = ($x instanceof Number) ? $x->raw() : $x;
+        $y     = ($y instanceof Number) ? $y->raw() : $y;
+        $w     = ($w instanceof Number) ? $w->raw() : $w;
+        $h     = ($h instanceof Number) ? $h->raw() : $h;
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         $x = ($x == 0) ? null : $x;
@@ -241,6 +269,8 @@ class Image
      */
     public function negative($layer=0)
     {
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         if ($layer == 0) {
@@ -265,6 +295,8 @@ class Image
      */
     public function grayscale($layer=0)
     {
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         if ($layer == 0) {
@@ -290,6 +322,9 @@ class Image
      */
     public function brightness($level=100, $layer=0)
     {
+        $level = ($level instanceof Number) ? $level->raw() : $level;
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         $level = ($level < -255) ? -255 : $level;
@@ -318,6 +353,9 @@ class Image
      */
     public function contrast($level=50, $layer=0)
     {
+        $level = ($level instanceof Number) ? $level->raw() : $level;
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         $level = ($level < -100) ? -100 : $level;
@@ -345,6 +383,8 @@ class Image
      */
     public function blur($layer=0)
     {
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         if ($layer == 0) {
@@ -370,6 +410,9 @@ class Image
      */
     public function pixelate($level=3, $layer=0)
     {
+        $level = ($level instanceof Number) ? $level->raw() : $level;
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         if ($layer == 0) {
@@ -395,6 +438,9 @@ class Image
      */
     public function smooth($level=3, $layer=0)
     {
+        $level = ($level instanceof Number) ? $level->raw() : $level;
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         $level = ($level < -8) ? -8 : $level;
@@ -426,6 +472,12 @@ class Image
      */
     public function colorize($red, $green, $blue, $alpha=0, $layer=0)
     {
+        $red = ($red instanceof Number) ? $red->raw() : $red;
+        $green = ($green instanceof Number) ? $green->raw() : $green;
+        $blue = ($blue instanceof Number) ? $blue->raw() : $blue;
+        $alpha = ($alpha instanceof Number) ? $alpha->raw() : $alpha;
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         $red   = intval((string)$red);
@@ -467,6 +519,9 @@ class Image
      */
     public function flip($direction='horizontal', $layer=0)
     {
+        $direction = (string)$direction;
+        $layer     = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         switch ($direction)
@@ -509,6 +564,9 @@ class Image
      */
     public function opacity($level=50, $layer=0)
     {
+        $level = ($level instanceof Number) ? $level->raw() : $level;
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         $level = ($level < 0) ? 0 : $level;
@@ -535,6 +593,9 @@ class Image
      */
     public function rotate($degree=-45, $layer=0)
     {
+        $degree = ($degree instanceof Number) ? $degree->raw() : $degree;
+        $layer = ($layer instanceof Number) ? $layer->raw() : $layer;
+
         if (empty($this->layers)) { return $this; }
 
         $degree = ($degree < -360) ? -360 : $degree;
@@ -565,6 +626,11 @@ class Image
      */
     public function addLayer($file, $x=0, $y=0, $position='LT')
     {
+        $file     = (string)$file;
+        $x        = ($x instanceof Number) ? $x->raw() : $x;
+        $y        = ($y instanceof Number) ? $y->raw() : $y;
+        $position = (string)$position;
+
         if (empty($this->layers)) { return $this; }
 
         if (stristr($file, 'http://') || stristr($file, 'https://')) {
@@ -595,6 +661,11 @@ class Image
      */
     public function outputFile($target, $quality=80, $type=null, $color=null, $output_hash=false)
     {
+        $target  = (string)$target;
+        $quality = ($quality instanceof Number) ? $quality->raw() : $quality;
+        $type    = (string)$type;
+        $color   = (string)$color;
+
         if (empty($this->layers)) { return ''; }
 
         if (empty($type)) {
@@ -631,9 +702,9 @@ class Image
         unlink($path . $target);
 
         if ($output_hash) {
-            return $hash;
+            return String::init($hash);
         } else {
-            return $upload->get($hash);
+            return String::init($upload->get($hash));
         }
     }
 
@@ -653,6 +724,11 @@ class Image
      */
     public function outputTemp($target, $quality=80, $type=null, $color=null, $output_hash=false)
     {
+        $target  = (string)$target;
+        $quality = ($quality instanceof Number) ? $quality->raw() : $quality;
+        $type    = (string)$type;
+        $color   = (string)$color;
+
         if (empty($this->layers)) { return ''; }
 
         if (empty($type)) {
@@ -675,7 +751,7 @@ class Image
         $target = str_replace(['.jpeg', '.jpg', 'gif', '.png'], '', $target) . '.' . $type;
         $this->layers->save($path, $target, false, $color, $quality);
 
-        return $path . $target;
+        return String::init($path . $target);
     }
 
     /**
@@ -692,6 +768,10 @@ class Image
      */
     public function output($quality=80, $type=null, $color=null)
     {
+        $quality = ($quality instanceof Number) ? $quality->raw() : $quality;
+        $type    = (string)$type;
+        $color   = (string)$color;
+
         if (empty($this->layers)) { return ''; }
 
         $this->layers->mergeAll();
@@ -745,6 +825,11 @@ class Image
      */
     public static function tag($file, $width, $height=null, $options=[])
     {
+        $file    = (string)$file;
+        $width   = ($width instanceof Number) ? $width->raw() : $width;
+        $height  = ($height instanceof Number) ? $height->raw() : $height;
+        $options = ($options instanceof Collection) ? $options->raw() : $options;
+
         /* Hash given */
         $upload = new Upload;
         $cached = $upload->isCached($width . 'x' . $height . '_' . $file);
@@ -777,7 +862,7 @@ class Image
             $measure = 'width="' . $width . '" height="' . $height . '"';
         }
 
-        echo '<img src="' . $file . '" ' . $measure . ' ' . $options . '/>';
+        echo String::init('<img src="' . $file . '" ' . $measure . ' ' . $options . '/>');
     }
 
     /**
@@ -797,6 +882,10 @@ class Image
      */
     public static function get($file, $width, $height=null, $fromCenter=false)
     {
+        $file    = (string)$file;
+        $width   = ($width instanceof Number) ? $width->raw() : $width;
+        $height  = ($height instanceof Number) ? $height->raw() : $height;
+
         /* Hash given */
         $upload = new Upload;
         $cached = $upload->isCached($width . 'x' . $height . '_' . $file);
@@ -835,7 +924,7 @@ class Image
             $file = $app->site_url . '/public/uploads/' . $filedata;
         }
 
-        return $file;
+        return String::init($file);
     }
 
     /**
@@ -850,6 +939,8 @@ class Image
      */
     public static function getImageSize($url)
     {
+        $url = (string)$url;
+
         $headers = ["Range: bytes=0-32768"];
 
         $curl = curl_init($url);
@@ -883,6 +974,8 @@ class Image
      */
     private static function _options($options)
     {
+        $options = ($options instanceof Collection) ? $options->raw() : $options;
+
         /* Class */
         if (isset($options['class'])) {
             $class = ' class="' . $options['class'] . '"';
@@ -909,6 +1002,6 @@ class Image
             $title = '';
         }
 
-        return 'alt="' . $alt . '" ' . $class . $id . $title;
+        return String::init('alt="' . $alt . '" ' . $class . $id . $title);
     }
 }

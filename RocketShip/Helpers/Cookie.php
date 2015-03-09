@@ -55,6 +55,8 @@ class Cookie extends Base
      */
     public function set($name, $value)
     {
+        $name = (string)$name;
+
         $this->handler[$name] = $value;
 
         $exp  = time() + $this->expiration;
@@ -73,6 +75,8 @@ class Cookie extends Base
      */
     public function get($name)
     {
+        $name = (string)$name;
+
         if (!empty($this->handler[$name])) {
             return $this->handler[$name];
         }

@@ -4,6 +4,9 @@ namespace RocketShip\Cache;
 
 use RocketShip\CacheAdapter;
 use RocketShip\Configuration;
+use String;
+use Number;
+use Collection;
 
 class Redis implements CacheAdapter
 {
@@ -49,7 +52,7 @@ class Redis implements CacheAdapter
     {
         if (!empty($this->link)) {
             /* Delete the item if it exists */
-            $ret = $this->link->set($key, json_encode($value), $expire);
+            $ret = $this->link->set($key, serialize($value), $expire);
         }
     }
 
@@ -86,12 +89,20 @@ class Redis implements CacheAdapter
     public final function get($key)
     {
         if (!empty($this->link)) {
-            $arr = json_decode($this->link->get($key));
+            $value = unserialize($this->link->get($key));
 
-            if (empty($arr)) {
+            if (empty($value)) {
                 return null;
             } else {
-                return $arr;
+                if (is_string($value)) {
+                    $value = String::init($value);
+                } elseif (is_numeric($value)) {
+                    $value = Number::init($value);
+                } elseif (is_array($value)) {
+                    $value = Collection::init($value);
+                }
+
+                return $value;
             }
         }
     }

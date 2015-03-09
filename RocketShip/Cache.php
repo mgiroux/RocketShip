@@ -86,6 +86,8 @@ class Cache extends Base
      */
     public final function get($key)
     {
+        $key = (string)$key;
+
         if ($this->caching == 'yes') {
             return $this->driver->get($this->key . '_' . $key);
         } else {
@@ -108,6 +110,8 @@ class Cache extends Base
      */
     public final function set($key, $val, $ttl=CACHE_DAY)
     {
+        $key = (string)$key;
+
         if ($this->caching == 'yes') {
             $this->driver->set($this->key . '_' . $key, $val, $ttl);
         }
@@ -126,6 +130,8 @@ class Cache extends Base
      */
     public final function delete($key)
     {
+        $key = (string)$key;
+
         if ($this->caching == 'yes') {
             $this->driver->delete($this->key . '_' . $key);
         }

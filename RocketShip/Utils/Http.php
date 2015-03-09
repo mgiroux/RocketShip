@@ -4,6 +4,7 @@ namespace RocketShip\Utils;
 
 use Guzzle\Http\Client;
 use Guzzle\Http\Exception\ClientErrorResponseException;
+use Collection;
 
 class Http
 {
@@ -19,6 +20,8 @@ class Http
 
     public function __construct($url)
     {
+        $url = (string)$url;
+
         /* Find URI in url */
         $pos       = strpos($url, '/', 7);
         $this->uri = substr($url, $pos);
@@ -46,6 +49,9 @@ class Http
      */
     public function authentication($user, $password)
     {
+        $user     = (string)$user;
+        $password = (string)$password;
+
         $this->_user     = $user;
         $this->_password = $password;
 
@@ -66,6 +72,8 @@ class Http
      */
     public function setURI($uri)
     {
+        $uri = (string)$uri;
+
         $this->uri($uri);
         return $this;
     }
@@ -117,7 +125,10 @@ class Http
      */
     public function get($headers=null, $uri=null)
     {
-        /* Just-in-time uri change */
+        $headers = ($headers instanceof Collection) ? $headers->raw() : $headers;
+        $uri     = (string)$uri;
+
+        /* JIT uri change */
         if (!empty($uri)) {
             $this->uri = $uri;
         }
@@ -141,7 +152,10 @@ class Http
      */
     public function post($fields=[], $headers=null, $uri=null)
     {
-        /* Just-in-time uri change */
+        $headers = ($headers instanceof Collection) ? $headers->raw() : $headers;
+        $uri     = (string)$uri;
+
+        /* JIT uri change */
         if (!empty($uri)) {
             $this->uri = $uri;
         }
@@ -165,7 +179,10 @@ class Http
      */
     public function put($data='', $headers=null, $uri=null)
     {
-        /* Just-in-time uri change */
+        $headers = ($headers instanceof Collection) ? $headers->raw() : $headers;
+        $uri     = (string)$uri;
+
+        /* JIT uri change */
         if (!empty($uri)) {
             $this->uri = $uri;
         }
@@ -189,7 +206,10 @@ class Http
      */
     public function delete($data='', $headers=null, $uri=null)
     {
-        /* Just-in-time uri change */
+        $headers = ($headers instanceof Collection) ? $headers->raw() : $headers;
+        $uri     = (string)$uri;
+
+        /* JIT uri change */
         if (!empty($uri)) {
             $this->uri = $uri;
         }
@@ -212,7 +232,10 @@ class Http
      */
     public function head($headers=null, $uri=null)
     {
-        /* Just-in-time uri change */
+        $headers = ($headers instanceof Collection) ? $headers->raw() : $headers;
+        $uri     = (string)$uri;
+
+        /* JIT uri change */
         if (!empty($uri)) {
             $this->uri = $uri;
         }
@@ -236,7 +259,10 @@ class Http
      */
     public function patch($data='', $headers=null, $uri=null)
     {
-        /* Just-in-time uri change */
+        $headers = ($headers instanceof Collection) ? $headers->raw() : $headers;
+        $uri     = (string)$uri;
+
+        /* JIT uri change */
         if (!empty($uri)) {
             $this->uri = $uri;
         }
@@ -259,7 +285,10 @@ class Http
      */
     public function options($headers=null, $uri=null)
     {
-        /* Just-in-time uri change */
+        $headers = ($headers instanceof Collection) ? $headers->raw() : $headers;
+        $uri     = (string)$uri;
+
+        /* JIT uri change */
         if (!empty($uri)) {
             $this->uri = $uri;
         }
@@ -281,6 +310,8 @@ class Http
      */
     public function setDefaultHeaders($headers=null)
     {
+        $headers = ($headers instanceof Collection) ? $headers->raw() : $headers;
+
         $this->client->setDefaultHeaders($headers);
         return $this;
     }
@@ -298,6 +329,7 @@ class Http
      */
     public function getHeader($name)
     {
+        $name = (string)$name;
         return $this->response->getHeader($name);
     }
 

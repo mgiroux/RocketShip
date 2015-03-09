@@ -4,6 +4,8 @@ namespace RocketShip;
 
 use RocketShip\Utils\Request;
 use Symfony\Component\Yaml\Yaml;
+use String;
+use Collection;
 
 class Locale extends Base
 {
@@ -79,7 +81,7 @@ class Locale extends Base
             }
 
             if (!empty($strings)) {
-                self::$locale_strings = array_merge(self::$locale_strings, $strings);
+                self::$locale_strings = Collection::init(array_merge(self::$locale_strings, $strings));
             }
         }
     }
@@ -99,14 +101,15 @@ class Locale extends Base
      */
     private static function getString($string)
     {
-        $indexes = explode(".", $string);
-
+        $string  = String::init($string);
+        $indexes = $string->split('.');
         $strings = self::$locale_strings;
+
         foreach ($indexes as $index) {
-            if (!empty($strings[$index])) {
-                $strings = $strings[$index];
+            if (!empty($strings->$index)) {
+                $strings = $strings->$index;
             } else {
-                return $string;
+                return String::init($string);
             }
         }
 
@@ -127,23 +130,23 @@ class Locale extends Base
      */
     private static function findString($string)
     {
-        $strings = self::$locale_strings;
+        $strings = self::$locale_strings->raw();
 
         foreach ($strings as $key => $string_group) {
             foreach ($string_group as $index => $value) {
                 if (!is_string($value)) {
                     foreach ($value as $key => $subvalue) {
                         if ($key == $string) {
-                            return $value;
+                            return String::init($value);
                         }
                     }
                 } elseif ($index == $string) {
-                    return $value;
+                    return String::init($value);
                 }
             }
         }
 
-        return $string;
+        return String::init($string);
     }
 
     /**
@@ -160,7 +163,7 @@ class Locale extends Base
      */
     public static function setCurrentLocale($code)
     {
-        self::$current_locale = $code;
+        self::$current_locale = String::init($code);
     }
 
     /**
@@ -177,7 +180,7 @@ class Locale extends Base
      */
     public static function setOverrideLocale($code)
     {
-        self::$alternate_locale = $code;
+        self::$alternate_locale = String::init($code);
     }
 
     /**
@@ -193,7 +196,7 @@ class Locale extends Base
      */
     public static function switchLocale($code)
     {
-        $_SESSION['app_language'] = $code;
+        $_SESSION['app_language'] = String::init($code);
         self::setCurrentLocale($code);
         self::loadAll();
     }
@@ -216,7 +219,8 @@ class Locale extends Base
                 $variables = [$variables];
             }
 
-            echo vsprintf(self::getString($string), $variables);
+            $string = self::getString($string);
+            echo $string->format($variables);
         } else {
             echo self::getString($string);
         }
@@ -241,7 +245,8 @@ class Locale extends Base
                 $variables = [$variables];
             }
 
-            return vsprintf(self::getString($string), $variables);
+            $string = self::getString($string);
+            return $string->format($variables);
         } else {
             return self::getString($string);
         }
@@ -266,7 +271,8 @@ class Locale extends Base
                 $variables = [$variables];
             }
 
-            return vsprintf(self::findString($string), $variables);
+            $string = self::getString($string);
+            return $string->format($variables);
         } else {
             return self::findString($string);
         }
@@ -304,28 +310,28 @@ class Locale extends Base
 
         if (!empty($conf)) {
             foreach ($conf as $domain => $info) {
-                if ($domain == $host) {
-                    if ($info->locale == $locale) {
+                if ($host->equals($domain)) {
+                    if ($locale->equals($info->locale)) {
                         return null;
                     } else {
-                        //$url = new URL;
+                        $protocol = $app->request->protocol;
 
-                        $protocol = self::$app->request->protocol;
-
-                        if ($protocol == Request::HTTPS) {
+                        if ($protocol->equals(Request::HTTPS)) {
                             if (empty($redirect)) {
-                                $redirect = 'https://' . $info->redirect . $uri;
+                                $redirect = $uri->prepend('https://' . $info->redirect);
                             } else {
-                                $redirect = 'https://' . $info->redirect . $redirect;
+                                $r = (string)$redirect;
+                                $redirect = String::init('https://' . $info->redirect . $r);
                             }
 
                             header('location: ' . $redirect);
                             exit();
                         } else {
                             if (empty($redirect)) {
-                                $redirect = 'http://' . $info->redirect . $uri;
+                                $redirect = $uri->prepend('http://' . $info->redirect);
                             } else {
-                                $redirect = 'http://' . $info->redirect . $redirect;
+                                $r = (string)$redirect;
+                                $redirect = String::init('http://' . $info->redirect . $r);
                             }
 
                             header('location: ' . $redirect);

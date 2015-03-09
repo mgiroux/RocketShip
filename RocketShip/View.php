@@ -4,6 +4,7 @@ namespace RocketShip;
 
 use RocketShip\Helpers\HTML;
 use RocketShip\Directives;
+use String;
 
 class View extends Base
 {
@@ -90,8 +91,9 @@ class View extends Base
     {
         parent::__construct();
 
-        $this->data = new \stdClass;
-        $this->html = new HTML;
+        $this->layout = String::init('default');
+        $this->data   = new \stdClass;
+        $this->html   = new HTML;
     }
 
     /**
@@ -199,12 +201,14 @@ class View extends Base
      */
     public function useLayout($layout)
     {
-        if (stristr($layout, '@')) {
+        $layout = String::init($layout);
+
+        if ($layout->contains('@')) {
             /* Bundle layout reference */
-            list($layout, $bundle) = explode("@", $layout);
-            $path                  = $this->app->root_path . '/bundles/' . ucfirst(strtolower($bundle)) . '/views/layouts/' . $layout;
-            $this->layout          = 'ref:' . $path;
-            $this->assets_path     = $this->app->site_url . '/public/' . $bundle;
+            $conf                  = $layout->split('@');
+            $path                  = $this->app->root_path->append('/bundles/')->append($conf->{1}->lower()->capitalize)->append('/views/layouts' . $conf->{0});
+            $this->layout          = String::init('ref:' . $path);
+            $this->assets_path     = $this->app->site_url->append('/public/' . $conf->{1});
         } else {
             $this->layout = $layout;
         }
@@ -225,6 +229,8 @@ class View extends Base
      */
     public final function render($template, $format=self::HTML)
     {
+        $template = (string)$template;
+
         if (Routing::$json_flag == true) {
             $format = self::JSON;
         }
@@ -239,7 +245,7 @@ class View extends Base
 
         $addition = null;
 
-        if ($this->app->request->isMobile() && $this->app->config->general->is_reponsive == 'no') {
+        if ($this->app->request->isMobile() && $this->app->config->general->is_reponsive->equals('no')) {
             $addition = '_mobile';
         }
 
@@ -266,8 +272,8 @@ class View extends Base
         }
 
         /* Support bundle layout reference */
-        if (stristr($this->layout, 'ref:')) {
-            $layout = substr($this->layout, 4) . '.html';
+        if ($this->layout->contains('ref:')) {
+            $layout = $this->layout->substring(4)->append('.html');
         } else {
             $layout = dirname($this->path) . '/layouts/' . $this->layout . $addition . '.html';
         }
@@ -326,13 +332,14 @@ class View extends Base
      */
     public final function partial($name, $data=null)
     {
+        $name = String::init($name);
         $addition = null;
 
         if ($this->app->request->isMobile() && $this->app->config->general->is_reponsive == 'no') {
             $addition = '_mobile';
         }
 
-        if (stristr($name, '.html') || stristr($name, '.php') || stristr($name, '.mustache')) {
+        if ($name->contains('.html') || $name->contains('.php') || $name->contains('.mustache')) {
             if (file_exists($this->path . '/partials/' . $name)) {
                 ob_start();
                 include $this->path . '/partials/' . $name;

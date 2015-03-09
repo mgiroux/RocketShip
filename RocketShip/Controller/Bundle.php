@@ -3,6 +3,7 @@
 namespace RocketShip\Controller;
 
 use RocketShip\Routing;
+use String;
 
 class Bundle extends Base
 {
@@ -10,10 +11,10 @@ class Bundle extends Base
     {
         parent::__construct();
 
-        $this->type = 'bundle';
-        $this->path = Routing::$current_path . '/controllers';
+        $this->type = String::init('bundle');
+        $this->path = String::init(Routing::$current_path . '/controllers');
         $this->view = new \RocketShip\View;
-        $name       = strtolower(str_replace('Controller', '', get_class($this)));
+        $name       = String::init(strtolower(str_replace('Controller', '', get_class($this))));
 
         $path = (empty($custom_view_path)) ? dirname($this->path) . '/views/' . $name : $custom_view_path;
 

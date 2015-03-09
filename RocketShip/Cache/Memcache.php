@@ -4,6 +4,9 @@ namespace RocketShip\Cache;
 
 use RocketShip\CacheAdapter;
 use RocketShip\Configuration;
+use String;
+use Number;
+use Collection;
 
 class Memcache implements CacheAdapter
 {
@@ -78,13 +81,21 @@ class Memcache implements CacheAdapter
     public final function get($key)
     {
         if (!empty($this->link)) {
-            $arr = $this->link->get($key);
+            $value = $this->link->get($key);
             
-            if (empty($arr)) {
+            if (empty($value)) {
                 return null;
             } else {
-                return $arr;
-            }  
+                if (is_string($value)) {
+                    $value = String::init($value);
+                } elseif (is_numeric($value)) {
+                    $value = Number::init($value);
+                } elseif (is_array($value)) {
+                    $value = Collection::init($value);
+                }
+
+                return $value;
+            }
         }
     }
 

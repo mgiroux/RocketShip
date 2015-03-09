@@ -1,0 +1,426 @@
+<?php
+
+class Number
+{
+    private $primitiveValue;
+    private $isInt;
+
+    const PI = M_PI;
+
+    public function __construct($value)
+    {
+        if (is_integer($value)) {
+            $this->isInt = true;
+        } else {
+            $this->isInt = false;
+        }
+
+        $this->primitiveValue = $value;
+    }
+
+    public static function init($value)
+    {
+        return new Number($value);
+    }
+
+    /**
+     *
+     * generate a random number
+     *
+     * @param   mixed   number or int for minimum value
+     * @param   mixed   number or int for maximum value
+     * @return  Number  this object
+     * @access  public
+     * @static
+     *
+     */
+    public static function random($min, $max)
+    {
+        if (is_object($min)) {
+            $min = $min->raw();
+        }
+
+        if (is_object($max)) {
+            $max = $max->raw();
+        }
+
+        return new Number(rand(intval($min), intval($max)));
+    }
+
+    /**
+     *
+     * is the number odd?
+     *
+     * @return  bool    yes/no
+     * @access  public
+     *
+     */
+    public function isOdd()
+    {
+        return ($this->primitiveValue % 2 == 0) ? false : true;
+    }
+
+    /**
+     *
+     * is the number even?
+     *
+     * @return  bool    yes/no
+     * @access  public
+     *
+     */
+    public function isEven()
+    {
+        return ($this->primitiveValue % 2 == 0) ? true : false;
+    }
+
+    /**
+     *
+     * increment the number by 1
+     *
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function inc()
+    {
+        return new Number($this->primitiveValue++);
+    }
+
+    /**
+     *
+     * decrement the number by 1
+     *
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function dec()
+    {
+        return new Number($this->primitiveValue--);
+    }
+
+    /**
+     *
+     * Add given number
+     *
+     * @param   mixed   number or int/float to add to this one
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function sum($number)
+    {
+        if (is_object($number)) {
+            $number = $number->raw();
+        }
+
+        return new Number($number + $this->primitiveValue);
+    }
+
+    /**
+     *
+     * Substract given number
+     *
+     * @param   mixed   number or int/float to substract from this one
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function sub($number)
+    {
+        if (is_object($number)) {
+            $number = $number->raw();
+        }
+
+        return new Number($this->primitiveValue - $number);
+    }
+
+    /**
+     *
+     * Divide by this number
+     *
+     * @param   mixed   number or int/float to divide with
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function divide($number)
+    {
+        if (is_object($number)) {
+            $number = $number->raw();
+        }
+
+        return new Number($this->primitiveValue / $number);
+    }
+
+    /**
+     *
+     * Multiply
+     *
+     * @param   mixed   number or int/float to multiply with
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function times($number)
+    {
+        if (is_object($number)) {
+            $number = $number->raw();
+        }
+
+        return new Number($this->primitiveValue * $number);
+    }
+
+    /**
+     *
+     * Modulo
+     *
+     * @param   mixed   number or int to modulo with
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function mod($by)
+    {
+        if (is_object($by)) {
+            $by = $by->raw();
+        }
+
+        return new Number($this->primitiveValue % $by);
+    }
+
+    /**
+     *
+     * Float modulo
+     *
+     * @param   mixed   number or float to modulo with
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function fmod($by)
+    {
+        if (is_object($by)) {
+            $by = $by->raw();
+        }
+
+        return new Number(fmod($this->primitiveValue, $by));
+    }
+
+    /**
+     *
+     * Round number
+     *
+     * @param   mixed   number or int to round to (precision)
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function round($precision)
+    {
+        if (empty($precision)) {
+            $precision = 2;
+        }
+
+        if (is_object($precision)) {
+            $precision = $precision->raw();
+        }
+
+        return new Number(round($this->primitiveValue, $precision));
+    }
+
+    /**
+     *
+     * Floor number
+     *
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function floor()
+    {
+        return new Number(floor($this->primitiveValue));
+    }
+
+    /**
+     *
+     * Ceil number
+     *
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function ceil()
+    {
+        return new Number(ceil($this->primitiveValue));
+    }
+
+    /**
+     *
+     * Get percentage value
+     *
+     * @param   mixed   number or int/float to calculate percentage with
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function percentage($total)
+    {
+        if (is_object($total)) {
+            $total = $total->raw();
+        }
+
+        return new Number(round($this->primitiveValue / $total * 100, 2));
+    }
+
+    /**
+     *
+     * Square root
+     *
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function sqr()
+    {
+        return new Number(sqrt($this->primitiveValue));
+    }
+
+    /**
+     *
+     * float value
+     *
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function float()
+    {
+        return new Number(floatval($this->primitiveValue));
+    }
+
+    /**
+     *
+     * Integer value
+     *
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function integer()
+    {
+        return new Number(intval($this->primitiveValue));
+    }
+
+    /**
+     *
+     * absolute value
+     *
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function abs()
+    {
+        return new Number(abs($this->primitiveValue));
+    }
+
+    /**
+     *
+     * is infinite?
+     *
+     * @return  bool    yes/no
+     * @access  public
+     *
+     */
+    public function isInfinite()
+    {
+        return is_infinite($this->primitiveValue);
+    }
+
+    /**
+     *
+     * is finite?
+     *
+     * @return  bool    yes/no
+     * @access  public
+     *
+     */
+    public function isFinite()
+    {
+        return is_finite($this->primitiveValue);
+    }
+
+    /**
+     *
+     * is not a number?
+     *
+     * @return  bool    yes/no
+     * @access  public
+     *
+     */
+    public function isNan()
+    {
+        return is_nan($this->primitiveValue);
+    }
+
+    /**
+     *
+     * PI value
+     *
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function pi()
+    {
+        return new Number(self::PI);
+    }
+
+    /**
+     *
+     * exponential value
+     *
+     * @param   mixed   number or int to use as power of
+     * @return  Number  this object
+     * @access  public
+     *
+     */
+    public function pow($exp)
+    {
+        if (is_object($exp)) {
+            $exp = $exp->raw();
+        }
+
+        return new Number(pow($this->primitiveValue, $exp));
+    }
+
+    /* Aliases */
+    public function increment() { return $this->inc(); }
+    public function decrement() { return $this->dec(); }
+    public function add($number) { return $this->sum($number); }
+    public function substract($number) { return $this->sub($number); }
+    public function multiply($number) { return $this->times($number); }
+    public function modulo($number) { return $this->mod($number); }
+    public function fmodulo($number) { return $this->fmod($number); }
+    public function squareRoot() { return $this->sqr(); }
+    public function sqrRoot() { return $this->sqr(); }
+
+    /**
+     *
+     * return the php primitive value of this object
+     *
+     * @return  mixed  the actual integer or float
+     * @access  public
+     *
+     */
+    public function raw()
+    {
+        return $this->primitiveValue;
+    }
+
+    public function __toString()
+    {
+        return (string)$this->primitiveValue;
+    }
+}

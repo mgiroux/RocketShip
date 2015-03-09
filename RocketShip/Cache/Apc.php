@@ -3,6 +3,9 @@
 namespace RocketShip\Cache;
 
 use RocketShip\CacheAdapter;
+use String;
+use Number;
+use Collection;
 
 class Apc implements CacheAdapter
 {
@@ -67,7 +70,17 @@ class Apc implements CacheAdapter
     {
         if ($this->caching == 'yes') {
             if ($this->APCInstalled()) {
-                return apc_fetch($key);
+                $value = apc_fetch($key);
+
+                if (is_string($value)) {
+                    $value = String::init($value);
+                } elseif (is_numeric($value)) {
+                    $value = Number::init($value);
+                } elseif (is_array($value)) {
+                    $value = Collection::init($value);
+                }
+
+                return $value;
             }
         }
     }

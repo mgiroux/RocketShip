@@ -3,6 +3,9 @@
 namespace RocketShip;
 
 use Symfony\Component\Yaml\Yaml;
+use String;
+use Collection;
+use Number;
 
 class Configuration
 {
@@ -26,6 +29,8 @@ class Configuration
      */
     public static function getObject($type)
     {
+        $type = (string)$type;
+
         switch ($type)
         {
             case 'configuration':
@@ -61,6 +66,9 @@ class Configuration
      */
     public static function get($type='configuration', $section=null)
     {
+        $type    = (string)$type;
+        $section = (string)$section;
+
         switch ($type)
         {
             case 'configuration':
@@ -141,6 +149,7 @@ class Configuration
      */
     public static function loadFile($file)
     {
+        $file      = (string)$file;
         $file_hash = md5($file);
 
         if (isset(self::$configuration_cache[$file_hash]) && !empty(self::$configuration_cache[$file_hash])) {
@@ -162,15 +171,17 @@ class Configuration
      *
      * Parse an array to cast it into an object recursively
      *
-     * @param   array   the array to cast into object
-     * @return  object   object representation of the array
+     * @param   mixed   the array to cast into object
+     * @return  object  object representation of the array
      * @access  public
      * @static
      *
      */
     public static function parseArrayToObject($array)
     {
-        if($array != null AND (array_keys($array) === range(0, count($array) - 1))) {
+        $array = ($array instanceof Collection) ? $array->raw() : $array;
+
+        if ($array != null AND (array_keys($array) === range(0, count($array) - 1))) {
             return $array;
         }
 
@@ -179,10 +190,20 @@ class Configuration
         foreach ($object as $key => $value) {
             if (is_array($value)) {
                 if (!empty($object->{$key})) {
-                    $object->{$key} = self::parseArrayToObject($value);
+                    if (!empty($value[0])) {
+                        $object->{$key} = Collection::init($value);
+                    } else {
+                        $object->{$key} = self::parseArrayToObject($value);
+                    }
                 }
             } else {
                 if (!empty($object->{$key})) {
+                    if (is_string($value)) {
+                        $value = String::init($value);
+                    } elseif (is_numeric($value)) {
+                        $value = Number::init($value);
+                    }
+
                     $object->{$key} = $value;
                 }
             }

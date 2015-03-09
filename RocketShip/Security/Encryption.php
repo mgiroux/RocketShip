@@ -4,6 +4,7 @@ namespace RocketShip\Security;
 
 use RocketShip\Base;
 use RocketShip\Configuration;
+use String;
 
 class Encryption extends Base
 {
@@ -23,7 +24,9 @@ class Encryption extends Base
      */
     public static function encrypt($string, $cipher='rijndael')
     {
-        $key = Configuration::get('configuration', 'general.crypt_key');
+        $string = (string)$string;
+        $cipher = (string)$cipher;
+        $key    = Configuration::get('configuration', 'general.crypt_key');
 
         if ($key == 'changemetoobeforeyouencrypt' || strlen($key) < 12) {
             if ($key == 'changemetoobeforeyouencrypt') {
@@ -64,7 +67,7 @@ class Encryption extends Base
                 break;
         }
 
-        return $cipher->encrypt($string);
+        return String::init($cipher->encrypt($string));
     }
 
     /**
@@ -78,11 +81,14 @@ class Encryption extends Base
      * @return  string  clean string
      * @access  public
      * @static
+     * @throws  \Exception if the hash configuration is left by default or too short
      *
      */
     public static function decrypt($string, $cipher='rijndael')
     {
-        $key = Configuration::get('configuration', 'general.crypt_key');
+        $string = (string)$string;
+        $cipher = (string)$cipher;
+        $key    = Configuration::get('configuration', 'general.crypt_key');
 
         if ($key == 'changemetoobeforeyouencrypt' || strlen($key) < 12) {
             if ($key == 'changemetoobeforeyouencrypt') {
@@ -123,7 +129,7 @@ class Encryption extends Base
                 break;
         }
 
-        return $cipher->decrypt($string);
+        return String::init($cipher->decrypt($string));
     }
 
     /**
@@ -132,12 +138,13 @@ class Encryption extends Base
      *
      * @param   string  password to hash
      * @return  string  secure encrypted password
-     * @access  publoc
+     * @access  public
      *
      */
     public function password($password)
     {
-        $key = Configuration::get('configuration', 'general.hash_salt');
+        $password = (string)$password;
+        $key      = Configuration::get('configuration', 'general.hash_salt');
 
         /* Try safer encryption method, if it fails, hash it with sha256 */
         if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
@@ -149,6 +156,6 @@ class Encryption extends Base
             $hash     = hash('sha256', $password . $salt);
         }
 
-        return $hash;
+        return String::init($hash);
     }
 }

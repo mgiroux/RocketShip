@@ -7,6 +7,8 @@ use RocketShip\Configuration;
 use RocketShip\Event;
 use RocketShip\Filter;
 use RocketShip\Utils\Inflector;
+use String;
+use Number;
 
 class Collection
 {
@@ -27,7 +29,8 @@ class Collection
      */
     public final function __construct($collection=null, $isGrid=false)
     {
-        $config = Configuration::get('database', Application::$_environment);
+        $collection = (string)$collection;
+        $config     = Configuration::get('database', Application::$_environment);
 
         if (empty(self::$connection)) {
             if (!empty($config->user) && !empty($config->password)) {
@@ -48,7 +51,7 @@ class Collection
         }
 
         if ($this->isGridFS == true || $isGrid == true) {
-            $this->collection = self::$connection->{$config->database}->getGridFS($collection);
+            $this->collection = self::$connection->{$config->database}->getGridFS($collection->raw());
         } else {
             $this->collection = self::$connection->{$config->database}->{$collection};
         }
@@ -66,13 +69,15 @@ class Collection
      */
     public final function set($collection)
     {
+        $collection = (string)$collection;
+
         $config = Configuration::get('database', Application::$_environment);
 
         $inflector        = new Inflector;
         $collection       = $inflector->underscore($inflector->pluralize($collection));
 
         if ($this->isGridFS == true) {
-            $this->collection = self::$connection->{$config->dataase}->getGridFS($collection);
+            $this->collection = self::$connection->{$config->dataase}->getGridFS($collection->raw());
         } else {
             $this->collection = self::$connection->{$config->database}->{$collection};
         }
@@ -91,6 +96,8 @@ class Collection
      */
     private static final function getCollectionInstance($collection)
     {
+        $collection = (string)$collection;
+
         $config = Configuration::get('database', Application::$_environment);
 
         $inflector  = new Inflector;
@@ -111,7 +118,7 @@ class Collection
      */
     public final function select($select)
     {
-        if (is_string($select)) {
+        if (is_string($select) || $select instanceof String) {
             $fields = explode(",", $select);
             foreach ($fields as $num => $value) {
                 $fields[trim($value)] = true;
@@ -245,15 +252,31 @@ class Collection
 
             foreach ($result as $key => $value) {
                 if (is_array($value)) {
-                    $instance->{$key} = $this->objectifyAssociativeArrays($value);
+                    $instance->{$key} = \Collection::init($value);
                 } elseif (is_object($value) && !stristr(get_class($value), 'Mongo')) {
                     $instance->{$key} = new \stdClass;
 
                     foreach ($value as $k => $v) {
-                        $instance->{$key}->{$k} = $v;
+                        if (is_string($v)) {
+                            $instance->{$key}->{$k} = String::init($v);
+                        } elseif (is_numeric($v)) {
+                            $instance->{$key}->{$k} = Number::init($v);
+                        } elseif (is_array($v)) {
+                            $instance->{$key}->{$k} = \Collection::init($v);
+                        } else {
+                            $instance->{$key}->{$k} = $v;
+                        }
                     }
                 } else {
-                    $instance->{$key} = $value;
+                    if (is_string($value)) {
+                        $instance->{$key} = String::init($value);
+                    } elseif (is_numeric($value)) {
+                        $instance->{$key} = Number::init($value);
+                    } elseif (is_array($value)) {
+                        $instance->{$key} = \Collection::init($value);
+                    } else {
+                        $instance->{$key} = $value;
+                    }
                 }
             }
 
@@ -275,6 +298,7 @@ class Collection
     public final function findAll()
     {
         $request = $this->collection->find($this->query['where'], $this->query['select']);
+        $results = [];
 
         /* Optional query elements */
         if (!empty($this->query['order'])) { $request = $request->sort($this->query['order']); }
@@ -305,15 +329,31 @@ class Collection
 
                 foreach ($doc as $key => $value) {
                     if (is_array($value)) {
-                        $instance->{$key} = $this->objectifyAssociativeArrays($value);
+                        $instance->{$key} = \Collection::init($value);
                     } elseif (is_object($value) && !stristr(get_class($value), 'Mongo')) {
                         $instance->{$key} = new \stdClass;
 
                         foreach ($value as $k => $v) {
-                            $instance->{$key}->{$k} = $v;
+                            if (is_string($v)) {
+                                $instance->{$key}->{$k} = String::init($v);
+                            } elseif (is_numeric($v)) {
+                                $instance->{$key}->{$k} = Number::init($v);
+                            } elseif (is_array($v)) {
+                                $instance->{$key}->{$k} = \Collection::init($v);
+                            } else {
+                                $instance->{$key}->{$k} = $v;
+                            }
                         }
                     } else {
-                        $instance->{$key} = $value;
+                        if (is_string($value)) {
+                            $instance->{$key} = String::init($value);
+                        } elseif (is_numeric($value)) {
+                            $instance->{$key} = Number::init($value);
+                        } elseif (is_array($value)) {
+                            $instance->{$key} = \Collection::init($value);
+                        } else {
+                            $instance->{$key} = $value;
+                        }
                     }
                 }
 
@@ -336,10 +376,10 @@ class Collection
                 $previous_page = ($page - 1 > 0) ? $page - 1 : '';
 
                 $pagination                = new \stdClass;
-                $pagination->current_page  = $current_page;
-                $pagination->count         = $total_pages;
-                $pagination->next_page     = $next_page;
-                $pagination->previous_page = $previous_page;
+                $pagination->current_page  = Number::init($current_page);
+                $pagination->count         = Number::init($total_pages);
+                $pagination->next_page     = Number::init($next_page);
+                $pagination->previous_page = Number::init($previous_page);
 
                 $out             = new \stdClass;
                 $out->results    = $results;
@@ -406,6 +446,7 @@ class Collection
      *
      * Count how many documents are in the collection
      *
+     * @param   array   where statement
      * @return  int     the count
      * @access  public
      * @final
@@ -413,7 +454,7 @@ class Collection
      */
     public final function count($by=null)
     {
-        return $this->collection->count($by);
+        return Number::init($this->collection->count($by));
     }
 
     /**
@@ -488,6 +529,16 @@ class Collection
             /* Add */
             foreach ($this as $var => $value) {
                 if ($var != 'connection' && $var != 'query' && $var != 'collection' && $var != 'isGridFS') {
+                    if (is_object($value)) {
+                        if ($value instanceof String) {
+                            $value = $value->raw();
+                        } elseif ($value instanceof Number) {
+                            $value = $value->raw();
+                        } elseif ($value instanceof \Collection) {
+                            $value = $value->raw();
+                        }
+                    }
+
                     $query[$var] = $value;
                 }
             }
@@ -506,11 +557,22 @@ class Collection
             /* Update */
             foreach ($this as $var => $value) {
                 if ($var != '_id' && $var != 'connection' && $var != 'query' && $var != 'collection' && $var != 'isGridFS' && $var != $key && $var != 'creation_date' && $var != 'modification_date') {
+                    if (is_object($value)) {
+                        if ($value instanceof String) {
+                            $value = $value->raw();
+                        } elseif ($value instanceof Number) {
+                            $value = $value->raw();
+                        } elseif ($value instanceof \Collection) {
+                            $value = $value->raw();
+                        }
+                    }
+
                     $query[$var] = $value;
                 }
             }
             
             $query['modification_date'] = new \MongoDate(time());
+            $keyval = null;
 
             if ($key == '_id') {
                 if (!is_object(($this->{$key}))) {

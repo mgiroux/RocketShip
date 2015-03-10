@@ -4,9 +4,9 @@
 
 RocketShip is a web framework that makes developing web sites and web applications in record time. The documentation will be available soon.
 
-### Why does the code say it's version 1.0.0? 
+### Why does the code say it's version 1.1.0? 
 ---
-It is 1.0.0 under the name RocketShip, but it's actually the 8th version of this framework (only the name as changed).
+It is 1.1.0 under the name RocketShip, but it's actually the 8th version of this framework (only the name as changed).
 
 ### When should i use RocketShip
 ---

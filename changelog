@@ -1,5 +1,14 @@
 RocketShip Changelog
 
+03-10-2015
+
+    - Primitive Object Types BETA 2
+    - Fixed HTML Helper bugs related to bugs with the Primitive Objects
+    - Fixed bug with site_url in app that was not set correctly
+    - Updated ORM to take advantage of the Primitive Object Types in better way
+    - Fixed a bug with cookies in CLI mode (fixing the CLI at the same time)
+    - Added 'toRaw' and 'toPrimitive' static methods in Base class
+
 03-08-2015
 
     - Added Primitive Object Types (String, Number, Collection) -- BETA

@@ -1,5 +1,7 @@
 <?php
 
+use RocketShip\Base;
+
 class Collection implements Iterator, Serializable
 {
     private $primitiveValue;
@@ -25,6 +27,8 @@ class Collection implements Iterator, Serializable
                     $val = new Number($val);
                 } elseif (is_array($val)) {
                     $val = new Collection($val);
+                } elseif ($val instanceof stdClass) {
+                    $val = Base::toPrimitive($val);
                 }
 
                 if (is_string($key)) {
@@ -68,13 +72,7 @@ class Collection implements Iterator, Serializable
      */
     public function append($element)
     {
-        if (is_string($element)) {
-            $element = new String($element);
-        } elseif (is_numeric($element)) {
-            $element = new Number($element);
-        } elseif (is_array($element)) {
-            $element = new Collection($element);
-        }
+        $element = Base::toPrimitive($element);
 
         $this->primitiveValue[] = $element;
         return $this;
@@ -92,13 +90,7 @@ class Collection implements Iterator, Serializable
      */
     public function appendWithKey($element, $key)
     {
-        if (is_string($element)) {
-            $element = new String($element);
-        } elseif (is_numeric($element)) {
-            $element = new Number($element);
-        } elseif (is_array($element)) {
-            $element = new Collection($element);
-        }
+        $element = Base::toPrimitive($element);
 
         $this->primitiveValue[$key] = $element;
         return $this;
@@ -115,13 +107,7 @@ class Collection implements Iterator, Serializable
      */
     public function prepend($element)
     {
-        if (is_string($element)) {
-            $element = new String($element);
-        } elseif (is_numeric($element)) {
-            $element = new Number($element);
-        } elseif (is_array($element)) {
-            $element = new Collection($element);
-        }
+        $element = Base::toPrimitive($element);
 
         array_unshift($this->primitiveValue, $element);
         return $this;
@@ -138,11 +124,7 @@ class Collection implements Iterator, Serializable
      */
     public function remove($index)
     {
-        if ($index instanceof Number) {
-            $index = $index->raw();
-        } elseif ($index instanceof String) {
-            $index = $index->raw();
-        }
+        $index = Base::toRaw($index);
 
         unset($this->primitiveValue[$index]);
         return $this;
@@ -159,10 +141,9 @@ class Collection implements Iterator, Serializable
      */
     public function random($count)
     {
-        $count = ($count instanceof Number) ? $count->raw() : $count;
-
-        $keys = array_rand($this->primitiveValue, $count);
-        $out  = [];
+        $count = Base::toRaw($count);
+        $keys  = array_rand($this->primitiveValue, $count);
+        $out   = [];
 
         foreach ($keys as $key) {
             $out[] = $this->primitiveValue[$key];
@@ -211,7 +192,7 @@ class Collection implements Iterator, Serializable
      */
     public function replace($elements)
     {
-        $elements = ($elements instanceof Collection) ? $elements->raw() : $elements;
+        $elements = Base::toRaw($elements);
 
         $this->primitiveValue = new Collection(array_replace($this->raw(), $elements));
         return $this;
@@ -230,8 +211,8 @@ class Collection implements Iterator, Serializable
      */
     public function slice($offset, $length, $preserve=false)
     {
-        $offset = ($offset instanceof Number) ? $offset->raw() : $offset;
-        $length = ($offset instanceof Number) ? $length->raw() : $length;
+        $offset = Base::toRaw($offset);
+        $length = Base::toRaw($length);
 
         return new Collection(array_slice($this->raw(), $offset, $length, $preserve));
     }
@@ -247,8 +228,7 @@ class Collection implements Iterator, Serializable
      */
     public function search($needle)
     {
-        $needle = ($needle instanceof String) ? $needle->raw() : $needle;
-        $needle = ($needle instanceof Number) ? $needle->raw() : $needle;
+        $needle = Base::toRaw($needle);
         $key    = $this->recursiveSearch($needle, $this);
 
         return ($key !== false) ? $key : false;
@@ -265,10 +245,7 @@ class Collection implements Iterator, Serializable
      */
     public function contains($element)
     {
-        $element = ($element instanceof String) ? $element->raw() : $element;
-        $element = ($element instanceof Number) ? $element->raw() : $element;
-        $element = ($element instanceof Collection) ? $element->raw() : $element;
-
+        $element = Base::toRaw($element);
         return (in_array($element, $this->raw()));
     }
 
@@ -283,7 +260,7 @@ class Collection implements Iterator, Serializable
      */
     public function merge($array)
     {
-        $array = ($array instanceof Collection) ? $array->raw() : $array;
+        $array = Base::toRaw($array);
 
         if (!empty($array)) {
             $this->primitiveValue = array_merge($this->raw(), $array);
@@ -342,8 +319,7 @@ class Collection implements Iterator, Serializable
      */
     public function hasKey($key)
     {
-        $key = (string)$key;
-
+        $key = Base::toRaw($key);
         return (array_key_exists($key, $this->primitiveValue));
     }
 
@@ -428,7 +404,7 @@ class Collection implements Iterator, Serializable
     public function customSort(callable $callback, $key, $maintain=false)
     {
         $raw = $this->raw();
-        $key = (string)$key;
+        $key = Base::toRaw($key);
 
         if (is_callable($callback)) {
             if ($maintain) {
@@ -453,7 +429,7 @@ class Collection implements Iterator, Serializable
      */
     public function chunk($count, $preserve=false)
     {
-        $count = ($count instanceof Number) ? $count->raw() : intval($count);
+        $count = Base::toRaw($count);
         $array = array_chunk($this->raw(), $count, $preserve);
 
         return new Collection($array);
@@ -487,8 +463,7 @@ class Collection implements Iterator, Serializable
      */
     public function reduce(callable $callback, $initial=null)
     {
-        $initial = ($initial instanceof String) ? $initial->raw() : $initial;
-        $initial = ($initial instanceof Number) ? $initial->raw() : $initial;
+        $initial = Base::toRaw($initial);
         $reduced = array_reduce($this->raw(), $callback, $initial);
 
         if (is_string($reduced)) {
@@ -525,7 +500,7 @@ class Collection implements Iterator, Serializable
      */
     public function join($by)
     {
-        $by = (string)$by;
+        $by = Base::toRaw($by);
         return new String(implode($by, $this->raw()));
     }
 
@@ -582,13 +557,7 @@ class Collection implements Iterator, Serializable
         $out = [];
 
         foreach ($this->primitiveValue as $key => $value) {
-            if ($value instanceof Collection) {
-                $out[$key] = $value->raw();
-            } elseif ($value instanceof String || $value instanceof Number) {
-                $out[$key] = $value->raw();
-            } else {
-                $out[$key] = $value;
-            }
+            $out[$key] = Base::toRaw($value);
         }
 
         return $out;

@@ -1,5 +1,7 @@
 <?php
 
+use RocketShip\Base;
+
 class Number
 {
     private $primitiveValue;
@@ -36,13 +38,8 @@ class Number
      */
     public static function random($min, $max)
     {
-        if (is_object($min)) {
-            $min = $min->raw();
-        }
-
-        if (is_object($max)) {
-            $max = $max->raw();
-        }
+        $min = Base::toRaw($min);
+        $max = Base::toRaw($max);
 
         return new Number(rand(intval($min), intval($max)));
     }
@@ -112,9 +109,7 @@ class Number
      */
     public function sum($number)
     {
-        if (is_object($number)) {
-            $number = $number->raw();
-        }
+        $number = Base::toRaw($number);
 
         $this->primitiveValue += $number;
         return $this;
@@ -131,9 +126,7 @@ class Number
      */
     public function sub($number)
     {
-        if (is_object($number)) {
-            $number = $number->raw();
-        }
+        $number = Base::toRaw($number);
 
         $this->primitiveValue -= $number;
         return $this;
@@ -150,9 +143,7 @@ class Number
      */
     public function divide($number)
     {
-        if (is_object($number)) {
-            $number = $number->raw();
-        }
+        $number = Base::toRaw($number);
 
         $this->primitiveValue /= $number;
         return $this;
@@ -169,9 +160,7 @@ class Number
      */
     public function times($number)
     {
-        if (is_object($number)) {
-            $number = $number->raw();
-        }
+        $number = Base::toRaw($number);
 
         $this->primitiveValue *= $number;
         return $this;
@@ -188,10 +177,7 @@ class Number
      */
     public function mod($by)
     {
-        if (is_object($by)) {
-            $by = $by->raw();
-        }
-
+        $by = Base::toRaw($by);
         return new Number($this->primitiveValue % $by);
     }
 
@@ -206,10 +192,7 @@ class Number
      */
     public function fmod($by)
     {
-        if (is_object($by)) {
-            $by = $by->raw();
-        }
-
+        $by = Base::toRaw($by);
         return new Number(fmod($this->primitiveValue, $by));
     }
 
@@ -228,9 +211,7 @@ class Number
             $precision = 2;
         }
 
-        if (is_object($precision)) {
-            $precision = $precision->raw();
-        }
+        $precision = Base::toRaw($precision);
 
         $this->primitiveValue = round($this->primitiveValue, $precision);
         return $this;
@@ -275,10 +256,7 @@ class Number
      */
     public function percentage($total)
     {
-        if (is_object($total)) {
-            $total = $total->raw();
-        }
-
+        $total = Base::toRaw($total);
         return new Number(round($this->primitiveValue / $total * 100, 2));
     }
 
@@ -397,10 +375,7 @@ class Number
      */
     public function pow($exp)
     {
-        if (is_object($exp)) {
-            $exp = $exp->raw();
-        }
-
+        $exp = Base::toRaw($exp);
         return new Number(pow($this->primitiveValue, $exp));
     }
 

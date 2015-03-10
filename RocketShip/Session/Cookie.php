@@ -123,7 +123,7 @@ class Cookie extends Base
         $iv        = mcrypt_create_iv($this->_ivSize, MCRYPT_DEV_URANDOM);
         $encrypted = mcrypt_encrypt($this->_algo, $this->_key, $data, MCRYPT_MODE_CBC, $iv);
         $hmac      = hash_hmac('sha256', $iv . $this->_algo . $encrypted, $this->_auth);
-        $bytes     = file_put_contents($sess_file, $hmac . ':' . base64_encode($iv) . ':' . base64_encode($encrypted));
+        $bytes     = @file_put_contents($sess_file, $hmac . ':' . base64_encode($iv) . ':' . base64_encode($encrypted));
 
         return ($bytes !== false);
     }

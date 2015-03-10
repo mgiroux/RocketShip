@@ -318,7 +318,7 @@ class Application
 
         /* Handle possible /public/uploads/.... if driver is mongo */
         if ($this->config->uploading->driver->equals('mongodb')) {
-            if ($this->uri->contains('/public/uploads/files/')) {
+            if (!empty($this->uri) && $this->uri->contains('/public/uploads/files/')) {
                 $return = $this->handleStaticFile(basename($this->uri));
 
                 if ($return) {
@@ -537,7 +537,8 @@ class Application
 
         $this->root_path = String::init(dirname(__DIR__));
         $this->url_path  = $this->root_path->replace($_SERVER['DOCUMENT_ROOT'], '');
-        $this->site_url  = $this->url_path->replace($protocol . '://', $_SERVER['HTTP_HOST'] . $this->url_path);
+        $this->site_url  = String::init($protocol . '://' . $_SERVER['HTTP_HOST'] . $this->url_path);
+
         $this->uri       = $uri->{0}->replace($this->url_path, '/')->replace('//', '/');
         $this->domain    = String::init(str_replace('www.', '', $_SERVER['HTTP_HOST']));
 

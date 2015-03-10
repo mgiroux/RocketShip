@@ -3,6 +3,7 @@
 use RocketShip\Helpers\Text;
 use RocketShip\Security\Encryption;
 use RocketShip\Utils\Validation;
+use RocketShip\Base;
 
 class String
 {
@@ -141,7 +142,7 @@ class String
      */
     public function contains($string)
     {
-        $string = (string)$string;
+        $string = Base::toRaw($string);
 
         if (stristr($this->primitiveValue, $string)) {
             return true;
@@ -162,8 +163,8 @@ class String
      */
     public function substring($offset, $length=null)
     {
-        $offset = intval($offset);
-        $length = intval($length);
+        $offset = Base::toRaw($offset);
+        $length = Base::toRaw($length);
 
         if ($this->mbstringAvailable()) {
             $sub = mb_substr($this->primitiveValue, $offset, $length);
@@ -187,11 +188,11 @@ class String
      * @access  public
      *
      */
-    public function truncate($length, $endchar = '...', $preserve = false)
+    public function truncate($length, $endchar='...', $preserve = false)
     {
-        $length = intval($length);
-        $endchar = (string)$endchar;
-        $text = new Text;
+        $length  = Base::toRaw($length);
+        $endchar = Base::toRaw($endchar);
+        $text    = new Text;
 
         return new String($text->truncate($this->primitiveValue, $length, $endchar, $preserve));
     }
@@ -205,7 +206,7 @@ class String
      * @access  public
      *
      */
-    public function encode($type = self::ENCODING_BASE64)
+    public function encode($type=self::ENCODING_BASE64)
     {
         if ($type == self::ENCODING_BASE64) {
             return new String(base64_encode($this->primitiveValue));
@@ -223,7 +224,7 @@ class String
      * @access  public
      *
      */
-    public function decode($type = self::ENCODING_BASE64)
+    public function decode($type=self::ENCODING_BASE64)
     {
         if ($type == self::ENCODING_BASE64) {
             return new String(base64_decode($this->primitiveValue));
@@ -243,12 +244,8 @@ class String
      */
     public function split($by)
     {
-        $by = (string)$by;
-        $elements = explode($by, $this->primitiveValue);
-
-        foreach ($elements as $num => $element) {
-            $elements[$num] = new String($element);
-        }
+        $by       = Base::toRaw($by);
+        $elements = Base::toRaw(explode($by, $this->primitiveValue));
 
         return new Collection($elements);
     }
@@ -265,33 +262,8 @@ class String
      */
     public function replace($target, $replacement)
     {
-        if (is_array($target)) {
-            foreach ($target as $num => $el) {
-                $target[$num] = (string)$el;
-            }
-        }
-
-        if (is_array($replacement)) {
-            foreach ($replacement as $num => $el) {
-                $replacement[$num] = (string)$el;
-            }
-        }
-
-        if (is_object($target)) {
-            if ($target instanceof Collection) {
-                $target = $target->raw();
-            } elseif ($target instanceof String) {
-                $target = (string)$target;
-            }
-        }
-
-        if (is_object($replacement)) {
-            if ($replacement instanceof Collection) {
-                $replacement = $replacement->raw();
-            } elseif ($replacement instanceof String) {
-                $replacement = (string)$replacement;
-            }
-        }
+        $target      = Base::toRaw($target);
+        $replacement = Base::toRaw($replacement);
 
         return new String(str_replace($target, $replacement, $this->primitiveValue));
     }
@@ -307,7 +279,7 @@ class String
      * @access  public
      *
      */
-    public function encrypt($cypher = self::CRYPT_DEFAULT)
+    public function encrypt($cypher=self::CRYPT_DEFAULT)
     {
         return new String(Encryption::encrypt($this->primitiveValue, $cypher));
     }
@@ -323,7 +295,7 @@ class String
      * @access  public
      *
      */
-    public function decrypt($cypher = self::CRYPT_DEFAULT)
+    public function decrypt($cypher=self::CRYPT_DEFAULT)
     {
         return new String(Encryption::decrypt($this->primitiveValue, $cypher));
     }
@@ -368,7 +340,7 @@ class String
     {
         if ($this->mbstringAvailable()) {
             $encoding = mb_detect_encoding($this->primitiveValue);
-            $length = mb_strlen($this->primitiveValue, $encoding);
+            $length   = mb_strlen($this->primitiveValue, $encoding);
             $reversed = '';
 
             while ($length-- > 0) {
@@ -412,7 +384,7 @@ class String
      */
     public function wordwrap($count, $eol=null)
     {
-        $count = intval($count);
+        $count = Base::toRaw($count);
         $lines = array_chunk(explode(' ', $this->primitiveValue), $count);
         $final = '';
 
@@ -453,9 +425,9 @@ class String
      * @access  public
      *
      */
-    public function indexOf($string, $reverse = false)
+    public function indexOf($string, $reverse=false)
     {
-        $string = (string)$string;
+        $string = Base::toRaw($string);
 
         if ($this->mbstringAvailable()) {
             if ($reverse) {
@@ -489,7 +461,7 @@ class String
      */
     public function equals($string)
     {
-        $string = (string)$string;
+        $string = Base::toRaw($string);
         return $this->primitiveValue == $string ? true : false;
     }
 
@@ -504,7 +476,7 @@ class String
      * @access  public
      *
      */
-    public function trim($trim = self::TRIM_BOTH)
+    public function trim($trim=self::TRIM_BOTH)
     {
         if ($trim == self::TRIM_LEFT) {
             return new String(ltrim($this->primitiveValue));
@@ -539,7 +511,7 @@ class String
      * @access  public
      *
      */
-    public function hash($type = self::HASH_MD5)
+    public function hash($type=self::HASH_MD5)
     {
         if ($type == self::HASH_CRC32) {
             return new String(crc32($this->primitiveValue));
@@ -561,7 +533,7 @@ class String
      * @access  public
      *
      */
-    public function clean($filter = self::CLEAN_STRING)
+    public function clean($filter=self::CLEAN_STRING)
     {
         $string = urldecode($this->primitiveValue);
         $string = strip_tags($string);
@@ -621,10 +593,7 @@ class String
      */
     public function format($variables)
     {
-        if ($variables instanceof Collection) {
-            $variables = $variables->raw();
-        }
-
+        $variables = Base::toRaw($variables);
         return new String(vsprintf($this->primitiveValue, $variables));
     }
 
@@ -639,7 +608,7 @@ class String
      */
     public function match($regex)
     {
-        $regex = (string)$regex;
+        $regex = Base::toRaw($regex);
         preg_match_all($regex, $this->primitiveValue, $matches);
 
         return new Collection($matches);
@@ -709,9 +678,9 @@ class String
      * @access  public
      *
      */
-    public function isPhone($country = self::STR_ALL)
+    public function isPhone($country=self::STR_ALL)
     {
-        $country = (string)$country;
+        $country    = Base::toRaw($country);
         $validation = new Validation;
         return $validation->phone($this->primitiveValue, $country);
     }
@@ -724,9 +693,9 @@ class String
      * @access  public
      *
      */
-    public function isPostal($country = self::STR_ALL)
+    public function isPostal($country=self::STR_ALL)
     {
-        $country = (string)$country;
+        $country    = Base::toRaw($country);
         $validation = new Validation;
         return $validation->postal($this->primitiveValue, $country);
     }

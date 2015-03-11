@@ -565,7 +565,7 @@ class Application
      */
     private function setupDebugging()
     {
-        if ($this->environment->equals('production') && $this->config->development->debugging->equals('yes')) {
+        if (!$this->environment->equals('production') && $this->config->development->debugging->equals('yes')) {
             error_reporting(E_ERROR | E_PARSE | E_CORE_ERROR);
 
             $whoops      = new Run();

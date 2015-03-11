@@ -3,10 +3,9 @@
 namespace RocketShip;
 
 /* Primitive types loading */
-require_once __DIR__ . '/primitives/String.php';
-require_once __DIR__ . '/primitives/Number.php';
-require_once __DIR__ . '/primitives/Collection.php';
-
+require_once __DIR__ . '/Primitives/String.php';
+require_once __DIR__ . '/Primitives/Number.php';
+require_once __DIR__ . '/Primitives/Collection.php';
 use RocketShip\Database\Collection;
 use RocketShip\Utils\IO;
 use RocketShip\Utils\Request;

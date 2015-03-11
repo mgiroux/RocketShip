@@ -73,8 +73,6 @@ class Base
 
         if (is_object($obj) && $obj instanceof \stdClass) {
             foreach ($obj as $key => $value) {
-                if (is_string($value)) {
-                } elseif (is_numeric($value)) {
                 if (is_numeric($value)) {
                     $value = new Number($value);
                 } elseif (is_string($value)) {

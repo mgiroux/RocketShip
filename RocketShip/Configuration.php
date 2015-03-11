@@ -22,7 +22,7 @@ class Configuration
      * get the whole requested configuration object
      *
      * @param   string  configuration object name
-     * @return  object  the configuration object or null (if name is not valid)
+     * @return  mixed   the configuration object or null (if name is not valid)
      * @access  public
      * @static
      *
@@ -113,7 +113,6 @@ class Configuration
      *
      * Load current application's constants, configuration and database files
      *
-     * @return  void
      * @access  public
      * @static
      *

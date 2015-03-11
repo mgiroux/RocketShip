@@ -113,6 +113,14 @@ class Base
         if ($obj instanceof Collection) {
             return $obj->raw();
         }
+        
+        if (is_array($obj)) {
+            foreach ($obj as $key => $value) {
+                $obj[$key] = self::toRaw($value);
+            }
+
+            return $obj;
+        }
 
         if (is_object($obj)) {
             foreach ($obj as $key => $value) {

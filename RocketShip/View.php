@@ -238,6 +238,7 @@ class View extends Base
         /* Render json only */
         if ($format == self::JSON) {
             header('Content-type: application/json');
+            $this->data = Base::toRaw($this->data);
             echo json_encode($this->data);
             $this->rendered = true;
             return;

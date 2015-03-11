@@ -202,9 +202,9 @@ class Collection
      */
     public final function limit($limit)
     {
-       $limit = Base::toRaw($limit);
-       $this->query['limit'] = $limit;
-       return $this;
+        $limit = Base::toRaw($limit);
+        $this->query['limit'] = $limit;
+        return $this;
     }
 
     /**
@@ -303,6 +303,7 @@ class Collection
         if (!empty($this->query['limit'])) { $request = $request->limit($this->query['limit']); }
 
         $count = $request->count();
+
         if ($count == 0) {
             if ($this->query['paginate']) {
                 $pagination                = new \stdClass;
@@ -536,15 +537,15 @@ class Collection
                     $query[$var] = Base::toRaw($value);
                 }
             }
-            
+
             $query['modification_date'] = new \MongoDate(time());
             $keyval = null;
 
             if ($key == '_id') {
+                $keyval = Base::toRaw($this->{$key});
+
                 if (!is_object(($this->{$key}))) {
                     $keyval = new \MongoId($this->{$key});
-                } else {
-                    $keyval = Base::toRaw($this->{$key});
                 }
             }
 

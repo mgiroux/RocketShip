@@ -6,6 +6,7 @@ namespace RocketShip;
 require_once __DIR__ . '/Primitives/String.php';
 require_once __DIR__ . '/Primitives/Number.php';
 require_once __DIR__ . '/Primitives/Collection.php';
+
 use RocketShip\Database\Collection;
 use RocketShip\Utils\IO;
 use RocketShip\Utils\Request;
@@ -244,7 +245,7 @@ class Application
         if (php_sapi_name() != 'cli') {
             header('X-Powered-By: ' . self::POWERED_BY);
         }
-    
+
         /* Setting memory limit of the PHP process */
         ini_set('memory_limit', $this->config->performance->memory_limit);
 
@@ -280,7 +281,7 @@ class Application
 
         /* Pre Helpers */
         $this->events->trigger(Event::CORE_PRE_HELPERS, null);
-                
+
         /* Load helpers */
         $this->loadHelpers();
 
@@ -362,6 +363,11 @@ class Application
         $this->events->trigger(Event::CORE_PRE_CONTROLLER, null);
 
         $lang = $this->session->get('app_language');
+
+        if (empty($lang)) {
+            $lang = 'en';
+        }
+
         setlocale(LC_ALL, $this->config->localization->{$lang} . '.utf8');
 
         $ip        = $_SERVER['REMOTE_ADDR'];
@@ -552,7 +558,7 @@ class Application
         } else {
             $this->environment = String::init('development');
         }
-        
+
         self::$_environment = String::init($this->environment);
     }
 
@@ -610,7 +616,7 @@ class Application
                 $files[] = $info->getPathname();
             }
         }
-                
+
         if (!empty($files)) {
             foreach ($files as $bundle) {
                 include_once $bundle;
@@ -625,7 +631,7 @@ class Application
 
                 $instance = new $class;
                 $parent   = get_parent_class($instance);
-                
+
                 if ($parent != 'RocketShip\Bundle') {
                     throw new \RuntimeException("The class '{$name}' is not valid bundle class. It must extend the RocketShip\\Bundle class.");
                 }
@@ -642,7 +648,7 @@ class Application
 
                 /* Routing (load routes) */
                 $this->router->loadBundleRoutes(dirname($bundle));
-                
+
                 /* Run init method */
                 $instance->setBundlePath(dirname($bundle));
                 $instance->init();

@@ -74,9 +74,11 @@ class Base
         if (is_object($obj) && $obj instanceof \stdClass) {
             foreach ($obj as $key => $value) {
                 if (is_string($value)) {
-                    $value = new String($value);
                 } elseif (is_numeric($value)) {
+                if (is_numeric($value)) {
                     $value = new Number($value);
+                } elseif (is_string($value)) {
+                    $value = new String($value);
                 } elseif (is_array($value)) {
                     $value = new Collection($value);
                 } elseif ($value instanceof stdClass) {
@@ -113,7 +115,7 @@ class Base
         if ($obj instanceof Collection) {
             return $obj->raw();
         }
-        
+
         if (is_array($obj)) {
             foreach ($obj as $key => $value) {
                 $obj[$key] = self::toRaw($value);
@@ -124,7 +126,7 @@ class Base
 
         if (is_object($obj)) {
             foreach ($obj as $key => $value) {
-                $value = self::toRaw($value);
+                $obj->{$key} = self::toRaw($value);
             }
 
             return $obj;

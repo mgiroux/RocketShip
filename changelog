@@ -1,5 +1,14 @@
 RocketShip Changelog
 
+03-11-2015
+
+    - Primitive Object Types BETA 3
+    - Fixed issue with rendering to JSON with Primitive Objects, now downcasts everything back to php native
+    - Changed processing order for toRaw (numeric before string)
+    - Fixed limit method to downcast Primitive Objects
+    - Fixed potential issue with the MongoId casting in when updating a record
+    - Added 'en' as default locale in Application for when potential "empty property" error comes up
+
 03-10-2015
 
     - Primitive Object Types BETA 2

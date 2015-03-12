@@ -1,9 +1,19 @@
 RocketShip Changelog
 
+03-11-2015 #2
+
+    - Primitive Object Types BETA 4
+    - Added ArrayAccess interface implementation to Collection (now object can be used with the standard array syntax)
+    - Added Countable interface implementation to Collection (now you can also get count by using the standard count php method)
+    - Added JsonSerializable interface implementation to Collection (now can easily be encoded to json without any change to your code)
+    - Refactored 'count' method to 'length' in Collection
+    - Added Authentication class (supporting authentication, creation, permission level checking)
+    - Added missing init call to model construct method (method is required but was never called)
+
 03-11-2015
 
     - Primitive Object Types BETA 3
-    - Fixed issue with rendering to JSON with Primitive Objects, now downcasts everything back to php native
+    - Fixed issue with rendering to JSON with Primitive Objects, now down casts everything back to php native
     - Changed processing order for toRaw (numeric before string)
     - Fixed limit method to downcast Primitive Objects
     - Fixed potential issue with the MongoId casting in when updating a record

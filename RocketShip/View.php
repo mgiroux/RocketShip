@@ -206,9 +206,9 @@ class View extends Base
         if ($layout->contains('@')) {
             /* Bundle layout reference */
             $conf                  = $layout->split('@');
-            $path                  = $this->app->root_path->append('/bundles/')->append($conf->{1}->lower()->capitalize)->append('/views/layouts' . $conf->{0});
+            $path                  = $this->app->root_path->append('/bundles/')->append($conf[1]->lower()->capitalize)->append('/views/layouts' . $conf[0]);
             $this->layout          = String::init('ref:' . $path);
-            $this->assets_path     = $this->app->site_url->append('/public/' . $conf->{1});
+            $this->assets_path     = $this->app->site_url->append('/public/' . $conf[1]);
         } else {
             $this->layout = $layout;
         }

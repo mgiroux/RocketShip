@@ -2,7 +2,7 @@
 
 use RocketShip\Base;
 
-class Collection implements Iterator, Serializable
+class Collection implements Iterator, Serializable, ArrayAccess, Countable, JsonSerializable
 {
     private $primitiveValue;
     private $loopPosition  = 0;
@@ -331,7 +331,7 @@ class Collection implements Iterator, Serializable
      * @access  public
      *
      */
-    public function count()
+    public function length()
     {
         return new Number(count($this->primitiveValue));
     }
@@ -584,6 +584,8 @@ class Collection implements Iterator, Serializable
         return $this->primitiveValue;
     }
 
+    /************** Interface implementations *****************/
+
     public function rewind()
     {
         if ($this->isAssociative) {
@@ -639,5 +641,39 @@ class Collection implements Iterator, Serializable
                 break;
             }
         }
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        if (is_null($offset)) {
+            $this->primitiveValue[] = Base::toPrimitive($value);
+        } else {
+            $this->primitiveValue[$offset] = Base::toPrimitive($value);
+        }
+    }
+
+    public function offsetExists($offset)
+    {
+        return isset($this->primitiveValue[$offset]);
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($this->primitiveValue[$offset]);
+    }
+
+    public function offsetGet($offset)
+    {
+        return isset($this->primitiveValue[$offset]) ? $this->primitiveValue[$offset] : null;
+    }
+
+    public function count()
+    {
+        return count($this->primitiveValue);
+    }
+
+    public function jsonSerialize()
+    {
+        return Base::toRaw($this);
     }
 }

@@ -54,6 +54,10 @@ class Collection
         } else {
             $this->collection = self::$connection->{$config->database}->{$collection};
         }
+
+        if (method_exists($this, 'init')) {
+            $this->init();
+        }
     }
 
     /**

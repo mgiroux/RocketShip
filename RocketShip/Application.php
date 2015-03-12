@@ -417,18 +417,18 @@ class Application
                 if (class_exists($class)) {
                     $instance = new $class;
 
-                    if (method_exists($instance, $action->{0}->raw())) {
-                        $method = $action->{0}->raw();
+                    if (method_exists($instance, $action[0]->raw())) {
+                        $method = $action[0]->raw();
 
                         call_user_func_array([$instance, $method], $this->route->arguments->raw());
 
                         if ($instance->view->rendered == false && $is_api == false) {
-                            call_user_func([$instance->view, 'render'], $action->{0});
+                            call_user_func([$instance->view, 'render'], $action[0]);
                         }
 
                         $this->events->trigger(Event::CORE_POST_CONTROLLER, $instance);
                     } else {
-                        throw new \RuntimeException("Method '{$action->{0}}' in controller '{$name}' cannot be called, not found.'");
+                        throw new \RuntimeException("Method '{$action[0]}' in controller '{$name}' cannot be called, not found.'");
                     }
                 } else {
                     throw new \RuntimeException("Controller '{$name}' does not respect convention, expecting class named '{$class}'");
@@ -538,13 +538,13 @@ class Application
 
         $uri = String::init($_SERVER['REQUEST_URI']);
         $uri = $uri->split('?');
-        $uri->set(0, $uri->{0}->replace('.html', ''));
+        $uri->set(0, $uri[0]->replace('.html', ''));
 
         $this->root_path = String::init(dirname(__DIR__));
         $this->url_path  = $this->root_path->replace($_SERVER['DOCUMENT_ROOT'], '');
         $this->site_url  = String::init($protocol . '://' . $_SERVER['HTTP_HOST'] . $this->url_path);
 
-        $this->uri       = $uri->{0}->replace($this->url_path, '/')->replace('//', '/');
+        $this->uri       = $uri[0]->replace($this->url_path, '/')->replace('//', '/');
         $this->domain    = String::init(str_replace('www.', '', $_SERVER['HTTP_HOST']));
 
         $domain = String::init(str_replace('www.', '', $_SERVER['HTTP_HOST']));

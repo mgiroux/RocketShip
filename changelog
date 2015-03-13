@@ -1,5 +1,11 @@
 RocketShip Changelog
 
+03-12-2015
+
+    - Removed Validation class, replaced by Respect\Validation instead (way more powerful)
+    - Fixed issues with number values of the Geocoder class
+    - Update Guzzle library
+
 03-11-2015 #2
 
     - Primitive Object Types BETA 4

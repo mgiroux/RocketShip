@@ -3,6 +3,7 @@
 namespace RocketShip\Utils;
 
 use String;
+use Number;
 
 class Geocoder
 {
@@ -73,7 +74,7 @@ class Geocoder
             switch ($type)
             {
                 case "street_number":
-                    $this->street_number = String::init($component->long_name);
+                    $this->street_number = Number::init($component->long_name);
                     break;
                     
                 /* Street */
@@ -113,7 +114,7 @@ class Geocoder
         }
         
         $this->query     = String::init($data->formatted_address);
-        $this->latitude  = String::init($data->geometry->location->lat);
-        $this->longitude = String::init($data->geometry->location->lng);
+        $this->latitude  = Number::init($data->geometry->location->lat);
+        $this->longitude = Number::init($data->geometry->location->lng);
     }
 }

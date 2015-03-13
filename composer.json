@@ -2,7 +2,7 @@
     "require": {
         "phpmailer/phpmailer": "5.*",
         "symfony/yaml": "v2.2.1",
-        "guzzle/guzzle": "v3.4.1",
+        "guzzle/guzzle": "3.9.*@dev",
         "aws/aws-sdk-php": "2.*",
         "rackspace/php-opencloud": "V1.5.10",
         "phpunit/phpunit": "3.7.*",
@@ -11,9 +11,10 @@
         "mgiroux/php-cli-tools": "dev-master",
         "filp/whoops": "1.*",
         "sybio/image-workshop": "2.*",
-        "nesbot/carbon": "dev-master",
         "bshaffer/oauth2-server-php": "v1.3",
-        "gherkins/regexpbuilderphp": "dev-master"
+        "gherkins/regexpbuilderphp": "dev-master",
+        "respect/validation": "0.9.*@dev",
+        "egulias/email-validator": "~1.3@dev"
     },
     "repositories": [
         {

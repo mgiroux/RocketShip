@@ -139,7 +139,7 @@ class Routing extends Base
             }
         }
 
-        /* Check possible dynamic routes (:num, :param, :any or pattern) */
+        /* Check possible dynamic routes (:num, :any, :string, :mongoid or pattern) */
         if (!empty(self::$routes)) {
             foreach (self::$routes as $key => $permalink) {
                 $is_wild = self::isWild($permalink->uri);
@@ -147,7 +147,7 @@ class Routing extends Base
                 if ($is_wild) {
                     /* Replace easy-wildcards by regex params */
                     $targets = ['(:num)', '(:any)', '(:string)', '(:mongoid)'];
-                    $replace = ['([0-9]+)', '([0-9a-zA-Z\.\-\_\/\:\=]+)', '([a-zA-Z\-]+)', '([0-9a-fA-F]{24})'];
+                    $replace = ['([0-9]+)', '([0-9a-zA-Z\.\-\_\/\:\=]+)', '([a-zA-Z0-9\-]+)', '([0-9a-fA-F]{24})'];
 
                     foreach ($permalink->uri as $lang => $the_uri) {
                         $pattern = '/(\\()((?:[a-zA-Z0-9]*))(\\))/';
@@ -289,7 +289,7 @@ class Routing extends Base
         $pattern_regex = '/(\\()((?:[a-zA-Z0-9]*))(\\))/';
 
         foreach ($uri as $lang => $the_uri) {
-            if (stristr($the_uri, '(:any)') || stristr($the_uri, '(:num)') || stristr($the_uri, '(:string)' || stristr($the_uri, '(:mongoid)'))) {
+            if (stristr($the_uri, '(:mongoid)') || stristr($the_uri, '(:any)') || stristr($the_uri, '(:num)') || stristr($the_uri, '(:string)')) {
                 return true;
             }
         }

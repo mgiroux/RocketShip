@@ -50,7 +50,7 @@ class HTML extends Base
                     if (file_exists($this->app->root_path . $path . '/' . $file)) {
                         /* Add file modification time only for developement and staging environments (helps with debugging) */
                         if ($this->app->config->development->anticaching->equals('yes')) {
-                            $time = filemtime($path . '/' . $file);
+                            $time = filemtime($this->app->root_path . $path . '/' . $file);
                             echo '<link rel="stylesheet" href="' . $this->app->site_url . $path . '/' . $file . '?' . $time . '">' . "\n";
                         } else {
                             echo '<link rel="stylesheet" href="' . $this->app->site_url . $path . '/' . $file . '">' . "\n";
@@ -91,7 +91,7 @@ class HTML extends Base
                 if ($this->app->config->development->anticaching->equals('yes')) {
                     /* Add file modification time only for developement and staging environments (helps with debugging) */
                     if (\RocketShip\Configuration::get('configuration', 'development.anticaching') == 'yes') {
-                        $time = filemtime($path . '/' . $file);
+                        $time = filemtime($this->app->root_path . $path . '/' . $file);
                         echo '<link rel="stylesheet" href="' . $this->app->site_url . $path . '/' . $file . '?' . $time . '">' . "\n";
                     } else {
                         echo '<link rel="stylesheet" href="' . $this->app->site_url . $path . '/' . $file . '">' . "\n";
@@ -167,7 +167,7 @@ class HTML extends Base
                     if (file_exists($this->app->root_path . $path . '/' . $file)) {
                         /* Add file modification time only for developement and staging environments (helps with debugging) */
                         if ($this->app->config->development->anticaching->equals('yes')) {
-                            $time = filemtime($path . '/' . $file);
+                            $time = filemtime($this->app->root_path . $path . '/' . $file);
                             echo '<script type="text/javascript" src="' . $this->app->site_url . $path . '/' . $file . '?' . $time . '"></script>' . "\n";
                         } else {
                             echo '<script type="text/javascript" src="' . $this->app->site_url . $path . '/' . $file . '"></script>' . "\n";
@@ -202,10 +202,10 @@ class HTML extends Base
                 $file .= '.js';
             }
 
-            if (file_exists($_SERVER['DOCUMENT_ROOT'] .  $path . '/' . $file)) {
+            if (file_exists($this->app->root_path . $path . '/' . $file)) {
                 /* Add file modification time only for developement and staging environments (helps with debugging) */
                 if ($this->app->config->development->anticaching->equals('yes')) {
-                    $time = filemtime($path . '/' . $file);
+                    $time = filemtime($this->app->root_path . $path . '/' . $file);
                     echo '<script type="text/javascript" src="' . $this->app->site_url . $path . '/' . $file . '?' . $time . '"></script>' . "\n";
                 } else {
                     echo '<script type="text/javascript" src="' . $this->app->site_url . $path . '/' . $file . '"></script>' . "\n";

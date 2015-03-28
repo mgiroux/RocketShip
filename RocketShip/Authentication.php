@@ -96,7 +96,7 @@ class Authentication extends Model
         if (empty($found)) {
             $instance->username = Base::toRaw($username);
             $instance->password = $instance->hashPassword(Base::toRaw($password));
-            $instance->levelk   = Base::toRaw($level);
+            $instance->level    = Base::toRaw($level);
             $instance->meta     = (object)Base::toRaw($meta);
 
             $instance->save();

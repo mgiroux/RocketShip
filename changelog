@@ -4,7 +4,7 @@ RocketShip Changelog
 
     - Removed Validation class, replaced by Respect\Validation instead (way more powerful)
     - Fixed issues with number values of the Geocoder class
-    - Update Guzzle library
+    - Updated the Guzzle library
 
 03-11-2015 #2
 

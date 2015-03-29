@@ -71,7 +71,21 @@ class Authentication extends Model
             return false;
         }
 
-        return ($_SESSION['rs_session']->level->raw() >= Base::toRaw($level)) ? true : false;
+        if (!empty($_SESSION['rs_session']->level)) {
+            return ($_SESSION['rs_session']->level->raw() >= Base::toRaw($level)) ? true : false;
+        }
+
+        return false;
+    }
+
+    public static function assureLevel($level=self::LEVEL_USER)
+    {
+        if (Authentication::hasLevel(Authentication::LEVEL_USER)) {
+            return true;
+        } else {
+            header('location: /forbidden');
+            exit();
+        }
     }
 
     /**

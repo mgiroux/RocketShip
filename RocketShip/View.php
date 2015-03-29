@@ -343,15 +343,15 @@ class View extends Base
         if ($name->contains('.html') || $name->contains('.php') || $name->contains('.mustache')) {
             if (file_exists($this->path . '/partials/' . $name)) {
                 ob_start();
-                include $this->path . '/partials/' . $name;
+                include dirname($this->path) . '/partials/' . $name;
                 $html = ob_get_clean();
                 $html = $this->app->filters->trigger('render', $html);
                 echo Directives::parse($this, '', $html);
             }
         } else {
-            if (file_exists($this->path . '/partials/' . $name . $addition . '.html')) {
+            if (file_exists(dirname($this->path) . '/partials/' . $name . $addition . '.html')) {
                 ob_start();
-                include $this->path . '/partials/' . $name . $addition . '.html';
+                include dirname($this->path) . '/partials/' . $name . $addition . '.html';
                 $html = ob_get_clean();
                 $html = $this->app->filters->trigger('render', $html);
                 echo Directives::parse($this, '', $html);

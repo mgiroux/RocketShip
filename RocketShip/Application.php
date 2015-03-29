@@ -22,8 +22,8 @@ use Collection AS stdCollection;
 
 class Application
 {
-    const VERSION    = '1.1.0 (8)';
-    const POWERED_BY = 'RocketShip 1.1.0 (8)';
+    const VERSION    = '1.2.0 (8)';
+    const POWERED_BY = 'RocketShip 1.2.0 (8)';
 
     /**
      *

@@ -80,11 +80,17 @@ class Authentication extends Model
 
     public static function assureLevel($level=self::LEVEL_USER)
     {
+        $app = Application::$instance;
+
         if (Authentication::hasLevel(Authentication::LEVEL_USER)) {
             return true;
         } else {
-            header('location: /forbidden');
-            exit();
+            include_once $app->root_path . '/app/controllers/Error.php';
+            $error = new \ErrorController();
+            $error->forbidden();
+
+            $error->view->render('forbidden');
+            $app->quit();
         }
     }
 

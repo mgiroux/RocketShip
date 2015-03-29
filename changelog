@@ -3,7 +3,10 @@ RocketShip Changelog
 03-29-2015
 
     - Moved partials to global view directory
-    - View class was adjusted for the new partials directory
+    - Changed View class was adjusted for the new partials directory
+    - Added Authentication level validation (assureLevel)
+    - Primitive Object Types now RTM
+    - Upgrade version to 1.2.0
 
 03-12-2015
 

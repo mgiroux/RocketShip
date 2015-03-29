@@ -133,9 +133,4 @@ abstract class Directives
             throw new \Exception("Directive found but the filename does not match the class it implements.");
         }
     }
-
-    private static final function traverse($value, $index)
-    {
-
-    }
 }

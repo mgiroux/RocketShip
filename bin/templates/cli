@@ -5,4 +5,20 @@ require_once dirname(dirname(__DIR__)) . '/RocketShip/Application.php';
 $app     = new RocketShip\Application;
 $console = new RocketShip\Console;
 
+/**
+ *
+ * Add your switches here
+ *
+ * ex:
+ *
+ * $console->addOption(['longversion', 'short'], [
+ *   'default'     => null,
+ *   'description' => 'Description'
+ * ]);
+ *
+ * The --help and -h flags are reserved for the automatic help summary
+ *
+ */
+
 // Your code
+$console->getArguments(); // given arguments

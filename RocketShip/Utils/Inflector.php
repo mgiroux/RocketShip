@@ -2,8 +2,6 @@
 
 namespace RocketShip\Utils;
 
-use String;
-
 class Inflector
 {
     protected static $_plural = [
@@ -222,18 +220,18 @@ class Inflector
 
         if (preg_match('/(.*)\\b(' . self::$_plural['cacheIrregular'] . ')$/i', $word, $regs)) {
             self::$_cache['pluralize'][$word] = $regs[1] . substr($word, 0, 1) . substr(self::$_plural['merged']['irregular'][strtolower($regs[2])], 1);
-            return String::init(self::$_cache['pluralize'][$word]);
+            return self::$_cache['pluralize'][$word];
         }
 
         if (preg_match('/^(' . self::$_plural['cacheUninflected'] . ')$/i', $word, $regs)) {
             self::$_cache['pluralize'][$word] = $word;
-            return String::init($word);
+            return $word;
         }
 
         foreach (self::$_plural['rules'] as $rule => $replacement) {
             if (preg_match($rule, $word)) {
                 self::$_cache['pluralize'][$word] = preg_replace($rule, $replacement, $word);
-                return String::init(self::$_cache['pluralize'][$word]);
+                return self::$_cache['pluralize'][$word];
             }
         }
     }
@@ -277,23 +275,23 @@ class Inflector
 
          if (preg_match('/(.*)\\b(' . self::$_singular['cacheIrregular'] . ')$/i', $word, $regs)) {
              self::$_cache['singularize'][$word] = $regs[1] . substr($word, 0, 1) . substr(self::$_singular['merged']['irregular'][strtolower($regs[2])], 1);
-             return String::init(self::$_cache['singularize'][$word]);
+             return self::$_cache['singularize'][$word];
          }
 
          if (preg_match('/^(' . self::$_singular['cacheUninflected'] . ')$/i', $word, $regs)) {
              self::$_cache['singularize'][$word] = $word;
-             return String::init($word);
+             return $word;
          }
 
          foreach (self::$_singular['rules'] as $rule => $replacement) {
             if (preg_match($rule, $word)) {
                 self::$_cache['singularize'][$word] = preg_replace($rule, $replacement, $word);
-                return String::init(self::$_cache['singularize'][$word]);
+                return self::$_cache['singularize'][$word];
              }
          }
 
          self::$_cache['singularize'][$word] = $word;
-         return String::init($word);
+         return $word;
     }
 
     /**
@@ -311,7 +309,7 @@ class Inflector
     public static function titleize($word, $uppercase='first')
     {
         $uppercase = $uppercase == 'first' ? 'ucfirst' : 'ucwords';
-        return String::init($uppercase(Inflector::humanize(Inflector::underscore($word))));
+        return $uppercase(Inflector::humanize(Inflector::underscore($word)));
     }
 
     /**
@@ -328,7 +326,7 @@ class Inflector
      */
     public static function camelize($word)
     {
-        return String::init(str_replace(' ', '', ucwords(preg_replace('/[^A-Z^a-z^0-9]+/', ' ', $word))));
+        return str_replace(' ', '', ucwords(preg_replace('/[^A-Z^a-z^0-9]+/', ' ', $word)));
     }
 
     /**
@@ -345,10 +343,10 @@ class Inflector
      */
     public static function underscore($word)
     {
-        return String::init(strtolower(preg_replace('/[^A-Z^a-z^0-9]+/', '_',
+        return strtolower(preg_replace('/[^A-Z^a-z^0-9]+/', '_',
             preg_replace('/([a-zd])([A-Z])/', '\1_\2',
             preg_replace('/([A-Z]+)([A-Z][a-z])/', '\1_\2', $word))
-        )));
+        ));
     }
 
     /**
@@ -367,7 +365,7 @@ class Inflector
     public static function humanize($word, $uppercase='')
     {
         $uppercase = $uppercase == 'all' ? 'ucwords' : 'ucfirst';
-        return String::init($uppercase(str_replace('_', ' ', preg_replace('/_id$/', '', $word))));
+        return $uppercase(str_replace('_', ' ', preg_replace('/_id$/', '', $word)));
     }
 
     /**
@@ -384,7 +382,7 @@ class Inflector
      */
     public static function tableize($class_name)
     {
-        return String::init(Inflector::pluralize(Inflector::underscore($class_name)));
+        return Inflector::pluralize(Inflector::underscore($class_name));
     }
 
     /**
@@ -401,7 +399,7 @@ class Inflector
      */
     public static function classify($table_name)
     {
-        return String::init(Inflector::camelize(Inflector::singularize($table_name)));
+        return Inflector::camelize(Inflector::singularize($table_name));
     }
 
     /**

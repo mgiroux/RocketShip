@@ -16,7 +16,7 @@ class Upload extends Base
         parent::__construct();
 
         $config = $this->app->config->uploading;
-        $driver = $config->driver->lower()->capitalize()->raw();
+        $driver = ucfirst(strtolower($config->driver));
 
         include_once dirname(__FILE__) . '/Upload/' . $driver . '.php';
         $class        = '\\RocketShip\\Upload\\' . $driver;
@@ -65,7 +65,7 @@ class Upload extends Base
 
             $this->app->events->trigger(Event::UPLOAD_DONE, $return);
 
-            return String::init($return);
+            return $return;
         } else {
             $this->app->events->trigger(Event::UPLOAD_FAILED, $file);
             return null;
@@ -107,7 +107,7 @@ class Upload extends Base
         $name   = basename($file);
         $file   = $this->driver->moveObject($file, 'cache', $name);
         $return = $this->writeCacheFilesystem($hash, $file);
-        return String::init($return);
+        return $return;
     }
 
     /**
@@ -124,7 +124,7 @@ class Upload extends Base
         $cache = $this->searchCacheFiles($hash);
 
         if (!empty($cache)) {
-            return String::init($cache->path);
+            return $cache->path;
         } else {
             return null;
         }
@@ -279,7 +279,7 @@ class Upload extends Base
      */
     public function testDriverGet($name)
     {
-        return String::init($this->driver->getObjectURL('files', $name));
+        return $this->driver->getObjectURL('files', $name);
     }
 
     /**
@@ -294,9 +294,6 @@ class Upload extends Base
      */
     private function writeFileSystem($type, $filepath)
     {
-        $type     = (string)$type;
-        $filepath = (string)$filepath;
-
         /* Fix for weird bug on specific php/apache setups */
         $hash   = 'f' . md5(uniqid());
         $name   = basename($filepath);
@@ -305,13 +302,13 @@ class Upload extends Base
         if (empty($found)) {
             $model       = new Collection('uploaded_files');
             $model->hash = $hash;
-            $model->path = (string)$filepath;
+            $model->path = $filepath;
             $model->name = $name;
             $model->save();
 
-            return String::init($hash);
+            return $hash;
         } else {
-            return String::init($hash);
+            return $hash;
         }
     }
 
@@ -327,18 +324,17 @@ class Upload extends Base
      */
     private function writeCacheFileSystem($hash, $filepath)
     {
-        $hash  = (string)$hash;
         $found = $this->getCache($hash);
 
         if (empty($found)) {
             $model       = new Collection('uploaded_caches');
             $model->hash = $hash;
-            $model->path = (string)$filepath;
+            $model->path = $filepath;
             $model->save();
 
-            return String::init($hash);
+            return $hash;
         } else {
-            return String::init($hash);
+            return $hash;
         }
     }
 
@@ -360,10 +356,10 @@ class Upload extends Base
 
         if (!empty($item)) {
             if ($return_value == 'name') {
-                return String::init($item->name);
+                return $item->name;
             }
 
-            return String::init($item->path);
+            return $item->path;
         }
     }
 
@@ -408,7 +404,7 @@ class Upload extends Base
     {
         $model = new Collection('uploaded_caches');
         $items = $model->where(['hash' => new \MongoRegex('/' . $hash . '/')])->find();
-        return Collection::init($items);
+        return $items;
     }
 }
 

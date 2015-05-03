@@ -3,8 +3,6 @@
 namespace RocketShip\Utils;
 
 use RocketShip\Base;
-use String;
-use Collection;
 
 class IO extends Base
 {
@@ -66,10 +64,10 @@ class IO extends Base
             $this->error = null;
 
             if ($open) {
-                $this->content = String::init(file_get_contents($file));
+                $this->content = file_get_contents($file);
             }
         } else {
-            $this->error = String::init('file not found');
+            $this->error = 'file not found';
         }
     }
 
@@ -86,13 +84,13 @@ class IO extends Base
     public static function getSize($size)
     {
         if ($size < 1024) {
-            return String::init(round($size, 2) . ' Byte');
+            return round($size, 2) . ' Bytes';
         } elseif ($size < (1024 * 1024)) {
-            return String::init(round(($size / 1024), 2) . ' KB');
+            return round(($size / 1024), 2) . ' KB';
         } elseif ($size < (1024 * 1024 * 1024)) {
-            return String::init(round((($size / 1024) / 1024), 2) . ' MB');
+            return round((($size / 1024) / 1024), 2) . ' MB';
         } elseif ($size < (1024 * 1024 * 1024 * 1024)) {
-            return String::init(round(((($size / 1024) / 1024) / 1024), 2) . ' GB');
+            return round(((($size / 1024) / 1024) / 1024), 2) . ' GB';
         } else {
             return $size;
         }
@@ -235,7 +233,7 @@ class IO extends Base
     {
         if ($this->writable) {
             if (strlen($perm) < 4) {
-                $perm = '0' + $perm;
+                $perm = '0' . $perm;
             }
 
             chmod($this->file, $perm);
@@ -275,9 +273,9 @@ class IO extends Base
                 $list = $files;
             }
 
-            return Collection::init($list);
+            return $list;
         } else {
-            return Collection::init([]);
+            return [];
         }
     }
 
@@ -296,8 +294,6 @@ class IO extends Base
      */
     public static function isDirectoryWritable($dir, $warn=false, $add_root=true, $die=false)
     {
-        $dir = (string)$dir;
-
         if ($add_root) {
             $root = dirname(dirname(__DIR__)) . '/' . $dir;
         } else {
@@ -343,8 +339,6 @@ class IO extends Base
      */
     public static function isWritable($file, $warn=false, $die=false)
     {
-        $file = (string)$file;
-
         if (!is_writable($file)) {
             if ($warn) {
                 throw new \RuntimeException($file . " is not writable, please make sure it is chmod+774 (or 777 if apache user is not the same as FTP user)!");
@@ -366,12 +360,10 @@ class IO extends Base
      */
     public static function getExtension($filename)
     {
-        $filename = (string)$filename;
-
         $name = basename($filename);
         $pos = strrpos($name, '.');
         $ext = substr($name, $pos+1);
-        return String::init($ext);
+        return $ext;
     }
 
     /**
@@ -388,8 +380,6 @@ class IO extends Base
      */
     public static function getMimeType($file)
     {
-        $file = (string)$file;
-
         if (stristr($file, 'http')) {
             $ch = curl_init($file);
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
@@ -397,12 +387,12 @@ class IO extends Base
             curl_setopt($ch, CURLOPT_HEADER, 1);
             curl_setopt($ch, CURLOPT_NOBODY, 1);
             curl_exec($ch);
-            return String::init(curl_getinfo($ch, CURLINFO_CONTENT_TYPE));
+            return curl_getinfo($ch, CURLINFO_CONTENT_TYPE);
         } else {
             $finfo = finfo_open(FILEINFO_MIME_TYPE);
             $info  = finfo_file($finfo, $file);
             finfo_close($finfo);
-            return String::init($info);
+            return $info;
         }
     }
 }

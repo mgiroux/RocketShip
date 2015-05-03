@@ -50,9 +50,6 @@ class Base extends RocketShipBase
      */
     protected final function call($controller, $method, $data=null, $render=false)
     {
-        $controller = (string)$controller;
-        $method     = (string)$method;
-
         $inflector = new Inflector;
 
         if (stristr($controller, '.php')) {
@@ -104,10 +101,6 @@ class Base extends RocketShipBase
      */
     protected final function dispatch($bundle, $controller, $method, $data=null)
     {
-        $bundle     = (string)$bundle;
-        $controller = (string)$controller;
-        $method     = (string)$method;
-
         $path        = $this->app->root_path . '/bundles/' . $bundle . '/controllers/' . ucfirst(strtolower($controller)) . '.php';
         $bundle_path = $this->app->root_path . '/bundles/' . $bundle;
         $class       = ucfirst(strtolower($controller)) . 'Controller';

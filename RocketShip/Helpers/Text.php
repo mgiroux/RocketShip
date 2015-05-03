@@ -3,7 +3,6 @@
 namespace RocketShip\Helpers;
 
 use RocketShip\Base;
-use Collection;
 
 class Text extends Base
 {
@@ -19,8 +18,6 @@ class Text extends Base
      */
     public function slug($string, $keep_slashes=false)
     {
-        $string = (string)$string;
-
         if ($keep_slashes) {
             $string = str_replace("/", "-systemslash-", $string);
         }

@@ -4,7 +4,6 @@ namespace RocketShip\Security;
 
 use RocketShip\Base;
 use RocketShip\Configuration;
-use String;
 
 class Encryption extends Base
 {
@@ -24,9 +23,7 @@ class Encryption extends Base
      */
     public static function encrypt($string, $cipher='rijndael')
     {
-        $string = (string)$string;
-        $cipher = (string)$cipher;
-        $key    = Configuration::get('configuration', 'general.crypt_key');
+        $key = Configuration::get('configuration', 'general.crypt_key');
 
         if ($key == 'changemetoobeforeyouencrypt' || strlen($key) < 12) {
             if ($key == 'changemetoobeforeyouencrypt') {
@@ -67,7 +64,7 @@ class Encryption extends Base
                 break;
         }
 
-        return String::init($cipher->encrypt($string));
+        return $cipher->encrypt($string);
     }
 
     /**
@@ -86,9 +83,7 @@ class Encryption extends Base
      */
     public static function decrypt($string, $cipher='rijndael')
     {
-        $string = (string)$string;
-        $cipher = (string)$cipher;
-        $key    = Configuration::get('configuration', 'general.crypt_key');
+        $key = Configuration::get('configuration', 'general.crypt_key');
 
         if ($key == 'changemetoobeforeyouencrypt' || strlen($key) < 12) {
             if ($key == 'changemetoobeforeyouencrypt') {
@@ -129,7 +124,7 @@ class Encryption extends Base
                 break;
         }
 
-        return String::init($cipher->decrypt($string));
+        return $cipher->decrypt($string);
     }
 
     /**
@@ -143,8 +138,7 @@ class Encryption extends Base
      */
     public function password($password)
     {
-        $password = (string)$password;
-        $key      = Configuration::get('configuration', 'general.hash_salt');
+        $key = Configuration::get('configuration', 'general.hash_salt');
 
         /* Try safer encryption method, if it fails, hash it with sha256 */
         if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
@@ -156,6 +150,6 @@ class Encryption extends Base
             $hash     = hash('sha256', $password . $salt);
         }
 
-        return String::init($hash);
+        return $hash;
     }
 }

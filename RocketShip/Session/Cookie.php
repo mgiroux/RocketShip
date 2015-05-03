@@ -171,10 +171,10 @@ class Cookie extends Base
      *
      * Generate a random key using openssl, fallback to mcrypt_create_iv
      *
-     * @param   int      length of the key
-     * @return  string   a random key
+     * @param   int         length of the key
+     * @return  string      a random key
      * @access  protected
-     *
+     * @throws  Exception   failure to use openssl and or mcrypt
      */
     protected function _randomKey($length = 32)
     {
@@ -189,7 +189,6 @@ class Cookie extends Base
             return mcrypt_create_iv($length, MCRYPT_DEV_URANDOM);
         } else {
             throw new Exception('OpenSSL and Mcrypt are not installed, cannot proceed');
-            exit();
         }
     }
 }

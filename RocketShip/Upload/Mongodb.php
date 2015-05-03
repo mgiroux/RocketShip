@@ -6,7 +6,6 @@ use RocketShip\Application;
 use RocketShip\Configuration;
 use RocketShip\Database\Collection;
 use RocketShip\UploadAdapter;
-use String;
 
 class Mongodb implements UploadAdapter
 {
@@ -31,12 +30,8 @@ class Mongodb implements UploadAdapter
      */
     public function moveObject($file, $directory, $name)
     {
-        $file      = (string)$file;
-        $directory = (string)$directory;
-        $name      = (string)$name;
-
         $mime = $this->getMime($file);
-        return String::init($this->model->addFile($file, true, false, $mime));
+        return $this->model->addFile($file, true, false, $mime);
     }
 
     /**
@@ -51,10 +46,7 @@ class Mongodb implements UploadAdapter
      */
     public function getObject($directory, $name)
     {
-        $directory = (string)$directory;
-        $name      = (string)$name;
-
-        return String::init($this->model->getFileById($directory));
+        return $this->model->getFileById($directory);
     }
 
     /**
@@ -69,11 +61,8 @@ class Mongodb implements UploadAdapter
      */
     public function getObjectURL($directory, $name)
     {
-        $directory = (string)$directory;
-        $name      = (string)$name;
-
         $app = Application::$instance;
-        return String::init($app->site_url . '/public/uploads/files/' . $directory);
+        return $app->site_url . '/public/uploads/files/' . $directory;
     }
 
     /**
@@ -87,9 +76,6 @@ class Mongodb implements UploadAdapter
      */
     public function deleteObject($directory, $name)
     {
-        $directory = (string)$directory;
-        $name      = (string)$name;
-
         $this->model->destroyFileById($directory);
     }
 
@@ -104,8 +90,6 @@ class Mongodb implements UploadAdapter
      */
     private function getMime($file)
     {
-        $file = (string)$file;
-
         $finfo = finfo_open(FILEINFO_MIME_TYPE);
         $mime  = finfo_file($finfo, $file);
         finfo_close($finfo);
@@ -171,6 +155,6 @@ class Mongodb implements UploadAdapter
             }
         }
 
-        return String::init($mime);
+        return $mime;
     }
 }

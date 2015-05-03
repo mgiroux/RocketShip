@@ -97,12 +97,6 @@ class Mail extends Base
      */
     public function send($target, $from, $subject, $txt, $html)
     {
-        $target  = (string)$target;
-        $from    = (string)$from;
-        $subject = (string)$subject;
-        $txt     = (string)$txt;
-        $html    = (string)$html;
-
         list($name, $mail) = explode('<', $from);
 
         $this->mailer->setFrom(substr($mail, 0, strlen($mail) - 1), trim($name));

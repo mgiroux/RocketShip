@@ -45,10 +45,6 @@ class Amazon implements UploadAdapter
      */
     public function moveObject($file, $directory, $name)
     {
-        $file      = (string)$file;
-        $directory = (string)$directory;
-        $name      = (string)$name;
-
         $data = EntityBody::factory(fopen($file, 'r'));
 
         self::$client->putObject([
@@ -75,9 +71,6 @@ class Amazon implements UploadAdapter
      */
     public function getObject($directory, $name)
     {
-        $directory = (string)$directory;
-        $name      = (string)$name;
-
         if (self::$client->doesObjectExist(self::$bucket, $directory . '/' . $name)) {
             $object = self::$client->getObject([
                 'Bucket' => self::$bucket,
@@ -104,9 +97,6 @@ class Amazon implements UploadAdapter
      */
     public function getObjectURL($directory, $name)
     {
-        $directory = (string)$directory;
-        $name      = (string)$name;
-
         if (self::$client->doesObjectExist(self::$bucket, $directory . '/' . $name)) {
             return "https://s3.amazonaws.com/" . self::bucket . '/' . $directory . '/' . $name;
         } else {
@@ -127,8 +117,6 @@ class Amazon implements UploadAdapter
      */
     public function deleteObject($directory, $name)
     {
-        $directory = (string)$directory;
-
         if (is_string($name)) {
             self::$client->deleteObject([
                'Bucket' => self::$bucket,

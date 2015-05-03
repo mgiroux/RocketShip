@@ -27,10 +27,6 @@ class Local implements UploadAdapter
      */
     public function moveObject($file, $directory, $name)
     {
-        $file      = (string)$file;
-        $directory = (string)$directory;
-        $name      = (string)$name;
-
         $final_file = $this->path . $directory . '/' . $name;
 
         if (!file_exists($this->path . $directory)) {
@@ -53,9 +49,6 @@ class Local implements UploadAdapter
      */
     public function getObject($directory, $name)
     {
-        $directory = (string)$directory;
-        $name      = (string)$name;
-
         return '/public/app/uploads/' . $directory . '/' . $name;
     }
 
@@ -71,9 +64,6 @@ class Local implements UploadAdapter
      */
     public function getObjectURL($directory, $name)
     {
-        $directory = (string)$directory;
-        $name      = (string)$name;
-
         return '/public/app/uploads/' . $directory . '/' . $name;
     }
 
@@ -88,8 +78,6 @@ class Local implements UploadAdapter
      */
     public function deleteObject($directory, $name)
     {
-        $directory = (string)$directory;
-
         if (is_string($name)) {
             unlink($this->path . $directory . '/' . $name);
         } else {

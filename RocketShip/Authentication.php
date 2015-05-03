@@ -40,8 +40,8 @@ class Authentication extends Model
     public static function authenticate($user, $password)
     {
         $instance = new self;
-        $password = $instance->hashPassword(Base::toRaw($password));
-        $found    = $instance->where(['username' => Base::toRaw($user), 'password' => $password])->find();
+        $password = $instance->hashPassword($password);
+        $found    = $instance->where(['username' => $user, 'password' => $password])->find();
 
         if (empty($found)) {
             return false;
@@ -67,12 +67,12 @@ class Authentication extends Model
     public static function hasLevel($level=self::LEVEL_USER)
     {
         /* Block anything higher than super */
-        if (Base::toRaw($level) > self::LEVEL_SUPER) {
+        if ($level > self::LEVEL_SUPER) {
             return false;
         }
 
         if (!empty($_SESSION['rs_session']->level)) {
-            return ($_SESSION['rs_session']->level->raw() >= Base::toRaw($level)) ? true : false;
+            return ($_SESSION['rs_session']->level >= $level) ? true : false;
         }
 
         return false;
@@ -111,17 +111,17 @@ class Authentication extends Model
     {
         $instance = new self;
 
-        $found = $instance->where(['username' => Base::toRaw($username)])->find();
+        $found = $instance->where(['username' => $username])->find();
 
         if (empty($found)) {
-            $instance->username = Base::toRaw($username);
-            $instance->password = $instance->hashPassword(Base::toRaw($password));
-            $instance->level    = Base::toRaw($level);
-            $instance->meta     = (object)Base::toRaw($meta);
+            $instance->username = $username;
+            $instance->password = $instance->hashPassword($password);
+            $instance->level    = $level;
+            $instance->meta     = (object)$meta;
 
             $instance->save();
 
-            return $instance->where(['username' => Base::toRaw($username)])->find();
+            return $instance->where(['username' => $username])->find();
         }
 
         return null;

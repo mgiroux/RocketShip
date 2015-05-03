@@ -3,8 +3,6 @@
 namespace RocketShip\Helpers;
 
 use RocketShip\Base;
-use Collection;
-use String;
 
 class World extends Base
 {
@@ -73,7 +71,7 @@ class World extends Base
 
         $locale = (string)$locale;
 
-        return Collection::init(array_combine($codes, $list[$locale]));
+        return array_combine($codes, $list[$locale]);
     }
 
     /**
@@ -101,7 +99,7 @@ class World extends Base
             }
         }
 
-        return String::init($out);
+        return $out;
     }
 
     /**
@@ -143,7 +141,7 @@ class World extends Base
 
         $locale = (string)$locale;
 
-        return Collection::init(array_combine($codes, $list[$locale]));
+        return array_combine($codes, $list[$locale]);
     }
 
     /**
@@ -171,7 +169,7 @@ class World extends Base
             }
         }
 
-        return String::init($out);
+        return $out;
     }
 
     /**
@@ -209,7 +207,7 @@ class World extends Base
             }
         }
 
-        return String::init($out);
+        return $out;
     }
 
     /**
@@ -226,7 +224,6 @@ class World extends Base
      */
     public function getCountryByCode($code, $locale='fr')
     {
-        $locale    = (string)$locale;
         $countries = $this->getCountries($locale);
         return $countries[strtoupper($code)];
     }
@@ -411,8 +408,6 @@ class World extends Base
             'ZM' => 'Zambie', 'ZW' => 'Zimbabwé',
         ];
 
-        $locale = (string)$locale;
-
-        return Collection::init($countries[$locale]);
+        return $countries[$locale];
     }
 }

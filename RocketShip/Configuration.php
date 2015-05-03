@@ -3,9 +3,6 @@
 namespace RocketShip;
 
 use Symfony\Component\Yaml\Yaml;
-use String;
-use Collection;
-use Number;
 
 class Configuration
 {
@@ -29,8 +26,6 @@ class Configuration
      */
     public static function getObject($type)
     {
-        $type = (string)$type;
-
         switch ($type)
         {
             case 'configuration':
@@ -66,9 +61,6 @@ class Configuration
      */
     public static function get($type='configuration', $section=null)
     {
-        $type    = (string)$type;
-        $section = (string)$section;
-
         switch ($type)
         {
             case 'configuration':
@@ -178,8 +170,6 @@ class Configuration
      */
     public static function parseArrayToObject($array)
     {
-        $array = ($array instanceof Collection) ? $array->raw() : $array;
-
         if ($array != null AND (array_keys($array) === range(0, count($array) - 1))) {
             return $array;
         }
@@ -190,19 +180,13 @@ class Configuration
             if (is_array($value)) {
                 if (!empty($object->{$key})) {
                     if (!empty($value[0])) {
-                        $object->{$key} = Collection::init($value);
+                        $object->{$key} = $value;
                     } else {
                         $object->{$key} = self::parseArrayToObject($value);
                     }
                 }
             } else {
                 if (!empty($object->{$key})) {
-                    if (is_string($value)) {
-                        $value = String::init($value);
-                    } elseif (is_numeric($value)) {
-                        $value = Number::init($value);
-                    }
-
                     $object->{$key} = $value;
                 }
             }

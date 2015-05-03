@@ -3,7 +3,6 @@
 namespace RocketShip\Helpers;
 
 use RocketShip\Base;
-use String;
 
 class HTML extends Base
 {
@@ -22,7 +21,7 @@ class HTML extends Base
     public final function css()
     {
         $files = func_get_args();
-        $path  = $this->app->url_path->append('/public/app/css');
+        $path  = $this->app->url_path . '/public/app/css';
 
         foreach ($files as $file) {
             switch ($file)
@@ -49,7 +48,7 @@ class HTML extends Base
 
                     if (file_exists($this->app->root_path . $path . '/' . $file)) {
                         /* Add file modification time only for developement and staging environments (helps with debugging) */
-                        if ($this->app->config->development->anticaching->equals('yes')) {
+                        if ($this->app->config->development->anticaching == 'yes') {
                             $time = filemtime($this->app->root_path . $path . '/' . $file);
                             echo '<link rel="stylesheet" href="' . $this->app->site_url . $path . '/' . $file . '?' . $time . '">' . "\n";
                         } else {
@@ -77,7 +76,7 @@ class HTML extends Base
         $bundle = $args[0];
         unset($args[0]);
 
-        $path  = $this->app->url_path->append('/public/' . $bundle . '/css');
+        $path  = $this->app->url_path . '/public/' . $bundle . '/css';
 
         foreach ($args as $file) {
             if (!strstr($file, '.css')) {
@@ -88,7 +87,7 @@ class HTML extends Base
             }
 
             if (file_exists($this->app->root_path . $path . '/' . $file)) {
-                if ($this->app->config->development->anticaching->equals('yes')) {
+                if ($this->app->config->development->anticaching == 'yes') {
                     /* Add file modification time only for developement and staging environments (helps with debugging) */
                     if (\RocketShip\Configuration::get('configuration', 'development.anticaching') == 'yes') {
                         $time = filemtime($this->app->root_path . $path . '/' . $file);
@@ -113,7 +112,7 @@ class HTML extends Base
     public final function js()
     {
         $files = func_get_args();
-        $path  = $this->app->url_path->append('/public/app/javascript');
+        $path  = $this->app->url_path . '/public/app/javascript';
 
         foreach ($files as $file) {
             /* Handle special CDNs for jquery, jquery-ui, bootstrap, angular */
@@ -166,7 +165,7 @@ class HTML extends Base
 
                     if (file_exists($this->app->root_path . $path . '/' . $file)) {
                         /* Add file modification time only for developement and staging environments (helps with debugging) */
-                        if ($this->app->config->development->anticaching->equals('yes')) {
+                        if ($this->app->config->development->anticaching == 'yes') {
                             $time = filemtime($this->app->root_path . $path . '/' . $file);
                             echo '<script type="text/javascript" src="' . $this->app->site_url . $path . '/' . $file . '?' . $time . '"></script>' . "\n";
                         } else {
@@ -194,7 +193,7 @@ class HTML extends Base
         $bundle = $args[0];
         unset($args[0]);
 
-        $path  =  $this->app->url_path->append('/public/' . $bundle . '/javascript');
+        $path  =  $this->app->url_path . '/public/' . $bundle . '/javascript';
 
         foreach ($args as $file) {
             if (!strstr($file, '.js')) {
@@ -204,7 +203,7 @@ class HTML extends Base
 
             if (file_exists($this->app->root_path . $path . '/' . $file)) {
                 /* Add file modification time only for developement and staging environments (helps with debugging) */
-                if ($this->app->config->development->anticaching->equals('yes')) {
+                if ($this->app->config->development->anticaching == 'yes') {
                     $time = filemtime($this->app->root_path . $path . '/' . $file);
                     echo '<script type="text/javascript" src="' . $this->app->site_url . $path . '/' . $file . '?' . $time . '"></script>' . "\n";
                 } else {
@@ -268,8 +267,6 @@ class HTML extends Base
      */
     public final function injectJS($files)
     {
-        $files = Base::toRaw($files);
-
         if (!is_array($files)) {
             $files = [$files];
         }
@@ -290,8 +287,6 @@ class HTML extends Base
      */
     public final function injectCSS($files)
     {
-        $files = Base::toRaw($files);
-
         if (!is_array($files)) {
             $files = [$files];
         }
@@ -312,9 +307,6 @@ class HTML extends Base
      */
     public final function injectBundleJS($bundle, $files)
     {
-        $bundle = Base::toRaw($bundle);
-        $files  = Base::toRaw($files);
-
         if (!is_array($files)) {
             $files = [$files];
         }
@@ -337,9 +329,6 @@ class HTML extends Base
      */
     public final function injectBundleCSS($bundle, $files)
     {
-        $bundle = Base::toRaw($bundle);
-        $files  = Base::toRaw($files);
-
         if (!is_array($files)) {
             $files = [$files];
         }
@@ -369,9 +358,6 @@ class HTML extends Base
      */
     public function formatDate($date, $hours=false, $lang='fr', $output=true, $showday=false, $showyear=true)
     {
-        $date = Base::toRaw($date);
-        $lang = Base::toRaw($lang);
-
         if ($lang == 'fr') {
             $months = [
                 'null', "Janvier", "F&eacute;vrier",
@@ -454,9 +440,9 @@ class HTML extends Base
                     }
                 } else {
                     if ($showday) {
-                        return String::init(date('l, F jS' . $y, $date));
+                        return date('l, F jS' . $y, $date);
                     } else {
-                        return String::init(date('F jS' . $y, $date));
+                        return date('F jS' . $y, $date);
                     }
                 }
             } else {
@@ -468,9 +454,9 @@ class HTML extends Base
                     }
                 } else {
                     if ($showday) {
-                        return String::init(date('l, F jS' . $y . ' H\hi', $date));
+                        return date('l, F jS' . $y . ' H\hi', $date);
                     } else {
-                        return String::init(date('F jS' . $y . ' H\hi', $date));
+                        return date('F jS' . $y . ' H\hi', $date);
                     }
                 }
             }

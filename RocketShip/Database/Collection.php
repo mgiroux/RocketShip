@@ -28,8 +28,7 @@ class Collection
      */
     public final function __construct($collection=null, $isGrid=false)
     {
-        $collection = Base::toRaw($collection);
-        $config     = Configuration::get('database', Application::$_environment);
+        $config = Configuration::get('database', Application::$_environment);
 
         if (empty(self::$connection)) {
             if (!empty($config->user) && !empty($config->password)) {
@@ -50,7 +49,7 @@ class Collection
         }
 
         if ($this->isGridFS == true || $isGrid == true) {
-            $this->collection = self::$connection->{$config->database}->getGridFS($collection->raw());
+            $this->collection = self::$connection->{$config->database}->getGridFS($collection);
         } else {
             $this->collection = self::$connection->{$config->database}->{$collection};
         }
@@ -72,15 +71,13 @@ class Collection
      */
     public final function set($collection)
     {
-        $collection = Base::toRaw($collection);
-
         $config = Configuration::get('database', Application::$_environment);
 
         $inflector  = new Inflector;
         $collection = $inflector->underscore($inflector->pluralize($collection));
 
         if ($this->isGridFS == true) {
-            $this->collection = self::$connection->{$config->dataase}->getGridFS($collection->raw());
+            $this->collection = self::$connection->{$config->dataase}->getGridFS($collection);
         } else {
             $this->collection = self::$connection->{$config->database}->{$collection};
         }
@@ -99,8 +96,6 @@ class Collection
      */
     private static final function getCollectionInstance($collection)
     {
-        $collection = Base::toRaw($collection);
-
         $config = Configuration::get('database', Application::$_environment);
 
         $inflector  = new Inflector;
@@ -121,8 +116,6 @@ class Collection
      */
     public final function select($select)
     {
-        $select = Base::toRaw($select);
-
         if (is_string($select)) {
             $fields = explode(",", $select);
             foreach ($fields as $num => $value) {
@@ -151,14 +144,12 @@ class Collection
     {
         foreach ($where as $key => $value) {
             if ($key == '_id') {
-                $value = Base::toRaw($value);
-
                 if (is_string($value)) {
                     $value       = (string)$value;
                     $where[$key] = new \MongoId($value);
                 }
             } else {
-                $where[$key] = Base::toRaw($value);
+                $where[$key] = $value;
             }
         }
 
@@ -178,8 +169,6 @@ class Collection
      */
     public final function order($order)
     {
-        $order = Base::toRaw($order);
-
         if (is_string($order)) {
             list($field, $sort) = explode(" ", $order);
             if (strtoupper($sort) == 'ASC') {
@@ -206,7 +195,6 @@ class Collection
      */
     public final function limit($limit)
     {
-        $limit = Base::toRaw($limit);
         $this->query['limit'] = $limit;
         return $this;
     }
@@ -223,7 +211,6 @@ class Collection
      */
     public final function offset($offset)
     {
-        $offset = Base::toRaw($offset);
         $this->query['offset'] = $offset;
         return $this;
     }
@@ -241,9 +228,6 @@ class Collection
      */
     public final function paginate($page, $max)
     {
-        $page = Base::toRaw($page);
-        $max  = Base::toRaw($max);
-
         $offset = $page * $max - $max;
         $this->offset($offset)->limit($max);
         $this->query['paginate'] = true;
@@ -269,15 +253,15 @@ class Collection
 
             foreach ($result as $key => $value) {
                 if (is_array($value)) {
-                    $instance->{$key} = \Collection::init($value);
+                    $instance->{$key} = $value;
                 } elseif (is_object($value) && !stristr(get_class($value), 'Mongo')) {
                     $instance->{$key} = new \stdClass;
 
                     foreach ($value as $k => $v) {
-                        $instance->{$key}->{$k} = Base::toPrimitive($v);
+                        $instance->{$key}->{$k} = $v;
                     }
                 } else {
-                    $instance->{$key} = Base::toPrimitive($value);
+                    $instance->{$key} = $value;
                 }
             }
 
@@ -311,8 +295,8 @@ class Collection
         if ($count == 0) {
             if ($this->query['paginate']) {
                 $pagination                = new \stdClass;
-                $pagination->current_page  = Base::toPrimitive(1);
-                $pagination->count         = Base::toPrimitive(0);
+                $pagination->current_page  = 1;
+                $pagination->count         = 0;
                 $pagination->next_page     = null;
                 $pagination->previous_page = null;
 
@@ -331,15 +315,15 @@ class Collection
 
                 foreach ($doc as $key => $value) {
                     if (is_array($value)) {
-                        $instance->{$key} = \Collection::init($value);
+                        $instance->{$key} = $value;
                     } elseif (is_object($value) && !stristr(get_class($value), 'Mongo')) {
                         $instance->{$key} = new \stdClass;
 
                         foreach ($value as $k => $v) {
-                            $instance->{$key}->{$k} = Base::toPrimitive($v);
+                            $instance->{$key}->{$k} = $v;
                         }
                     } else {
-                        $instance->{$key} = Base::toPrimitive($value);
+                        $instance->{$key} = $value;
                     }
                 }
 
@@ -362,10 +346,10 @@ class Collection
                 $previous_page = ($page - 1 > 0) ? $page - 1 : '';
 
                 $pagination                = new \stdClass;
-                $pagination->current_page  = Base::toPrimitive($current_page);
-                $pagination->count         = Base::toPrimitive($total_pages);
-                $pagination->next_page     = Base::toPrimitive($next_page);
-                $pagination->previous_page = Base::toPrimitive($previous_page);
+                $pagination->current_page  = $current_page;
+                $pagination->count         = $total_pages;
+                $pagination->next_page     = $next_page;
+                $pagination->previous_page = $previous_page;
 
                 $out             = new \stdClass;
                 $out->results    = $results;
@@ -390,7 +374,6 @@ class Collection
      */
     public final function findById($id)
     {
-        $id = Base::toRaw($id);
         return $this->where(['_id' => new \MongoId($id)])->find();
     }
 
@@ -407,7 +390,6 @@ class Collection
      */
     public static final function withId($id)
     {
-        $id       = Base::toRaw($id);
         $class    = get_called_class();
         $instance = new $class;
 
@@ -442,8 +424,7 @@ class Collection
      */
     public final function count($by=null)
     {
-        $by = Base::toRaw($by);
-        return Base::toPrimitive($this->collection->count($by));
+        return $this->collection->count($by);
     }
 
     /**
@@ -475,7 +456,6 @@ class Collection
      */
     public final function destroyById($id)
     {
-        $id  = Base::toRaw($id);
         $app = Application::$instance;
 
         if (is_string($id)) {
@@ -513,7 +493,6 @@ class Collection
      */
     public final function save($key='_id')
     {
-        $key = Base::toRaw($key);
         $app = Application::$instance;
 
         if (empty($this->{$key})) {
@@ -538,7 +517,7 @@ class Collection
             /* Update */
             foreach ($this as $var => $value) {
                 if ($var != '_id' && $var != 'connection' && $var != 'query' && $var != 'collection' && $var != 'isGridFS' && $var != $key && $var != 'creation_date' && $var != 'modification_date') {
-                    $query[$var] = Base::toRaw($value);
+                    $query[$var] = $value;
                 }
             }
 
@@ -546,7 +525,7 @@ class Collection
             $keyval = null;
 
             if ($key == '_id') {
-                $keyval = Base::toRaw($this->{$key});
+                $keyval = $this->{$key};
 
                 if (!is_object(($this->{$key}))) {
                     $keyval = new \MongoId($this->{$key});
@@ -637,8 +616,6 @@ class Collection
      */
     public static final function reference($id)
     {
-        $id = Base::toRaw($id);
-
         if (is_string($id)) {
             $id = new \MongoId($id);
         }
@@ -661,7 +638,6 @@ class Collection
      */
     public static final function getReference($element)
     {
-        $element    = Base::toRaw($element);
         $collection = self::getCollectionInstance(get_called_class());
 
         $doc      = $collection->getDBRef((array)$element);
@@ -675,16 +651,16 @@ class Collection
                     $instance->{$key} = [];
 
                     foreach ($value as $k => $v) {
-                        $instance->{$key}[$k] = Base::toPrimitive($v);
+                        $instance->{$key}[$k] = $v;
                     }
                 } elseif (is_object($value) && get_class($value) != 'MongoId') {
                     $instance->{$key} = new \stdClass;
 
                     foreach ($value as $k => $v) {
-                        $instance->{$key}->{$k} = Base::toPrimitive($v);
+                        $instance->{$key}->{$k} = $v;
                     }
                 } else {
-                    $instance->{$key} = Base::toPrimitive($value);
+                    $instance->{$key} = $value;
                 }
             }
         }
@@ -709,13 +685,12 @@ class Collection
      */
     public final function addFile($file, $is_file=true, $is_upload=false, $mime=null)
     {
-        $file  = Base::toRaw($file);
         $query = [];
 
         $query['mime'] = $mime;
         foreach ($this as $var => $value) {
             if ($var != 'connection' && $var != 'query' && $var != 'collection' && $var != 'isGridFS') {
-                $query[$var] = Base::toRaw($value);
+                $query[$var] = $value;
             }
         }
 
@@ -749,7 +724,7 @@ class Collection
         $result = $this->collection->findOne($this->query['where'], []);
 
         if (!empty($result)) {
-            return Base::toPrimitive($result);
+            return $result;
         } else {
             return null;
         }
@@ -767,13 +742,11 @@ class Collection
      */
     public final function getFileById($id)
     {
-        $id = Base::toRaw($id);
-
         if (is_string($id)) {
             $id = new \MongoId($id);
         }
 
-        return Base::toPrimitive($this->where(['_id' => $id])->getFile());
+        return $this->where(['_id' => $id])->getFile();
     }
 
     /**
@@ -787,8 +760,6 @@ class Collection
      */
     public final function destroyFileById($id)
     {
-        $id = Base::toRaw($id);
-
         if (is_string($id)) {
             $id = new \MongoId($id);
         }

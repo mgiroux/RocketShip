@@ -65,11 +65,12 @@ class Amazon implements UploadAdapter
      *
      * @param   string  directory name
      * @param   string  name of the file
+     * @param   object  the file object
      * @return  object  the AWS object
      * @access  public
      *
      */
-    public function getObject($directory, $name)
+    public function getObject($directory, $name, $filedata)
     {
         if (self::$client->doesObjectExist(self::$bucket, $directory . '/' . $name)) {
             $object = self::$client->getObject([

@@ -245,8 +245,9 @@ class Upload extends Base
     {
         $path = $this->get($hash);
         $name = $this->get($hash, 'name');
+        $file = $this->searchFileSystemForObject($hash);
 
-        $file = $this->driver->getObject($path, $name);
+        $file = $this->driver->getObject($path, $name, $file);
         $this->app->events->trigger(Event::UPLOAD_GET, $file);
         return $file;
     }
@@ -294,6 +295,14 @@ class Upload extends Base
      */
     private function writeFileSystem($type, $filepath)
     {
+        if (!is_string($filepath)) {
+            $data     = $filepath;
+            $filepath = $data->filepath;
+            unset($data->filepath);
+        } else {
+            $data = null;
+        }
+
         /* Fix for weird bug on specific php/apache setups */
         $hash   = 'f' . md5(uniqid());
         $name   = basename($filepath);
@@ -304,6 +313,7 @@ class Upload extends Base
             $model->hash = $hash;
             $model->path = $filepath;
             $model->name = $name;
+            $model->meta = $data;
             $model->save();
 
             return $hash;
@@ -363,6 +373,12 @@ class Upload extends Base
         }
     }
 
+    private function searchFileSystemForObject($hash)
+    {
+        $model = new Collection('uploaded_files');
+        return $model->where(['hash' => $hash])->find();
+    }
+
     /**
      *
      * Delete a file from the file system
@@ -413,6 +429,6 @@ interface UploadAdapter
 {
     public function moveObject($file, $directory, $name);
     public function deleteObject($directory, $name);
-    public function getObject($directory, $name);
+    public function getObject($directory, $name, $filedata);
     public function getObjectURL($directory, $name);
 }

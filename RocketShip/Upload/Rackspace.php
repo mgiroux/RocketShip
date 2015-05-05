@@ -77,11 +77,12 @@ class Rackspace implements UploadAdapter
      *
      * @param   string  directory name
      * @param   string  name of the file
+     * @param   object  the file object
      * @return  object  the rackspace object
      * @access  public
      *
      */
-    public function getObject($directory, $name)
+    public function getObject($directory, $name, $filedata)
     {
         $item = new \stdClass;
 

@@ -1,5 +1,10 @@
 RocketShip Changelog
 
+05-04-2015
+
+    - Fixed bug in Collection (primitives calls still around)
+    - Added support for Cloudinary service for uploads
+
 05-02-2015
 
     - Removed Primitives, more annoying than anything

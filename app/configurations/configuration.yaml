@@ -53,9 +53,9 @@ emailing:
     port: 25
     domain: Rocketship-framework.ca
 
-# Uploading  (Supported CDNs Rackspace, Amazon S3)
+# Uploading  (Supported CDNs Rackspace, Amazon S3, Cloudinary)
 uploading:
-    driver: mongodb          # local, mongodb, rackspace, amazon
+    driver: local            # local, mongodb, rackspace, amazon, cloudinary
     authentication:
         user:   ""           # Required for Rackspace
         key:    ""           # Required for Amazon and Rackspace

@@ -43,11 +43,12 @@ class Local implements UploadAdapter
      *
      * @param   string  directory name
      * @param   string  name of the file
+     * @param   object  the file object
      * @return  string  the file url
      * @access  public
      *
      */
-    public function getObject($directory, $name)
+    public function getObject($directory, $name, $filedata)
     {
         return '/public/app/uploads/' . $directory . '/' . $name;
     }

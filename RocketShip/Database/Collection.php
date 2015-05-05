@@ -499,7 +499,7 @@ class Collection
             /* Add */
             foreach ($this as $var => $value) {
                 if ($var != 'connection' && $var != 'query' && $var != 'collection' && $var != 'isGridFS') {
-                    $query[$var] = Base::toRaw($value);
+                    $query[$var] = $value;
                 }
             }
 

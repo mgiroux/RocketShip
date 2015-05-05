@@ -40,11 +40,12 @@ class Mongodb implements UploadAdapter
      *
      * @param   string  directory name (in this case the file id)
      * @param   string  name of the file
+     * @param   object  the file object
      * @return  string  the file url
      * @access  public
      *
      */
-    public function getObject($directory, $name)
+    public function getObject($directory, $name, $filedata)
     {
         return $this->model->getFileById($directory);
     }

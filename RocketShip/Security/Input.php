@@ -82,16 +82,16 @@ class Input extends Base
     {
         if ($element == 'all') {
             if ($clean) {
-                return $this->cleanUp($_POST, $filter);
+                return (object)$this->cleanUp($_POST, $filter);
             } else {
-                return $_POST;
+                return (object)$_POST;
             }
         } else {
             if (!empty($_POST[$element])) {
                 if ($clean) {
-                    return $this->cleanUp($_POST[$element], $filter);
+                    return (object)$this->cleanUp($_POST[$element], $filter);
                 } else {
-                    return $_POST[$element];
+                    return (object)$_POST[$element];
                 }
             } else {
                 return null;
@@ -115,16 +115,16 @@ class Input extends Base
     {
         if ($element == 'all') {
             if ($clean) {
-                return $this->cleanUp($_GET, $filter);
+                return (object)$this->cleanUp($_GET, $filter);
             } else {
-                return $_GET;
+                return (object)$_GET;
             }
         } else {
             if (!empty($_GET[$element])) {
                 if ($clean) {
-                    return $this->cleanUp($_GET[$element], $filter);
+                    return (object)$this->cleanUp($_GET[$element], $filter);
                 } else {
-                    return $_GET[$element];
+                    return (object)$_GET[$element];
                 }
             } else {
                 return null;
@@ -153,16 +153,16 @@ class Input extends Base
 
         if ($element == 'all') {
             if ($clean) {
-                return $this->cleanUp($_PUT, $filter);
+                return (object)$this->cleanUp($_PUT, $filter);
             } else {
-                return $_PUT;
+                return (object)$_PUT;
             }
         } else {
             if (!empty($_PUT[$element])) {
                 if ($clean) {
-                    return $this->cleanUp($_PUT[$element], $filter);
+                    return (object)$this->cleanUp($_PUT[$element], $filter);
                 } else {
-                    return $_PUT[$element];
+                    return (object)$_PUT[$element];
                 }
             } else {
                 return null;
@@ -191,16 +191,16 @@ class Input extends Base
 
         if ($element == 'all') {
             if ($clean) {
-                return $this->cleanUp($_POST, $filter);
+                return (object)$this->cleanUp($_POST, $filter);
             } else {
-                return $_POST;
+                return (object)$_POST;
             }
         } else {
             if (!empty($_POST[$element])) {
                 if ($clean) {
-                    return $this->cleanUp($_POST[$element], $filter);
+                    return (object)$this->cleanUp($_POST[$element], $filter);
                 } else {
-                    return $_POST[$element];
+                    return (object)$_POST[$element];
                 }
             } else {
                 return null;

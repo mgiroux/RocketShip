@@ -229,6 +229,30 @@ class HTML extends Base
 
     /**
      *
+     * create an image tag
+     *
+     * @param   string  the filename (ex: image.png)
+     * @param   string  the size (widthxheight)
+     * @param   string  the alt argument
+     * @param   bool    the image comes from a bundle?
+     * @access  public
+     * @final
+     *
+     */
+    public final function imageTag($src, $size='', $alt='', $bundle=false)
+    {
+        $src = ($bundle) ? $this->bundleImage($src) : $this->image($src);
+
+        if (!empty($size)) {
+            list($w, $h) = explode("x", $size);
+            echo '<img src="' . $src . '" width="' . trim($w) . '" height="' . trim($h) . '" alt="' . $alt . '">';
+        } else {
+            echo '<img src="' . $src . '" alt="' . $alt . '">';
+        }
+    }
+
+    /**
+     *
      * Load an image from the bundle's public images path (outputs directly)
      *
      * @param     string     the bundle name
@@ -237,7 +261,7 @@ class HTML extends Base
      * @final
      *
      */
-    public final function bundleimage($bundle, $src)
+    public final function bundleImage($bundle, $src)
     {
         echo $this->app->site_url . '/public/' . $bundle . '/images/' . $src;
     }

@@ -29,6 +29,11 @@ class Bin
             $this->generateDirective($args->directive, $args->target);
         }
 
+        if (isset($args->route)) {
+            /* Generate a route */
+            $this->generateRoute($args->route, $args->target);
+        }
+
         if (isset($args->cli)) {
             /* Generate a cli skeleton */
             $this->generateCLI($args->cli);
@@ -305,7 +310,6 @@ class Bin
         } else {
             $console->error("Cannot create CLI application, it already exists");
         }
-
     }
 
     /**
@@ -355,7 +359,7 @@ class Bin
         if (file_exists($bundlePath . $target)) {
             return $bundlePath . $target;
         }
-        
+
         return $appPath;
     }
 

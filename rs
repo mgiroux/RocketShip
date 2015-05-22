@@ -1,3 +1,4 @@
+#!/usr/bin/php
 <?php
 
 date_default_timezone_set('America/Montreal');
@@ -7,7 +8,7 @@ require_once dirname(__DIR__) . '/RocketShip/Application.php';
 $app     = new RocketShip\Application;
 $console = new RocketShip\Console;
 
-echo "RocketShip CLI v1.0.0 (8)\r\n\r\n";
+echo "RocketShip CLI v1.2.0 (8)\r\n\r\n";
 
 include_once __DIR__ . '/lib/bin.php';
 

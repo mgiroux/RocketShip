@@ -3,6 +3,7 @@
 namespace RocketShip;
 
 use RocketShip\Database\Model;
+use RocketShip\Security\Encryption;
 
 class Authentication extends Model
 {
@@ -40,7 +41,8 @@ class Authentication extends Model
     public static function authenticate($user, $password)
     {
         $instance = new self;
-        $password = $instance->hashPassword($password);
+        $crypt    = new Encryption;
+        $password = $crypt->password($password);
         $found    = $instance->where(['username' => $user, 'password' => $password])->find();
 
         if (empty($found)) {
@@ -110,12 +112,13 @@ class Authentication extends Model
     public static function create($username, $password, $level=self::LEVEL_USER, $meta=[])
     {
         $instance = new self;
+        $crypt    = new Encryption;
 
         $found = $instance->where(['username' => $username])->find();
 
         if (empty($found)) {
             $instance->username = $username;
-            $instance->password = $instance->hashPassword($password);
+            $instance->password = $crypt->password($password);
             $instance->level    = $level;
             $instance->meta     = (object)$meta;
 
@@ -125,22 +128,5 @@ class Authentication extends Model
         }
 
         return null;
-    }
-
-    private function hashPassword($password)
-    {
-        $app = Application::$instance;
-
-        /* Try safer encryption method, if it fails, hash it with sha256 */
-        if (defined("CRYPT_BLOWFISH") && CRYPT_BLOWFISH) {
-            $salt = '$2y$11$' . substr(md5($password . $app->config->general->hash_salt), 0, 22);
-            $hash = crypt($password, $salt);
-        } else {
-            $int_salt = md5($password . $app->config->general->hash_salt);
-            $salt     = substr($int_salt, 0, 22);
-            $hash     = hash('sha256', $password . $salt);
-        }
-
-        return $hash;
     }
 }

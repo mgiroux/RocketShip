@@ -231,6 +231,15 @@ class Routing extends Base
         }
     }
 
+    /**
+     *
+     * get alternate route
+     *
+     * @param   object  the route to find the alternate for
+     * @return  object  the alternate route
+     * @access  public
+     *
+     */
     public function alternate($requested_route=null)
     {
         $route = empty($requested_route) ? $this->app->route : $requested_route;
@@ -243,6 +252,20 @@ class Routing extends Base
         }
 
         return $output;
+    }
+
+    /**
+     *
+     * Parse the given url into an array
+     *
+     * @param   string  the url to handle
+     * @return  array   the url parts
+     * @access  public
+     *
+     */
+    public function parseURL($url)
+    {
+        return explode('/', $url);
     }
 
     /**

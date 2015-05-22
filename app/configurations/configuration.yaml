@@ -16,11 +16,10 @@ development:
     anticaching: yes
     session: cookie
     debugging: yes
-
+    
 # Performance
 performance:
     memory_limit: 256M
-    html_cache: no
     cache:
         use: no
         driver: redis                 # APC, Memcache, Redis
@@ -32,7 +31,7 @@ performance:
 # CORS Support
 cors:
     allow: "*"                        # * or http://domain.com or none
-    methods: [POST, GET]              # array with allowed methods 
+    methods: [POST, GET]              # array with allowed methods
 
 # General configurations
 general:

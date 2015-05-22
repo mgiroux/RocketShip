@@ -95,7 +95,7 @@ class Base extends RocketShipBase
      * @param   string  controller name
      * @param   string  method name
      * @param   mixed   the data to pass along
-     * @access  protectd
+     * @access  protected
      * @final
      *
      */
@@ -190,5 +190,20 @@ class Base extends RocketShipBase
                 $this->app->helpers->html->injectBundleCSS($bundle, $files);
                 break;
         }
+    }
+
+    /**
+     *
+     * Redirect to given url
+     *
+     * @param   string  the url to go to
+     * @access  protected
+     * @final
+     *
+     */
+    protected final function redirect($url)
+    {
+        header('location: ' . $url);
+        $this->app->quit();
     }
 }

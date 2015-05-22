@@ -300,14 +300,24 @@ class View extends Base
 
                     $this->rendered = true;
                 } else {
-                    throw new \Exception("Could not locate the layout '" . basename($layout) . "' in " . dirname($layout));
+                    try {
+                        throw new \Exception("Could not locate the layout '" . basename($layout) . "' in " . dirname($layout));
+                    } catch (\Exception $e) {
+                        $this->app->debugger->addException($e);
+                    }
                 }
             }
         } else {
-            throw new \Exception("Could not locate the view '" . basename($file) . "' in " . dirname($file));
+            try {
+                throw new \Exception("Could not locate the view '" . basename($file) . "' in " . dirname($file));
+            } catch (\Exception $e) {
+                $this->app->debugger->addException($e);
+            }
         }
 
         if (!empty($html)) {
+            $html = $this->app->debugger->injectDebuggerCode($html);
+
             $this->app->events->trigger('pre-render', $this);
             echo $this->app->filters->trigger('render', $html);
         }
@@ -341,6 +351,12 @@ class View extends Base
                 $html = ob_get_clean();
                 $html = $this->app->filters->trigger('render', $html);
                 echo Directives::parse($this, '', $html);
+            } else {
+                try {
+                    throw new \Exception('Cannot find partial named: ' . $name . ' in ' . $this->path . '/partials/');
+                } catch (\Exception $e) {
+                    $this->app->debugger->addException($e);
+                }
             }
         } else {
             if (file_exists(dirname($this->path) . '/partials/' . $name . $addition . '.html')) {
@@ -349,6 +365,12 @@ class View extends Base
                 $html = ob_get_clean();
                 $html = $this->app->filters->trigger('render', $html);
                 echo Directives::parse($this, '', $html);
+            } else {
+                try {
+                    throw new \Exception('Cannot find partial named: ' . $name . ' in ' . $this->path . '/partials/');
+                } catch (\Exception $e) {
+                    $this->app->debugger->addException($e);
+                }
             }
         }
     }

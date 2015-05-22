@@ -14,8 +14,8 @@ use Whoops\Handler\JsonResponseHandler;
 
 class Application
 {
-    const VERSION    = '1.2.0 (8)';
-    const POWERED_BY = 'RocketShip 1.2.0 (8)';
+    const VERSION    = '1.3.0 (thunderdome)';
+    const POWERED_BY = 'RocketShip 1.3.0 (thunderdome)';
 
     /**
      *
@@ -172,6 +172,14 @@ class Application
 
     /**
      *
+     * Debugbar instance
+     * @var \RocketShip\Debugger
+     *
+     */
+    public $debugger;
+
+    /**
+     *
      * Application's static instance
      * @var \RocketShip\Application
      *
@@ -222,6 +230,10 @@ class Application
         $this->config    = Configuration::getObject('configuration');
         $this->constants = Configuration::getObject('constants');
 
+        $this->debugger = new Debugger;
+        $this->debugger->startTask('sysload', 'Loading Core');
+        $this->debugger->addMessage('Powered by: ' . self::POWERED_BY);
+
         /* CORS Support */
         if ($this->config->cors->allow != 'none' && php_sapi_name() != 'cli') {
             header('Access-Control-Allow-Origin: ' . $this->config->cors->allow);
@@ -268,6 +280,9 @@ class Application
         $this->events->trigger(Event::CORE_POST_DIRECTIVES, null);
         $this->events->trigger(Event::CORE_PRE_BUNDLES, null);
 
+        $this->debugger->endTask('sysload');
+        $this->debugger->startTask('bhload', 'Loading bundles and Helpers');
+
         /* Load bundles */
         $this->loadBundles();
 
@@ -284,6 +299,9 @@ class Application
 
         /* Pre session */
         $this->events->trigger(Event::CORE_PRE_SESSION, null);
+
+        $this->debugger->endTask('bhload');
+        $this->debugger->startTask('sessload', 'Starting session handler and setup request manager');
 
         /* Session management */
         $handler = new Session($this->config->development->session);
@@ -308,6 +326,9 @@ class Application
         /* Post bundles */
         $this->events->trigger(Event::CORE_POST_BUNDLES, null);
 
+        $this->debugger->endTask('sessload');
+        $this->debugger->startTask('routerload', 'Loading routing and detecting current route');
+
         /* Handle possible /public/uploads/.... if driver is mongo */
         if ($this->config->uploading->driver == 'mongodb') {
             if (!empty($this->uri) && stristr($this->uri, '/public/uploads/files/')) {
@@ -326,10 +347,15 @@ class Application
             $this->alternate_routes = $this->router->alternate();
         }
 
+        $this->debugger->endTask('routerload');
+        $this->debugger->startTask('localeload', 'Loading locale');
+
         /* Locale */
         Locale::enforceLocale();
         Locale::loadAll();
         $this->locale = new Locale;
+
+        $this->debugger->endTask('localeload');
 
         /* Make sure temp folder is writable by the server */
         IO::isDirectoryWritable($this->root_path . '/app/tmp/', true, false, true);
@@ -352,8 +378,8 @@ class Application
      */
     final public function run()
     {
+        $this->debugger->startTask('execapp', 'Preparing for controller');
         $this->events->trigger(Event::CORE_PRE_CONTROLLER, null);
-
         $lang = $this->session->get('app_language');
 
         if (empty($lang)) {
@@ -409,10 +435,16 @@ class Application
                 if (class_exists($class)) {
                     $instance = new $class;
 
+                    $this->debugger->endTask('execapp');
+                    $this->debugger->startTask('execctrl', 'Controller \'' . $class . '\' execution');
+
                     if (method_exists($instance, $action[0])) {
                         $method = $action[0];
 
                         call_user_func_array([$instance, $method], $this->route->arguments);
+
+                        $this->debugger->endTask('execctrl');
+                        $this->debugger->startTask('render', 'Rendering route');
 
                         if ($instance->view->rendered == false && $is_api == false) {
                             call_user_func([$instance->view, 'render'], $action[0]);
@@ -429,6 +461,8 @@ class Application
                 $path = dirname($file);
                 throw new \RuntimeException("Controller '{$name}' could not be found in path {$path}.");
             }
+
+
         } else {
             $file = $this->root_path . '/app/controllers/Error.php';
             include_once $file;
@@ -542,6 +576,10 @@ class Application
         $domain = str_replace('www.', '', $_SERVER['HTTP_HOST']);
         $stage  = Configuration::get('definition', 'environments.staging');
         $prod   = Configuration::get('definition', 'environments.production');
+
+        /* Fix for PHP's dev server */
+        $stage = (is_array($stage)) ? $stage[0] : $stage;
+        $prod  = (is_array($prod)) ? $prod[0] : $prod;
 
         if (stristr($stage, $domain)) {
             $this->environment = 'staging';

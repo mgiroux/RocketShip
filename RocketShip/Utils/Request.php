@@ -69,8 +69,8 @@ class Request
         $this->client   = isset($_SERVER['HTTP_USER_AGENT']) ? $_SERVER['HTTP_USER_AGENT'] : '';
         $this->ip       = $_SERVER['REMOTE_ADDR'];
         $this->url      = $_SERVER['REQUEST_URI'];
-        $this->mobile   = $this->isMobile();
         $this->platform = $this->getPlatform();
+        $this->mobile   = $this->isMobile();
     }
 
     public function __get($variable)
@@ -106,10 +106,7 @@ class Request
      */
     public function isMobile()
     {
-        $detect      = new \Mobile_Detect;
-        $device_type = ($detect->isMobile() ? ($detect->isTablet() ? 'tablet' : 'phone') : 'computer');
-
-        if ($device_type == 'tablet' || $device_type == 'phone') {
+        if ($this->platform == 'tablet' || $this->platform == 'phone') {
             return true;
         }
 

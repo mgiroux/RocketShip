@@ -1,6 +1,17 @@
 patterns:
     userid: (:param)         # (:param) = anything, (:any) = anything including '/', (:num) = numeric
 
+ajax:
+    uri:
+        fr: /ajax/fr/(:any)/
+        en: /ajax/en/(:any)/
+    action: dispatcher@ajax
+    secure: no
+    enforce: no
+    allow: all
+
+######## START HERE ########
+
 default:
     uri:
         fr: /

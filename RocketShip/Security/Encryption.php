@@ -26,10 +26,14 @@ class Encryption extends Base
         $key = Configuration::get('configuration', 'general.crypt_key');
 
         if ($key == 'changemetoobeforeyouencrypt' || strlen($key) < 12) {
-            if ($key == 'changemetoobeforeyouencrypt') {
-                throw new \Exception('Encryption: You must change your encryption key, leaving it as default is not safe');
-            } else {
-                throw new \Exception('Encryption: Your encryption key must be at least 12 characters in length');
+            try {
+                if ($key == 'changemetoobeforeyouencrypt') {
+                    throw new \Exception('Encryption: You must change your encryption key, leaving it as default is not safe');
+                } else {
+                    throw new \Exception('Encryption: Your encryption key must be at least 12 characters in length');
+                }
+            } catch (\Exception $e) {
+                $this->app->debugger->addException($e);
             }
         }
 
@@ -86,10 +90,14 @@ class Encryption extends Base
         $key = Configuration::get('configuration', 'general.crypt_key');
 
         if ($key == 'changemetoobeforeyouencrypt' || strlen($key) < 12) {
-            if ($key == 'changemetoobeforeyouencrypt') {
-                throw new \Exception('Encryption: You must change your encryption key, leaving it as default is not safe');
-            } else {
-                throw new \Exception('Encryption: Your encryption key must be at least 12 characters in length');
+            try {
+                if ($key == 'changemetoobeforeyouencrypt') {
+                    throw new \Exception('Encryption: You must change your encryption key, leaving it as default is not safe');
+                } else {
+                    throw new \Exception('Encryption: Your encryption key must be at least 12 characters in length');
+                }
+            } catch (\Exception $e) {
+                $this->app->debugger->addException($e);
             }
         }
 

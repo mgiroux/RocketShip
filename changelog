@@ -1,5 +1,20 @@
 RocketShip Changelog
 
+05-21-2015 : version 1.3 : Thunderdome
+
+    - Code optimization
+    - Route generator
+    - Renamed 'generate' to 'rs'
+    - Moved 'rs' to root of RocketShip
+    - Added new debugger bar class (php debugbar)
+    - Added new configuration flag under 'development' for the debugger
+    - Now catching some exceptions to pass them to the debugger
+    - Now logging some key tasks to the timeline in the debugger
+    - Added new Ajax controller by default (every /fr/ajax/* and /en/ajax/* are caught)
+    - Minor bug fixes
+    - Minor typo fixes
+    - Versions and revisions will now be named.
+
 05-04-2015
 
     - Fixed bug in Collection (primitives calls still around)

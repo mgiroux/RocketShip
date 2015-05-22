@@ -3,7 +3,6 @@ RocketShip Changelog
 05-21-2015 : version 1.3 : Thunderdome
 
     - Code optimization
-    - Route generator
     - Renamed 'generate' to 'rs'
     - Moved 'rs' to root of RocketShip
     - Added new debugger bar class (php debugbar)

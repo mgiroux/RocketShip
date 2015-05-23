@@ -18,6 +18,11 @@ $console->addOption(array('model', 'm'), array(
     'description' => 'Generate a model class')
 );
 
+$console->addOption(array('password', 'p'), array(
+    'default'     => null,
+    'description' => 'Generate a safe password')
+);
+
 $console->addOption(array('controller', 'c'), array(
     'default'     => null,
     'description' => 'Generate a controller class')

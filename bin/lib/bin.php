@@ -19,6 +19,11 @@ class Bin
             $this->generateController($args->controller, $args->target);
         }
 
+        if (isset($args->password)) {
+            /* Generate a controller */
+            $this->generatePassword($args->password);
+        }
+
         if (isset($args->bundle)) {
             /* Generate a bundle skeleton */
             $this->generateBundle($args->bundle);
@@ -27,11 +32,6 @@ class Bin
         if (isset($args->directive)) {
             /* Generate a directive */
             $this->generateDirective($args->directive, $args->target);
-        }
-
-        if (isset($args->route)) {
-            /* Generate a route */
-            $this->generateRoute($args->route, $args->target);
         }
 
         if (isset($args->cli)) {
@@ -287,7 +287,7 @@ class Bin
             $console->error("Cannot find bundle '{:bundle}'", array('bundle' => $target));
         }
     }
-    
+
     /**
      *
      * generateCLI
@@ -435,5 +435,20 @@ class Bin
         }
 
         return $result;
+    }
+
+    private function generatePassword($pass)
+    {
+        $conf = RocketShip\Configuration::get('configuration', 'general.hash_salt');
+
+        if ($conf == 'changemebeforeyouhash') {
+            echo "Error: Cannot create a password, you need to change the salt key in configuration.yaml";
+            return;
+        }
+
+        $encryption = new RocketShip\Security\Encryption;
+
+        echo 'Password:                    ' . $pass . "\r\n";
+        echo 'Password encrypted value is: ' . $encryption->password($pass) . "\r\n";
     }
 }

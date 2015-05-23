@@ -20,8 +20,9 @@ class HTML extends Base
      */
     public final function css()
     {
-        $files = func_get_args();
-        $path  = $this->app->url_path . '/public/app/css';
+        $files   = func_get_args();
+        $path    = $this->app->url_path . '/public/app/css';
+        $pathalt = $this->app->url_path . '/public/app/stylesheet';
 
         foreach ($files as $file) {
             switch ($file)
@@ -54,6 +55,14 @@ class HTML extends Base
                         } else {
                             echo '<link rel="stylesheet" href="' . $this->app->site_url . $path . '/' . $file . '">' . "\n";
                         }
+                    } elseif (file_exists($this->app->root_path . $pathalt . '/' . $file)) {
+                        /* Add file modification time only for developement and staging environments (helps with debugging) */
+                        if ($this->app->config->development->anticaching == 'yes') {
+                            $time = filemtime($this->app->root_path . $pathalt . '/' . $file);
+                            echo '<link rel="stylesheet" href="' . $this->app->site_url . $pathalt . '/' . $file . '?' . $time . '">' . "\n";
+                        } else {
+                            echo '<link rel="stylesheet" href="' . $this->app->site_url . $pathalt . '/' . $file . '">' . "\n";
+                        }
                     }
                     break;
             }
@@ -76,7 +85,8 @@ class HTML extends Base
         $bundle = $args[0];
         unset($args[0]);
 
-        $path  = $this->app->url_path . '/public/' . $bundle . '/css';
+        $path    = $this->app->url_path . '/public/' . $bundle . '/css';
+        $pathalt = $this->app->url_path . '/public/' . $bundle . '/stylesheet';
 
         foreach ($args as $file) {
             if (!strstr($file, '.css')) {
@@ -96,6 +106,16 @@ class HTML extends Base
                         echo '<link rel="stylesheet" href="' . $this->app->site_url . $path . '/' . $file . '">' . "\n";
                     }
                 }
+            } elseif (file_exists($this->app->root_path . $pathalt . '/' . $file)) {
+                if ($this->app->config->development->anticaching == 'yes') {
+                    /* Add file modification time only for developement and staging environments (helps with debugging) */
+                    if (\RocketShip\Configuration::get('configuration', 'development.anticaching') == 'yes') {
+                        $time = filemtime($this->app->root_path . $pathalt . '/' . $file);
+                        echo '<link rel="stylesheet" href="' . $this->app->site_url . $pathalt . '/' . $file . '?' . $time . '">' . "\n";
+                    } else {
+                        echo '<link rel="stylesheet" href="' . $this->app->site_url . $pathalt . '/' . $file . '">' . "\n";
+                    }
+                }
             }
         }
     }
@@ -111,8 +131,9 @@ class HTML extends Base
      */
     public final function js()
     {
-        $files = func_get_args();
-        $path  = $this->app->url_path . '/public/app/javascript';
+        $files   = func_get_args();
+        $path    = $this->app->url_path . '/public/app/javascript';
+        $pathalt = $this->app->url_path . '/public/app/js';
 
         foreach ($files as $file) {
             /* Handle special CDNs for jquery, jquery-ui, bootstrap, angular */
@@ -171,6 +192,14 @@ class HTML extends Base
                         } else {
                             echo '<script type="text/javascript" src="' . $this->app->site_url . $path . '/' . $file . '"></script>' . "\n";
                         }
+                    } elseif (file_exists($this->app->root_path . $pathalt . '/' . $file)) {
+                        /* Add file modification time only for developement and staging environments (helps with debugging) */
+                        if ($this->app->config->development->anticaching == 'yes') {
+                            $time = filemtime($this->app->root_path . $pathalt . '/' . $file);
+                            echo '<script type="text/javascript" src="' . $this->app->site_url . $pathalt . '/' . $file . '?' . $time . '"></script>' . "\n";
+                        } else {
+                            echo '<script type="text/javascript" src="' . $this->app->site_url . $pathalt . '/' . $file . '"></script>' . "\n";
+                        }
                     }
                     break;
             }
@@ -193,7 +222,8 @@ class HTML extends Base
         $bundle = $args[0];
         unset($args[0]);
 
-        $path  =  $this->app->url_path . '/public/' . $bundle . '/javascript';
+        $path    = $this->app->url_path . '/public/' . $bundle . '/javascript';
+        $pathalt = $this->app->url_path . '/public/' . $bundle . '/js';
 
         foreach ($args as $file) {
             if (!strstr($file, '.js')) {
@@ -205,9 +235,17 @@ class HTML extends Base
                 /* Add file modification time only for developement and staging environments (helps with debugging) */
                 if ($this->app->config->development->anticaching == 'yes') {
                     $time = filemtime($this->app->root_path . $path . '/' . $file);
-                    echo '<script type="text/javascript" src="' . $this->app->site_url . $path . '/' . $file . '?' . $time . '"></script>' . "\n";
+                    echo '<script type="text/javascript" src="' . $this->app->site_url . $pathalt . '/' . $file . '?' . $time . '"></script>' . "\n";
                 } else {
-                    echo '<script type="text/javascript" src="' . $this->app->site_url . $path . '/' . $file . '"></script>' . "\n";
+                    echo '<script type="text/javascript" src="' . $this->app->site_url . $pathalt . '/' . $file . '"></script>' . "\n";
+                }
+            } elseif (file_exists($this->app->root_path . $pathalt . '/' . $file)) {
+                /* Add file modification time only for developement and staging environments (helps with debugging) */
+                if ($this->app->config->development->anticaching == 'yes') {
+                    $time = filemtime($this->app->root_path . $pathalt . '/' . $file);
+                    echo '<script type="text/javascript" src="' . $this->app->site_url . $pathalt . '/' . $file . '?' . $time . '"></script>' . "\n";
+                } else {
+                    echo '<script type="text/javascript" src="' . $this->app->site_url . $pathalt . '/' . $file . '"></script>' . "\n";
                 }
             }
         }

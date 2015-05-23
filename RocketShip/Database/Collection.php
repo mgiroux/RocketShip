@@ -552,7 +552,7 @@ class Collection
         if (empty($this->{$key})) {
             /* Add */
             foreach ($this as $var => $value) {
-                if ($var != 'connection' && $var != 'query' && $var != 'collection' && $var != 'isGridFS') {
+                if ($var != 'connection' && $var != 'query' && $var != 'collection' && $var != 'isGridFS' && $var != 'app') {
                     $query[$var] = $value;
                 }
             }

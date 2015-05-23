@@ -304,20 +304,25 @@ class Application
         $this->debugger->startTask('sessload', 'Starting session handler and setup request manager');
 
         /* Session management */
-        $handler = new Session($this->config->development->session);
-        session_set_save_handler(
-            [$handler, 'open'],
-            [$handler, 'close'],
-            [$handler, 'read'],
-            [$handler, 'write'],
-            [$handler, 'destroy'],
-            [$handler, 'garbageCollect']
-        );
+        if ($this->config->development->session == 'cookie' && function_exists('mcrypt_get_iv_size') || $this->config->development->session == 'database') {
+            $handler = new Session($this->config->development->session);
+            session_set_save_handler(
+                [$handler, 'open'],
+                [$handler, 'close'],
+                [$handler, 'read'],
+                [$handler, 'write'],
+                [$handler, 'destroy'],
+                [$handler, 'garbageCollect']
+            );
 
-        /* Prevent problems since we are using OO for session management */
-        register_shutdown_function('session_write_close');
-        session_start();
-        $this->session = $handler;
+
+            /* Prevent problems since we are using OO for session management */
+            register_shutdown_function('session_write_close');
+            session_start();
+            $this->session = $handler;
+        } else {
+            $this->session = new Session('failsafe');
+        }
 
         /* Request data (client, ip, request type, etc.) */
         $request       = new Request;

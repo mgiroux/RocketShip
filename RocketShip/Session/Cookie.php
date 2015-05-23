@@ -56,7 +56,7 @@ class Cookie extends Base
 
         return true;
     }
-    
+
     /**
      *
      * The session close method
@@ -70,7 +70,7 @@ class Cookie extends Base
     {
         return true;
     }
-    
+
     /**
      *
      * Read the session informations from the database
@@ -105,7 +105,7 @@ class Cookie extends Base
 
         return rtrim($decrypt, "\0");
     }
-    
+
     /**
      *
      * Write the session to the database
@@ -127,7 +127,7 @@ class Cookie extends Base
 
         return ($bytes !== false);
     }
-    
+
     /**
      *
      * Destroy the session from the database
@@ -145,7 +145,7 @@ class Cookie extends Base
 
         return (@unlink($sess_file));
     }
-    
+
     /**
      *
      * Clean old sessions

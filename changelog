@@ -2,6 +2,7 @@ RocketShip Changelog
 
 05-23-2015 : version 1.3.1
 
+	- Added 'fromPublic' method in HTML helper
 	- Added "failsafe" class for Session (if mcrypt is not available and not using database)
 	- Fixed bad path in 'rs' tool
 

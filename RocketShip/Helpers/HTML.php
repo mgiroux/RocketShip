@@ -282,6 +282,20 @@ class HTML extends Base
 
     /**
      *
+     * Get a path only to special public file.
+     *
+     * @param   string  file to get the path to
+     * @access  public
+     * @final
+     *
+     */
+    public final function fromPublic($file)
+    {
+        echo $this->app->site_url . '/public/' . $file;
+    }
+
+    /**
+     *
      * Inject Javascript at view rendering
      *
      * @param   array   files to load

@@ -16,7 +16,6 @@ class Collection
     private $collection;
     private $isGridFS = false;
     private $query    = ['select' => [], 'where' => [], 'order' => [], 'limit' => '', 'offset' => '', 'paginate' => ''];
-    private $app;
 
     /**
      *
@@ -30,8 +29,7 @@ class Collection
      */
     public final function __construct($collection=null, $isGrid=false)
     {
-        $this->app = Application::$instance;
-        $config    = Configuration::get('database', Application::$_environment);
+        $config = Configuration::get('database', Application::$_environment);
 
         if (empty(self::$dbCalls)) {
             self::$dbCalls = 0;
@@ -136,7 +134,8 @@ class Collection
                 $type = gettype($select);
                 throw new \RuntimeException("select expects a string to be passed. received {$type}");
             } catch (\RuntimeException $e) {
-                $this->app->debugger->addException($e);
+                $app = Application::$instance;
+                $app->debugger->addException($e);
             }
         }
     }
@@ -256,7 +255,8 @@ class Collection
      */
     public final function find()
     {
-        $this->app->debugger->startDBTask('find');
+        $app = Application::$instance;
+        $app->debugger->startDBTask('find');
         $result = $this->collection->findOne($this->query['where'], $this->query['select']);
 
         self::$dbCalls++;
@@ -279,11 +279,11 @@ class Collection
                 }
             }
 
-            $this->app->debugger->endDBTask('find');
+            $app->debugger->endDBTask('find');
 
             return $instance;
         } else {
-            $this->app->debugger->endDBTask('find');
+            $app->debugger->endDBTask('find');
             return null;
         }
     }
@@ -299,7 +299,8 @@ class Collection
      */
     public final function findAll()
     {
-        $this->app->debugger->startDBTask('findall');
+        $app = Application::$instance;
+        $app->debugger->startDBTask('findall');
 
         $request = $this->collection->find($this->query['where'], $this->query['select']);
         $results = [];
@@ -325,10 +326,10 @@ class Collection
                 $out->results    = [];
                 $out->pagination = $pagination;
 
-                $this->app->debugger->endDBTask('findall');
+                $app->debugger->endDBTask('findall');
                 return $out;
             } else {
-                $this->app->debugger->endDBTask('findall');
+                $app->debugger->endDBTask('findall');
                 return [];
             }
         } else {
@@ -379,11 +380,11 @@ class Collection
                 $out->results    = $results;
                 $out->pagination = $pagination;
 
-                $this->app->debugger->endDBTask('findall');
+                $app->debugger->endDBTask('findall');
 
                 return $out;
             } else {
-                $this->app->debugger->endDBTask('findall');
+                $app->debugger->endDBTask('findall');
                 return $results;
             }
         }
@@ -436,10 +437,11 @@ class Collection
      */
     public final function aggregate($aggregate)
     {
-        $this->app->debugger->startDBTask('aggregate');
+        $app = Application::$instance;
+        $app->debugger->startDBTask('aggregate');
         self::$dbCalls++;
         $result = $this->collection->aggregate($aggregate);
-        $this->app->debugger->endDBTask('aggregate');
+        $app->debugger->endDBTask('aggregate');
 
         return $result;
     }
@@ -456,10 +458,11 @@ class Collection
      */
     public final function count($by=null)
     {
-        $this->app->debugger->startDBTask('count');
+        $app = Application::$instance;
+        $app->debugger->startDBTask('count');
         self::$dbCalls++;
         $result = $this->collection->count($by);
-        $this->app->debugger->endDBTask('count');
+        $app->debugger->endDBTask('count');
 
         return $result;
     }
@@ -475,16 +478,16 @@ class Collection
      */
     public final function destroy($all=false)
     {
-        $this->app->debugger->startDBTask('destroy');
+        $app = Application::$instance;
+        $app->debugger->startDBTask('destroy');
 
-        $app     = Application::$instance;
         $options = ($all == false) ? ['justOne' => true] : [];
 
         $app->events->trigger(Event::DB_DESTROY_QUERY, $this->query['where']);
         $this->collection->remove($this->query['where'], $options);
 
         self::$dbCalls++;
-        $this->app->debugger->endDBTask('destroy');
+        $app->debugger->endDBTask('destroy');
     }
 
     /**
@@ -498,9 +501,8 @@ class Collection
      */
     public final function destroyById($id)
     {
-        $this->app->debugger->startDBTask('destroy');
-
         $app = Application::$instance;
+        $app->debugger->startDBTask('destroy');
 
         if (is_string($id)) {
             $id = new \MongoId($id);
@@ -510,7 +512,7 @@ class Collection
         $this->collection->remove(['_id' => $id]);
         self::$dbCalls++;
 
-        $this->app->debugger->endDBTask('destroy');
+        $app->debugger->endDBTask('destroy');
     }
 
     /**
@@ -523,14 +525,14 @@ class Collection
      */
     public final function drop()
     {
-        $this->app->debugger->startDBTask('drop');
-
         $app = Application::$instance;
+        $app->debugger->startDBTask('drop');
+
         $app->events->trigger(Event::DB_DROP_COLLECTION, $this->collection->getName());
         $this->collection->drop();
         self::$dbCalls++;
 
-        $this->app->debugger->endDBTask('drop');
+        $app->debugger->endDBTask('drop');
     }
 
     /**
@@ -545,7 +547,8 @@ class Collection
      */
     public final function save($key='_id')
     {
-        $this->app->debugger->startDBTask('save');
+        $app = Application::$instance;
+        $app->debugger->startDBTask('save');
 
         self::$dbCalls++;
 
@@ -564,9 +567,9 @@ class Collection
 
             $clone      = $this;
             $clone->_id = $query['_id'];
-            $this->app->events->trigger(Event::DB_INSERT, $clone);
+            $app->events->trigger(Event::DB_INSERT, $clone);
 
-            $this->app->debugger->endDBTask('save');
+            $app->debugger->endDBTask('save');
             return $query['_id'];
         } else {
             /* Update */
@@ -590,9 +593,9 @@ class Collection
             $where = [$key => $keyval];
             $this->collection->update($where, ['$set' => $query]);
 
-            $this->app->events->trigger(Event::DB_UPDATE, $this);
+            $app->events->trigger(Event::DB_UPDATE, $this);
 
-            $this->app->debugger->endDBTask('save');
+            $app->debugger->endDBTask('save');
             return $this->_id;
         }
     }
@@ -611,10 +614,11 @@ class Collection
      */
     public static final function createIndex($field, $sorting=-1, $options=[])
     {
-        $this->app->debugger->startDBTask('createindex');
+        $app = Application::$instance;
+        $app->debugger->startDBTask('createindex');
         self::$dbCalls++;
         self::getCollectionInstance(get_called_class())->createIndex([$field => $sorting], $options);
-        $this->app->debugger->endDBTask('createindex');
+        $app->debugger->endDBTask('createindex');
     }
 
     /**
@@ -630,10 +634,11 @@ class Collection
      */
     public static final function createCompoundIndex($list, $options=[])
     {
-        $this->app->debugger->startDBTask('compoundindex');
+        $app = Application::$instance;
+        $app->debugger->startDBTask('compoundindex');
         self::$dbCalls++;
         self::getCollectionInstance(get_called_class())->createIndex($list, $options);
-        $this->app->debugger->endDBTask('compoundindex');
+        $app->debugger->endDBTask('compoundindex');
     }
 
     /**
@@ -648,10 +653,11 @@ class Collection
      */
     public static final function deleteIndex($field)
     {
-        $this->app->debugger->startDBTask('deleteindex');
+        $app = Application::$instance;
+        $app->debugger->startDBTask('deleteindex');
         self::$dbCalls++;
         self::getCollectionInstance(get_called_class())->deleteIndex($field);
-        $this->app->debugger->endDBTask('deleteindex');
+        $app->debugger->endDBTask('deleteindex');
     }
 
     /**
@@ -665,6 +671,7 @@ class Collection
      */
     public static final function deleteIndexes()
     {
+        $app = Application::$instance;
         $this->app->debugger->startDBTask('deleteindex');
         self::$dbCalls++;
         self::getCollectionInstance(get_called_class())->deleteIndexes();
@@ -684,7 +691,8 @@ class Collection
      */
     public static final function reference($id)
     {
-        $this->app->debugger->startDBTask('reference');
+        $app = Application::$instance;
+        $app->debugger->startDBTask('reference');
         self::$dbCalls++;
 
         if (is_string($id)) {
@@ -695,7 +703,7 @@ class Collection
         $document   = $collection->findOne(['_id' => $id]);
         $result     = $collection->createDBRef($document);
 
-        $this->app->debugger->endDBTask('reference');
+        $app->debugger->endDBTask('reference');
         return $result;
     }
 
@@ -712,7 +720,8 @@ class Collection
      */
     public static final function getReference($element)
     {
-        $this->app->debugger->startDBTask('getreference');
+        $app = Application::$instance;
+        $app->debugger->startDBTask('getreference');
 
         self::$dbCalls++;
 
@@ -743,7 +752,7 @@ class Collection
             }
         }
 
-        $this->app->debugger->endDBTask('getreference');
+        $app->debugger->endDBTask('getreference');
         return $instance;
     }
 
@@ -764,7 +773,8 @@ class Collection
      */
     public final function addFile($file, $is_file=true, $is_upload=false, $mime=null)
     {
-        $this->app->debugger->startDBTask('addfile');
+        $app = Application::$instance;
+        $app->debugger->startDBTask('addfile');
 
         self::$dbCalls++;
 
@@ -787,9 +797,8 @@ class Collection
             $id = $this->collection->storeBytes($file, $query);
         }
 
-        $this->app->events->trigger(Event::DB_GRID_INSERT, $id);
-
-        $this->app->debugger->endDBTask('addfile');
+        $app->events->trigger(Event::DB_GRID_INSERT, $id);
+        $app->debugger->endDBTask('addfile');
 
         return $id;
     }
@@ -805,12 +814,13 @@ class Collection
      */
     public final function getFile()
     {
-        $this->app->debugger->startDBTask('getfile');
+        $app = Application::$instance;
+        $app->debugger->startDBTask('getfile');
         self::$dbCalls++;
 
         $result = $this->collection->findOne($this->query['where'], []);
 
-        $this->app->debugger->endDBTask('getfile');
+        $app->debugger->endDBTask('getfile');
 
         if (!empty($result)) {
             return $result;
@@ -851,16 +861,17 @@ class Collection
      */
     public final function destroyFileById($id)
     {
-        $this->app->debugger->startDBTask('destroyfile');
+        $app = Application::$instance;
+        $app->debugger->startDBTask('destroyfile');
         self::$dbCalls++;
 
         if (is_string($id)) {
             $id = new \MongoId($id);
         }
 
-        $this->app->events->trigger(Event::DB_GRID_DESTROY_BYID, (string)$id);
+        $app->events->trigger(Event::DB_GRID_DESTROY_BYID, (string)$id);
         $this->collection->remove(['_id' => $id]);
-        $this->app->debugger->endDBTask('destroyfile');
+        $app->debugger->endDBTask('destroyfile');
     }
 
     /**
@@ -874,12 +885,13 @@ class Collection
      */
     public final function destroyFiles($just_one=true)
     {
-        $this->app->debugger->startDBTask('destroyfiles');
+        $app = Application::$instance;
+        $app->debugger->startDBTask('destroyfiles');
         self::$dbCalls++;
 
-        $this->app->events->trigger(Event::DB_GRID_DESTROY_QUERY, $this->query['where']);
+        $app->events->trigger(Event::DB_GRID_DESTROY_QUERY, $this->query['where']);
         $this->collection->remove($this->query['where'], ['justOne' => $just_one]);
-        $this->app->debugger->endDBTask('destroyfiles');
+        $app->debugger->endDBTask('destroyfiles');
     }
 
     /**

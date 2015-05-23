@@ -204,7 +204,7 @@ class View extends Base
         if (stristr($layout, '@')) {
             /* Bundle layout reference */
             $conf                  = explode('@', $layout);
-            $path                  = $this->app->root_path . '/bundles/' . ucfirst(strtolower($conf[1])) . '/views/layouts' . $conf[0];
+            $path                  = $this->app->root_path . '/bundles/' . ucfirst(strtolower($conf[1])) . '/views/layouts/' . $conf[0];
             $this->layout          = 'ref:' . $path;
             $this->assets_path     = $this->app->site_url . '/public/' . $conf[1];
         } else {
@@ -300,19 +300,11 @@ class View extends Base
 
                     $this->rendered = true;
                 } else {
-                    try {
-                        throw new \Exception("Could not locate the layout '" . basename($layout) . "' in " . dirname($layout));
-                    } catch (\Exception $e) {
-                        $this->app->debugger->addException($e);
-                    }
+                    throw new \Exception("Could not locate the layout '" . basename($layout) . "' in " . dirname($layout));
                 }
             }
         } else {
-            try {
-                throw new \Exception("Could not locate the view '" . basename($file) . "' in " . dirname($file));
-            } catch (\Exception $e) {
-                $this->app->debugger->addException($e);
-            }
+            throw new \Exception("Could not locate the view '" . basename($file) . "' in " . dirname($file));
         }
 
         if (!empty($html)) {

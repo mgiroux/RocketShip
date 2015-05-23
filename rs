@@ -10,7 +10,7 @@ $console = new RocketShip\Console;
 
 echo "RocketShip CLI v1.2.0 (8)\r\n\r\n";
 
-include_once __DIR__ . '/lib/bin.php';
+include_once __DIR__ . '/bin/lib/bin.php';
 
 /* Available options */
 $console->addOption(array('model', 'm'), array(

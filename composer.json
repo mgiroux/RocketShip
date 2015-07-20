@@ -14,7 +14,7 @@
         "bshaffer/oauth2-server-php": "v1.3",
         "gherkins/regexpbuilderphp": "dev-master",
         "respect/validation": "0.9.*@dev",
-        "egulias/email-validator": "~1.3@dev",
+        "egulias/email-validator": "~1.2",
         "cloudinary/cloudinary_php": "dev-master",
         "maximebf/debugbar": "1.*"
     },

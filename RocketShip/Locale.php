@@ -103,8 +103,8 @@ class Locale extends Base
         $strings = self::$locale_strings;
 
         foreach ($indexes as $index) {
-            if (!empty($strings->$index)) {
-                $strings = $strings->$index;
+            if (!empty($strings[$index])) {
+                $strings = $strings[$index];
             } else {
                 return $string;
             }

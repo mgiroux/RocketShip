@@ -317,6 +317,7 @@ class Collection
         if ($count == 0) {
             if ($this->query['paginate']) {
                 $pagination                = new \stdClass;
+                $pagination->total_pages   = 1;
                 $pagination->current_page  = 1;
                 $pagination->count         = 0;
                 $pagination->next_page     = null;
@@ -371,6 +372,7 @@ class Collection
                 $previous_page = ($page - 1 > 0) ? $page - 1 : '';
 
                 $pagination                = new \stdClass;
+                $pagination->total_pages   = $total_pages;
                 $pagination->current_page  = $current_page;
                 $pagination->count         = $total_pages;
                 $pagination->next_page     = $next_page;

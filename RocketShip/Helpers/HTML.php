@@ -231,8 +231,6 @@ class HTML extends Base
                 $file .= '.js';
             }
 
-            echo $this->app->root_path . $path . '/' . $file;
-
             if (file_exists($this->app->root_path . $path . '/' . $file)) {
                 /* Add file modification time only for developement and staging environments (helps with debugging) */
                 if ($this->app->config->development->anticaching == 'yes') {

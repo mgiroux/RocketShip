@@ -590,10 +590,15 @@ class Collection
                 if (!is_object(($this->{$key}))) {
                     $keyval = new \MongoId($this->{$key});
                 }
+            } else {
+                $keyval = $this->{$key};
             }
 
             $where = [$key => $keyval];
             $this->collection->update($where, ['$set' => $query]);
+
+            print_r($where);
+            print_r($query);
 
             $app->events->trigger(Event::DB_UPDATE, $this);
 

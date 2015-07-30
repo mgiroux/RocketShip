@@ -197,10 +197,17 @@ class Application
     /**
      *
      * Environment static version
-     * @var
+     * @var String
      *
      */
     public static $_environment = "";
+
+    /**
+     *
+     * Cookie file for cURL calls
+     * @var String
+     */
+    public $cookiefile = "";
 
     /**
      *
@@ -315,7 +322,6 @@ class Application
                 [$handler, 'garbageCollect']
             );
 
-
             /* Prevent problems since we are using OO for session management */
             register_shutdown_function('session_write_close');
             session_start();
@@ -323,6 +329,12 @@ class Application
         } else {
             $this->session = new Session('failsafe');
         }
+
+        if (empty($this->session->get('cookiefile'))) {
+            $this->session->set('cookiefile', $this->root_path . '/app/tmp/cookies/' . uniqid());
+        }
+
+        $this->cookiefile = $this->session->get('cookiefile');
 
         /* Request data (client, ip, request type, etc.) */
         $request       = new Request;
@@ -437,18 +449,17 @@ class Application
             if (file_exists($file)) {
                 include_once $file;
 
+                $this->debugger->endTask('execapp');
+                $this->debugger->startTask('execctrl', 'Controller \'' . $class . '\' execution');
+
                 if (class_exists($class)) {
                     $instance = new $class;
-
-                    $this->debugger->endTask('execapp');
-                    $this->debugger->startTask('execctrl', 'Controller \'' . $class . '\' execution');
 
                     if (method_exists($instance, $action[0])) {
                         $method = $action[0];
 
                         call_user_func_array([$instance, $method], $this->route->arguments);
 
-                        $this->debugger->endTask('execctrl');
                         $this->debugger->startTask('render', 'Rendering route');
 
                         if ($instance->view->rendered == false && $is_api == false) {
@@ -732,7 +743,7 @@ class Application
         }
 
         /* App helpers */
-        $appfiles = glob($this->root_path . '/app/Helpers/*.php');
+        $appfiles = glob($this->root_path . '/app/helpers/*.php');
 
         foreach ($appfiles as $file) {
             include_once $file;

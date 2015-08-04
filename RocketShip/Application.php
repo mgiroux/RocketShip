@@ -14,8 +14,8 @@ use Whoops\Handler\JsonResponseHandler;
 
 class Application
 {
-    const VERSION    = '1.3.0 (thunderdome)';
-    const POWERED_BY = 'RocketShip 1.3.0 (thunderdome)';
+    const VERSION    = '1.3.2 (thunderdome)';
+    const POWERED_BY = 'RocketShip 1.3.2 (thunderdome)';
 
     /**
      *

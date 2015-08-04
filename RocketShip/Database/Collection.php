@@ -267,13 +267,14 @@ class Collection
 
             foreach ($result as $key => $value) {
                 if (is_array($value)) {
-                    $instance->{$key} = $value;
-                } elseif (is_object($value) && !stristr(get_class($value), 'Mongo')) {
-                    $instance->{$key} = new \stdClass;
-
-                    foreach ($value as $k => $v) {
-                        $instance->{$key}->{$k} = $v;
+                    if (!empty($value[0])) {
+                        $instance->{$key} = $value;
+                    } else {
+                        $instance->{$key} = new \Object($value);
                     }
+                } elseif (is_object($value) && !stristr(get_class($value), 'Mongo')) {
+                    $instance->{$key} = new \Object();
+                    $instance->{$key}->addValue($value);
                 } else {
                     $instance->{$key} = $value;
                 }
@@ -341,13 +342,14 @@ class Collection
 
                 foreach ($doc as $key => $value) {
                     if (is_array($value)) {
-                        $instance->{$key} = $value;
-                    } elseif (is_object($value) && !stristr(get_class($value), 'Mongo')) {
-                        $instance->{$key} = new \stdClass;
-
-                        foreach ($value as $k => $v) {
-                            $instance->{$key}->{$k} = $v;
+                        if (!empty($value[0])) {
+                            $instance->{$key} = $value;
+                        } else {
+                            $instance->{$key} = new \Object($value);
                         }
+                    } elseif (is_object($value) && !stristr(get_class($value), 'Mongo')) {
+                        $instance->{$key} = new \Object();
+                        $instance->{$key}->addValue($value);
                     } else {
                         $instance->{$key} = $value;
                     }
@@ -596,9 +598,6 @@ class Collection
 
             $where = [$key => $keyval];
             $this->collection->update($where, ['$set' => $query]);
-
-            print_r($where);
-            print_r($query);
 
             $app->events->trigger(Event::DB_UPDATE, $this);
 

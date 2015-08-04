@@ -12,6 +12,8 @@ use Whoops\Run;
 use Whoops\Handler\PrettyPageHandler;
 use Whoops\Handler\JsonResponseHandler;
 
+include_once 'Object.php';
+
 class Application
 {
     const VERSION    = '1.3.2 (thunderdome)';

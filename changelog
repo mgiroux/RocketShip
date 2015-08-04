@@ -1,5 +1,10 @@
 RocketShip Changelog
 
+08-04-2015 : version 1.3.2
+
+	- Added removeFromArray method to the Base class (with optional reset of keys)
+	- Bug fixes
+
 05-23-2015 : version 1.3.1
 
 	- Added new password generator in 'rs' tool (use: ./rs -p yourpassword)

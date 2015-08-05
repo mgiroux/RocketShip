@@ -267,7 +267,9 @@ class Collection
 
             foreach ($result as $key => $value) {
                 if (is_array($value)) {
-                    if (!empty($value[0])) {
+                    $assoc = array_keys($value) !== range(0, count($value) - 1);
+
+                    if (!$assoc) {
                         $instance->{$key} = $value;
                     } else {
                         $instance->{$key} = new \Object($value);
@@ -342,7 +344,9 @@ class Collection
 
                 foreach ($doc as $key => $value) {
                     if (is_array($value)) {
-                        if (!empty($value[0])) {
+                        $assoc = array_keys($value) !== range(0, count($value) - 1);
+
+                        if (!$assoc) {
                             $instance->{$key} = $value;
                         } else {
                             $instance->{$key} = new \Object($value);

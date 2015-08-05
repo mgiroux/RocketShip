@@ -35,7 +35,7 @@ class HTML extends Base
                     echo '<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">' . "\n";
                     break;
 
-                case "jquery-ui":
+                case "cdn:jquery-ui":
                     echo '<link rel="stylesheet" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/themes/ui-lightness/jquery-ui.css">' . "\n";
                     break;
 

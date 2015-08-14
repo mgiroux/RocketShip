@@ -730,7 +730,7 @@ class Application
 
         /* Bundle helpers */
         foreach ($this->bundles as $name => $instance) {
-            $files = glob($instance->getBundlePath() . '/Helpers/*.php');
+            $files = glob($instance->getBundlePath() . '/helpers/*.php');
 
             foreach ($files as $file) {
                 include_once $file;

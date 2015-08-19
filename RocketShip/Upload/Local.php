@@ -11,7 +11,7 @@ class Local implements UploadAdapter
 
     public function __construct()
     {
-        $this->path = $_SERVER['DOCUMENT_ROOT'] . '/public/app/uploads/';
+        $this->path = dirname(dirname(__DIR__)) . '/public/app/uploads/';
     }
 
     /**

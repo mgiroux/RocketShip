@@ -117,8 +117,8 @@ class Routing extends Base
                 $matched = self::matchURI($permalink, $url);
 
                 if (!empty($matched)) {
-                    $this->app->session->set('app_language', $matched->language);
-                    Locale::setCurrentLocale($matched->language);
+                    $this->app->session->set('app_language', $matched['language']);
+                    Locale::setCurrentLocale($matched['language']);
 
                     /* this url is secure, if it's not on HTTPS, force it */
                     if ($permalink->secure == 'yes') {

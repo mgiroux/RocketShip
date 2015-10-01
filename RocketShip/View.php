@@ -429,7 +429,7 @@ class View extends Base
      */
     private final function parseShortHandCode($html)
     {
-        $regex ='(\\{\\{)(.*)(\\}\\})';
+        $regex ='(\\{\\{)(.*?)(\\}\\})';
         
         if ($results = preg_match_all("/" . $regex . "/is", $html, $matches)) {
             $res = $matches[2];

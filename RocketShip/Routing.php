@@ -410,11 +410,11 @@ class Routing extends Base
         if ($url) {
             if ($lang) {
                 if (!empty(self::$routes->{$route_name})) {
-                    return self::$routes->{$route_name}->uri->{$lang};
+                    return $this->app->site_url . self::$routes->{$route_name}->uri->{$lang};
                 }                
             }
             
-            return self::$routes->{$route_name}->uri->{$_SESSION['app_language']};
+            return $this->app->site_url . self::$routes->{$route_name}->uri->{$_SESSION['app_language']};
         }
         
         self::$routes->{$route_name};

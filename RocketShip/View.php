@@ -305,6 +305,9 @@ class View extends Base
         } else {
             throw new \Exception("Could not locate the view '" . basename($file) . "' in " . dirname($file));
         }
+        
+        /* Parse the {var} code in html */
+        $html = $this->parseShortHandCode($html);
 
         if (!empty($html)) {
             $html = $this->app->debugger->injectDebuggerCode($html);
@@ -436,11 +439,15 @@ class View extends Base
                 
                 if (count($modifiers) > 1) {
                     /* Handle modifiers */
-                    $parts = explode(".", $modifiers[0]);
-                    $value = $this->data;
-                    
-                    foreach ($parts as $key) {
-                        $value = $value->{$key};
+                    if ($modifiers[1] != 't') {
+                        $parts = explode(".", $modifiers[0]);
+                        $value = $this->data;
+                        
+                        foreach ($parts as $key) {
+                            $value = $value->{$key};
+                        }
+                    } else {
+                        $value = $modifiers[0];
                     }
                     
                     switch ($modifiers[1]) 
@@ -468,10 +475,10 @@ class View extends Base
                         case "fulldate":
                             $value = $this->app->html->formatDate($value, true, $_SESSION['app_language'], false, true, true);
                             break;
-                            
-                        case "currency":
-                        case "money":
-                            break;  
+     
+                        case "t":
+                            $value = $this->app->locale->get($value);
+                            break;
                     }
                     
                     $html = str_replace('{{' . $string . '}}', $value, $html);

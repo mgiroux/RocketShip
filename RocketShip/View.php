@@ -414,6 +414,83 @@ class View extends Base
             }
         }
     }
+    
+    /**
+     *
+     * Parse shorthand code from the templates mapped to the "$this->data" object
+     *
+     * @param   string  the html to parse
+     * @return  string  the parsed html
+     * @access  private
+     * @final
+     *
+     */
+    private final function parseShortHandCode($html)
+    {
+        $regex ='(\\{\\{)(.*)(\\}\\})';
+        
+        if ($results = preg_match_all("/" . $regex . "/is", $html, $matches)) {
+            $res = $matches[2];
+            
+            foreach ($res as $string) {
+                $modifiers = explode("|", $string);
+                
+                if (count($modifiers) > 1) {
+                    /* Handle modifiers */
+                    $parts = explode(".", $modifiers[0]);
+                    $value = $this->data;
+                    
+                    foreach ($parts as $key) {
+                        $value = $value->{$key};
+                    }
+                    
+                    switch ($modifiers[1]) 
+                    {
+                        case "upper":
+                            $value = (function_exists('mb_strtoupper')) ? mb_strtoupper($value, 'UTF-8') : strtoupper($value);
+                            break;
+                            
+                        case "lower":
+                            $value = (function_exists('mb_strtolower')) ? mb_strtolower($value, 'UTF-8') : strtolower($value);
+                            break;
+                            
+                        case "slug":
+                            $value = $this->app->helpers->text->slug($value);
+                            break;
+                            
+                        case "date":
+                            $value = $this->app->html->formatDate($value, false, $_SESSION['app_language'], false, false, true);
+                            break;
+                            
+                        case "datesimple":
+                            $value = date('d/m/Y', $value);
+                            break;
+                            
+                        case "fulldate":
+                            $value = $this->app->html->formatDate($value, true, $_SESSION['app_language'], false, true, true);
+                            break;
+                            
+                        case "currency":
+                        case "money":
+                            break;  
+                    }
+                    
+                    $html = str_replace('{{' . $string . '}}', $value, $html);
+                } else {
+                    $parts = explode(".", $string);
+                    $value = $this->data;
+                    
+                    foreach ($parts as $key) {
+                        $value = $value->{$key};
+                    }
+                    
+                    $html = str_replace('{{' . $string . '}}', $value, $html);
+                }
+            }
+        }
+        
+        return $html;
+    }
 }
 
 /* Asset type constants */

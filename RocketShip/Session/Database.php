@@ -87,11 +87,22 @@ class Database extends Base
         /* Unique key that help prevent session hijacking */
         $data = base64_encode(json_encode($data));
 
-        $model              = new Collection('sessions');
-        $model->id          = $id;
-        $model->contents    = $data;
-        $model->modify_date = time();
-        $model->save();
+        $session = $this->model->where(['id' => $id])->find();
+      
+        if (!empty($session)) {
+            $model              = new Collection('sessions');
+            $model->_id         = $session->_id;
+            $model->id          = $id;
+            $model->contents    = $data;
+            $model->modify_date = time();
+            $model->save();
+        } else {
+            $model              = new Collection('sessions');
+            $model->id          = $id;
+            $model->contents    = $data;
+            $model->modify_date = time();
+            $model->save();
+        }
 
         return true;
     }

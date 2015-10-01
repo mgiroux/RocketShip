@@ -4,7 +4,6 @@ namespace RocketShip;
 
 use RocketShip\Helpers\HTML;
 use RocketShip\Directives;
-use String;
 
 class View extends Base
 {

@@ -393,4 +393,30 @@ class Routing extends Base
         $url = str_replace($targets, ['%d', '%s', '%s', '%s'], $url);
         return vsprintf($url, $arguments);
     }
+    
+    /**
+     *
+     * Get a route by it's name or get the specific url for it
+     *
+     * @param   string  the route name
+     * @param   bool    get only the url
+     * @param   string  the language code to get it for
+     * @return  mixed   object if url is false, url if it's true
+     * @access  public
+     *
+     */
+    public function get($route_name, $url=false, $lang=null)
+    {
+        if ($url) {
+            if ($lang) {
+                if (!empty(self::$routes->{$route_name})) {
+                    return self::$routes->{$route_name}->uri->{$lang};
+                }                
+            }
+            
+            return self::$routes->{$route_name}->uri->{$_SESSION['app_language']};
+        }
+        
+        self::$routes->{$route_name};
+    }
 }

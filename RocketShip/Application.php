@@ -304,7 +304,7 @@ class Application
         /* Post Helpers */
         $this->events->trigger(Event::CORE_POST_HELPERS, null);
 
-        $this->upload = new \RocketShip\Upload;
+        $this->upload = new Upload;
 
         /* Pre session */
         $this->events->trigger(Event::CORE_PRE_SESSION, null);

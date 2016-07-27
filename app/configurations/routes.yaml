@@ -1,10 +1,10 @@
 patterns:
-    userid: (:param)         # (:param) = anything, (:any) = anything including '/', (:num) = numeric
+    userid: (:param)         # (:string) = anything, (:any) = anything including '/', (:num) = numeric
 
 ajax:
     uri:
-        fr: /ajax/fr/(:any)/
-        en: /ajax/en/(:any)/
+        fr: /ajax/fr/(:string)/
+        en: /ajax/en/(:string)/
     action: dispatcher@ajax
     secure: no
     enforce: no

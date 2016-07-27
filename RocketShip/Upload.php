@@ -4,7 +4,6 @@ namespace RocketShip;
 
 use RocketShip\Helpers\Text;
 use RocketShip\Database\Collection;
-use String;
 
 class Upload extends Base
 {

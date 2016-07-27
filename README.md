@@ -2,7 +2,7 @@
 
 ---
 
-#### NOTE THAT ROCKETSHIP IS NOT COMPATIBLE WITH PHP 7 YET
+#### THIS PROJECT WILL NEVER BE UPDATED MORE THAN MINOR BUG FIXES, IT HAS BEEN DROPPED
 
 RocketShip is a web framework that makes developing web sites and web applications in record time. The documentation will be available soon.
 
